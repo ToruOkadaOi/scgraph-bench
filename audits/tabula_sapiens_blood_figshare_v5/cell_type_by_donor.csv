@@ -1,0 +1,29 @@
+cell_ontology_class,TSP1,TSP2,TSP7,TSP8,TSP10,TSP14,Total
+basophil,0,0,7,3,10,9,29
+"cd4-positive, alpha-beta memory t cell",0,0,576,25,137,119,857
+"cd4-positive, alpha-beta t cell",1132,1238,0,0,0,0,2370
+"cd8-positive, alpha-beta cytokine secreting effector t cell",0,0,1361,14,79,23,1477
+"cd8-positive, alpha-beta t cell",329,548,174,13,149,16,1229
+cd24 neutrophil,1,1,0,0,0,0,2
+cd141-positive myeloid dendritic cell,0,0,7,1,5,2,15
+classical monocyte,0,0,2846,225,2053,1875,6999
+erythrocyte,89,319,7527,1,824,1637,10397
+granulocyte,0,2,0,0,0,0,2
+hematopoietic stem cell,2,16,23,1,11,12,65
+macrophage,0,488,0,0,0,0,488
+memory b cell,144,80,239,47,273,10,793
+monocyte,1616,6819,0,0,0,0,8435
+myeloid progenitor,1,2,0,0,0,0,3
+naive b cell,228,338,716,26,766,5,2079
+"naive thymus-derived cd4-positive, alpha-beta t cell",0,0,280,6,94,23,403
+nampt neutrophil,1,5,0,0,0,0,6
+neutrophil,0,0,969,1567,0,5834,8370
+nk cell,115,452,1681,10,514,99,2871
+non-classical monocyte,0,0,5,0,3,0,8
+plasma cell,0,1,235,10,33,206,485
+plasmablast,7,3,0,0,0,0,10
+plasmacytoid dendritic cell,0,0,9,0,1,1,11
+platelet,0,0,100,1,21,82,204
+t cell,0,0,31,0,0,0,31
+type i nk t cell,0,0,432,24,34,9,499
+Total,3665,10312,17218,1974,5007,9962,48138

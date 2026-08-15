@@ -1,0 +1,10 @@
+name: stephenson_2021_healthy_pbmc
+description: "Stephenson et al. (2021) Nature Medicine Healthy Control PBMC Cohort (23 unperturbed donors, Cambridge & Newcastle sites)"
+cell_id_key: cell_id
+label_key: cell_type
+donor_key: donor_id
+batch_key: site
+constraints:
+  min_cells_per_donor: 200
+  min_donors_per_class: 10
+  allow_missing_donors: false

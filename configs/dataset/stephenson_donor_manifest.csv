@@ -1,0 +1,30 @@
+donor_id,site,disease_status,perturbation_status,inclusion_status,exclusion_rationale
+C-8914,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8928,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8930,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8936,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8937,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8938,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8939,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8940,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8941,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8942,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8943,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+C-8946,Cambridge,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0902,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0904,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0911,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0915,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0917,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0926,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0929,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0934,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0939,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0940,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+CV0944,Newcastle,normal,unperturbed_healthy,included,Baseline unperturbed healthy control donor
+IVLPS-1,London,normal,iv_lps_challenge,excluded_perturbed,In vivo LPS challenge experimental cohort
+IVLPS-2,London,normal,iv_lps_challenge,excluded_perturbed,In vivo LPS challenge experimental cohort
+IVLPS-3,London,normal,iv_lps_challenge,excluded_perturbed,In vivo LPS challenge experimental cohort
+IVLPS-4,London,normal,iv_lps_challenge,excluded_perturbed,In vivo LPS challenge experimental cohort
+IVLPS-6,London,normal,iv_lps_challenge,excluded_perturbed,In vivo LPS challenge experimental cohort
+IVLPS-12,London,normal,iv_lps_challenge,excluded_perturbed,In vivo LPS challenge experimental cohort

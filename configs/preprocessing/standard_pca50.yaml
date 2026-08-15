@@ -1,0 +1,9 @@
+target_sum: 10000.0
+log1p: true
+hvg_flavor: seurat
+n_top_genes: 2000
+scale_data: true
+clip_value: 10.0
+n_comps: 50
+pca_solver: arpack
+random_state: 42

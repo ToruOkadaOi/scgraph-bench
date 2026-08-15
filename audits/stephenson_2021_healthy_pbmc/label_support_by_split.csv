@@ -1,0 +1,28 @@
+cell_type,train,val,test,Total
+B cell,135,56,54,245
+"CD14-low, CD16-positive monocyte",137,10,51,198
+CD14-positive monocyte,6902,929,2715,10546
+"CD16-negative, CD56-bright natural killer cell, human",1260,346,353,1959
+"CD16-positive, CD56-dim natural killer cell, human",8294,2124,1957,12375
+"ILC1, human",125,65,23,213
+T follicular helper cell,286,379,107,772
+T-helper 22 cell,2683,2318,1297,6298
+"central memory CD4-positive, alpha-beta T cell",2591,4204,642,7437
+class switched memory B cell,612,295,142,1049
+dendritic cell,80,24,22,126
+"dendritic cell, human",625,137,213,975
+"effector CD8-positive, alpha-beta T cell",4400,681,1064,6145
+"effector memory CD8-positive, alpha-beta T cell",2581,1539,1290,5410
+gamma-delta T cell,2681,875,1177,4733
+immature B cell,370,142,138,650
+mature NK T cell,2532,251,1047,3830
+mucosal invariant T cell,1833,722,806,3361
+myeloid dendritic cell,663,158,231,1052
+naive B cell,2728,1289,870,4887
+"naive thymus-derived CD4-positive, alpha-beta T cell",6750,2669,3533,12952
+"naive thymus-derived CD8-positive, alpha-beta T cell",3780,2324,1328,7432
+natural killer cell,128,20,57,205
+plasmacytoid dendritic cell,452,124,102,678
+platelet,1098,324,300,1722
+unswitched memory B cell,246,115,138,499
+Total,53972,22120,19657,95749

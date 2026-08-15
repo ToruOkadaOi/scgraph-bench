@@ -1,0 +1,47 @@
+dataset: tabula_sapiens_blood_figshare_v5
+primary_robust_labels:
+- CD4-positive, alpha-beta T cell
+- CD8-positive, alpha-beta T cell
+- classical monocyte
+- non-classical monocyte
+- natural killer cell
+- naive B cell
+- memory B cell
+- platelet
+deferred_low_support_labels:
+- gamma-delta T cell
+- plasmacytoid dendritic cell
+- myeloid dendritic cell
+excluded_labels:
+- erythrocyte
+- cd4-positive, alpha-beta memory t cell
+- cd8-positive, alpha-beta cytokine secreting effector t cell
+- neutrophil
+- type i nk t cell
+- plasma cell
+- t cell
+- naive thymus-derived cd4-positive, alpha-beta t cell
+- hematopoietic stem cell
+- basophil
+- monocyte (unsubtyped)
+- plasmablast
+- cd24 neutrophil
+- nampt neutrophil
+- myeloid progenitor
+- macrophage
+- granulocyte
+total_primary_cells: 16553
+total_donors: 6
+proposed_partitions:
+  train_donors:
+  - TSP7
+  - TSP10
+  - TSP1
+  - TSP8
+  train_cells: 11810
+  val_donors:
+  - TSP2
+  val_cells: 2656
+  test_donors:
+  - TSP14
+  test_cells: 2087

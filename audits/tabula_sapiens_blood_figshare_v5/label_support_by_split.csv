@@ -1,0 +1,10 @@
+canonical_label,train,val,test,Total
+"CD4-positive, alpha-beta T cell",1132,1238,0,2370
+"CD8-positive, alpha-beta T cell",665,548,16,1229
+classical monocyte,5124,0,1875,6999
+memory B cell,703,80,10,793
+naive B cell,1736,338,5,2079
+natural killer cell,2320,452,99,2871
+non-classical monocyte,8,0,0,8
+platelet,122,0,82,204
+Total,11810,2656,2087,16553

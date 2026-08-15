@@ -1,0 +1,10 @@
+builder_type: bbknn
+inductive_mode: strict_bipartite
+pca_knn: null
+mutual_knn: null
+bbknn:
+  k_per_batch: 3
+  approx_total_k: 20
+  batch_key: donor_id
+  metric: euclidean
+rewired_control: null

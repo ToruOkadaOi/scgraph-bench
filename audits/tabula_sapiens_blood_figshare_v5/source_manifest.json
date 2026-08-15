@@ -1,0 +1,48 @@
+{
+  "dataset_name": "tabula_sapiens_blood_figshare_v5",
+  "title": "Tabula Sapiens - Blood (Figshare Release v5)",
+  "source_repository": "Figshare",
+  "article_id": 14267219,
+  "version": 5,
+  "figshare_download_url": "https://ndownloader.figshare.com/files/34701964",
+  "zip_filename": "TS_Blood.h5ad.zip",
+  "zip_size_bytes": 1169692522,
+  "zip_sha256": "c8ca6a8e236a0cdda06ac4ac9b6bc5b59556f3927f96f2e81328b98ff187b6d4",
+  "h5ad_filename": "TS_Blood.h5ad",
+  "h5ad_size_bytes": 3112502753,
+  "h5ad_sha256": "1da20aac113a92213fdefe32289eea175cb8d6198550c5b1b12d0d411ccaf987",
+  "download_timestamp_utc": "2026-08-15T21:51:59.046531+00:00",
+  "anndata_schema": {
+    "n_obs_raw": 50115,
+    "n_vars_raw": 58870,
+    "obs_columns": [
+      "organ_tissue",
+      "method",
+      "donor",
+      "anatomical_information",
+      "n_counts_UMIs",
+      "n_genes",
+      "cell_ontology_class",
+      "free_annotation",
+      "manually_annotated",
+      "compartment",
+      "gender"
+    ],
+    "layers": [
+      "decontXcounts",
+      "raw_counts",
+      null
+    ],
+    "raw_counts_layer": "raw_counts",
+    "raw_counts_shape": [
+      50115,
+      58870
+    ]
+  },
+  "filtering_rules": {
+    "method_filter": "method == '10X'",
+    "annotation_filter": "cell_ontology_class is not null and not unassigned",
+    "donor_cell_threshold": "min 200 cells per donor",
+    "label_policy": "8 primary robust classes, 3 deferred low-support classes, rare classes excluded"
+  }
+}

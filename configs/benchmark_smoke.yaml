@@ -1,0 +1,58 @@
+experiment_id: smoke_test_benchmark
+seed: 42
+dataset:
+  name: synthetic_fixture
+  description: "Synthetic multi-donor AnnData fixture for CPU verification"
+  cell_id_key: cell_id
+  label_key: cell_type
+  donor_key: donor_id
+  batch_key: condition
+  constraints:
+    min_cells_per_donor: 10
+    min_donors_per_class: 2
+    allow_missing_donors: false
+split:
+  split_id: donor_split_smoke
+  split_type: donor_held_out
+  train_fraction: 0.6
+  val_fraction: 0.2
+  test_fraction: 0.2
+  seed: 42
+  rare_class_config:
+    min_train_cells_per_class: 5
+    min_test_cells_per_class: 2
+    action: warn_and_retain
+preprocessing:
+  target_sum: 10000.0
+  log1p: true
+  hvg_flavor: seurat
+  n_top_genes: 50
+  scale_data: true
+  clip_value: 10.0
+  n_comps: 10
+  pca_solver: arpack
+  random_state: 42
+graph:
+  builder_type: pca_knn
+  inductive_mode: strict_bipartite
+  pca_knn:
+    k: 5
+    metric: euclidean
+    symmetrize: true
+    weighting: unweighted
+model:
+  model_type: logistic_regression
+  logistic_regression:
+    penalty: l2
+    solver: lbfgs
+    c_grid:
+      - 0.1
+      - 1.0
+    max_iter: 200
+    class_weight: balanced
+    random_state: 42
+tracking:
+  experiment_name: scgraph_smoke_test
+  tracking_uri: null
+  save_csv: true
+  save_parquet: true

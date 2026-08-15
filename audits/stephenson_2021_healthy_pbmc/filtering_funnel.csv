@@ -1,0 +1,6 @@
+stage,description,cells,donors,cells_dropped
+0_raw_healthy_census,Stephenson PBMC healthy subset (disease == 'normal'),104923,29,0
+1_cohort_filter,Exclude IVLPS challenge donors (retain true healthy controls),97039,23,7884
+2_donor_threshold,Retain donors with >= 200 cells,97039,23,0
+3_annotation_filter,Remove unassigned/missing cell_type annotations,97039,23,0
+4_primary_labels,Retain 26 robust primary classes (>= 10 donor presence),95749,23,1290

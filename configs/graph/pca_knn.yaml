@@ -1,0 +1,10 @@
+builder_type: pca_knn
+inductive_mode: strict_bipartite
+pca_knn:
+  k: 20
+  metric: euclidean
+  symmetrize: true
+  weighting: unweighted
+mutual_knn: null
+bbknn: null
+rewired_control: null

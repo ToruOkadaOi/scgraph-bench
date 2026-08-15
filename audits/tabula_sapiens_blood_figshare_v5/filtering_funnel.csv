@@ -1,0 +1,6 @@
+stage,description,cells,donors,cells_dropped
+0_raw_file,Complete TS_Blood.h5ad,50115,6,0
+1_assay_filter,Filter method == '10X' (remove Smart-seq2),48138,6,1977
+2_annotation_filter,Remove unassigned/missing cell_ontology_class,48138,6,0
+3_donor_threshold,Filter donors with >= 200 cells,48138,6,0
+4_primary_labels,Retain 8 robust primary immune classes,16553,6,31585

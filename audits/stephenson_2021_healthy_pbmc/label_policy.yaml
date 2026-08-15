@@ -1,0 +1,87 @@
+dataset: stephenson_2021_healthy_pbmc
+title: "Single-cell multi-omics analysis of the immune response in COVID-19 (Stephenson et al., Nature Medicine 2021)"
+provenance:
+  source_repository: "CZ CELLxGENE Discover / E-MTAB-10026"
+  accession: "E-MTAB-10026 / DOI:10.1038/s41591-021-01329-2"
+  census_version: "2025-11-08"
+  dataset_id: "c7775e88-49bf-4ba2-a03b-93f00447c958"
+  annotation_source: "CELLxGENE-standardised Cell Ontology annotations"
+  donor_inclusion_manifest: "configs/dataset/stephenson_donor_manifest.csv"
+  raw_counts_source: "adata.X (sparse integer counts)"
+
+primary_v0_12_classes:
+  - "naive thymus-derived CD4-positive, alpha-beta T cell"
+  - "central memory CD4-positive, alpha-beta T cell"
+  - "naive thymus-derived CD8-positive, alpha-beta T cell"
+  - "effector CD8-positive, alpha-beta T cell"
+  - "effector memory CD8-positive, alpha-beta T cell"
+  - "CD14-positive monocyte"
+  - "CD16-positive, CD56-dim natural killer cell, human"
+  - "CD16-negative, CD56-bright natural killer cell, human"
+  - "naive B cell"
+  - "gamma-delta T cell"
+  - "mucosal invariant T cell"
+  - "platelet"
+
+excluded_broad_parent_labels:
+  - "B cell"
+  - "natural killer cell"
+  - "dendritic cell"
+
+deferred_labels:
+  - "T-helper 22 cell"
+  - "class switched memory B cell"
+  - "dendritic cell, human"
+  - "myeloid dendritic cell"
+  - "mature NK T cell"
+  - "T follicular helper cell"
+  - "plasmacytoid dendritic cell"
+  - "immature B cell"
+  - "unswitched memory B cell"
+  - "ILC1, human"
+  - "CD14-low, CD16-positive monocyte"
+
+total_primary_v0_cells: 78959
+total_eligible_donors: 23
+
+frozen_site_stratified_split:
+  split_id: "site_stratified_seed42"
+  seed: 42
+  train_donors:
+    - "C-8914"
+    - "C-8930"
+    - "C-8937"
+    - "C-8941"
+    - "C-8942"
+    - "C-8946"
+    - "CV0902"
+    - "CV0917"
+    - "CV0926"
+    - "CV0934"
+    - "CV0939"
+    - "CV0944"
+  train_cells: 38692
+  train_site_composition:
+    Cambridge: 6
+    Newcastle: 6
+  val_donors:
+    - "C-8928"
+    - "C-8936"
+    - "C-8943"
+    - "CV0911"
+    - "CV0915"
+    - "CV0929"
+  val_cells: 21759
+  val_site_composition:
+    Cambridge: 3
+    Newcastle: 3
+  test_donors:
+    - "C-8938"
+    - "C-8939"
+    - "C-8940"
+    - "CV0904"
+    - "CV0940"
+  test_cells: 18508
+  test_site_composition:
+    Cambridge: 3
+    Newcastle: 2

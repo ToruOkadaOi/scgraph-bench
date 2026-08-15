@@ -1,0 +1,13 @@
+split_id: donor_split_seed42
+split_type: donor_held_out
+train_fraction: 0.6
+val_fraction: 0.2
+test_fraction: 0.2
+seed: 42
+rare_class_config:
+  min_train_cells_per_class: 10
+  min_test_cells_per_class: 5
+  action: warn_and_retain
+custom_train_donors: null
+custom_val_donors: null
+custom_test_donors: null

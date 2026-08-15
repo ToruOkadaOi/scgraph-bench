@@ -1,0 +1,9 @@
+builder_type: mutual_knn
+inductive_mode: strict_bipartite
+pca_knn: null
+mutual_knn:
+  k: 20
+  metric: euclidean
+  weighting: unweighted
+bbknn: null
+rewired_control: null

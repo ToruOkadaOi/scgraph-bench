@@ -1,0 +1,9 @@
+builder_type: rewired_control
+inductive_mode: strict_bipartite
+pca_knn: null
+mutual_knn: null
+bbknn: null
+rewired_control:
+  reference_graph_name: pca_knn
+  n_swaps_factor: 10.0
+  seed: 42

@@ -1,0 +1,10 @@
+name: kang_pbmc
+description: "Kang et al. 10x PBMC development dataset (8 donors, ctrl/stim)"
+cell_id_key: cell_id
+label_key: cell_type
+donor_key: donor_id
+batch_key: condition
+constraints:
+  min_cells_per_donor: 50
+  min_donors_per_class: 2
+  allow_missing_donors: false
