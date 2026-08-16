@@ -56,13 +56,13 @@ dmypy.json
 .ruff_cache/
 
 # Large Datasets, Artifacts, and Caches (splits/ is tracked in git)
-data/
-!data/.gitkeep
-artifacts/
-!artifacts/.gitkeep
-results/
-!results/.gitkeep
-mlruns/
+/data/
+!/data/.gitkeep
+/artifacts/
+!/artifacts/.gitkeep
+/results/
+!/results/.gitkeep
+/mlruns/
 *.h5ad
 *.h5
 *.npz
