@@ -38,27 +38,39 @@ def train_logistic_regression_cli(
     prep_bundle = PreprocessedBundle.load(prep_dir)
 
     # 1. Load metadata for stratified evaluation
-    loader = StephensonHealthyPBMCLoader()
-    adata = loader.load()
-    obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
+    cell_meta_file = prep_dir / "cell_metadata.json"
+    if cell_meta_file.is_file():
+        cell_meta = json.loads(cell_meta_file.read_text(encoding="utf-8"))
+        train_donors = cell_meta["train_donors"]
+        val_donors = cell_meta["val_donors"]
+        test_donors = cell_meta["test_donors"]
+        train_sites = cell_meta["train_sites"]
+        val_sites = cell_meta["val_sites"]
+        test_sites = cell_meta["test_sites"]
+    else:
+        loader = StephensonHealthyPBMCLoader()
+        adata = loader.load()
+        obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
 
-    train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-        "donor_id"
-    ].tolist()
-    val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-        "donor_id"
-    ].tolist()
-    test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-        "donor_id"
-    ].tolist()
+        train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
+            "donor_id"
+        ].tolist()
+        val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
+            "donor_id"
+        ].tolist()
+        test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
+            "donor_id"
+        ].tolist()
 
-    train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-        "site"
-    ].tolist()
-    val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]]["site"].tolist()
-    test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-        "site"
-    ].tolist()
+        train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
+            "site"
+        ].tolist()
+        val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
+            "site"
+        ].tolist()
+        test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
+            "site"
+        ].tolist()
 
     inv_label_map = {v: k for k, v in prep_bundle.label_to_id.items()}
     label_names = [inv_label_map[i] for i in range(len(prep_bundle.label_to_id))]

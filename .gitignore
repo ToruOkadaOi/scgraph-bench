@@ -68,6 +68,8 @@ dmypy.json
 *.npz
 *.pt
 *.parquet
+*.tar.gz
+*.tar
 
 # IDEs
 .idea/

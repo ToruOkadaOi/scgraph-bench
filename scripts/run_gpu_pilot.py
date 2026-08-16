@@ -7,6 +7,7 @@ Strict Guardrail Control Flow:
    - Exits 0 cleanly without requiring CUDA hardware, loading datasets, or writing any files.
 3. Only when --confirm-paid-gpu-run is present:
    - Strictly enforces CUDA GPU hardware availability (torch.cuda.is_available()).
+   - Consumes only precomputed, immutable artifacts (PreprocessedBundle, GraphBundle, cell_metadata.json).
    - Executes 1-epoch smoke test followed by full GCN pilot training on CUDA.
 """
 
@@ -22,7 +23,6 @@ import torch_geometric
 from rich.console import Console
 from rich.table import Table
 
-from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
 from scgraph_bench.evaluation.metrics import (
     compute_evaluation_summary,
     confusion_matrix_to_dataframe,
@@ -51,9 +51,15 @@ def validate_device_argument(requested_device: str) -> None:
 
 def perform_cuda_hardware_check() -> torch.device:
     """Strictly verify NVIDIA CUDA GPU hardware presence when execution is confirmed."""
-    console.print("[bold cyan]====================================================================[/bold cyan]")
-    console.print("[bold cyan]               CUDA Hardware Preflight Verification                 [/bold cyan]")
-    console.print("[bold cyan]====================================================================[/bold cyan]\n")
+    console.print(
+        "[bold cyan]====================================================================[/bold cyan]"
+    )
+    console.print(
+        "[bold cyan]               CUDA Hardware Preflight Verification                 [/bold cyan]"
+    )
+    console.print(
+        "[bold cyan]====================================================================[/bold cyan]\n"
+    )
 
     cuda_available = torch.cuda.is_available()
     cuda_version = torch.version.cuda
@@ -70,10 +76,16 @@ def perform_cuda_hardware_check() -> torch.device:
 
     if not cuda_available:
         telemetry_table.add_row("torch.cuda.get_device_name(0)", "N/A (No CUDA-capable GPU)")
-        telemetry_table.add_row("torch.cuda.get_device_properties(0).total_memory", "N/A (No CUDA-capable GPU)")
-        telemetry_table.add_row("CUDA Status", "[bold red]Unavailable (No CUDA-capable GPU detected)[/bold red]")
+        telemetry_table.add_row(
+            "torch.cuda.get_device_properties(0).total_memory", "N/A (No CUDA-capable GPU)"
+        )
+        telemetry_table.add_row(
+            "CUDA Status", "[bold red]Unavailable (No CUDA-capable GPU detected)[/bold red]"
+        )
         console.print(telemetry_table)
-        console.print("\n[bold red]ERROR: CUDA GPU unavailable. Refusing to run GPU pilot on CPU.[/bold red]\n")
+        console.print(
+            "\n[bold red]ERROR: CUDA GPU unavailable. Refusing to run GPU pilot on CPU.[/bold red]\n"
+        )
         console.print(
             "[yellow]To run this pilot, move the repository to an NVIDIA GPU cluster/instance (e.g. Vast.ai) with CUDA enabled.[/yellow]\n"
         )
@@ -93,29 +105,43 @@ def perform_cuda_hardware_check() -> torch.device:
     telemetry_table.add_row("CUDA Multiprocessor Count", str(multi_proc_count))
     telemetry_table.add_row("Selected Device", f"cuda:0 ({dev_name})")
     console.print(telemetry_table)
-    console.print("\n[bold green]CUDA preflight check PASSED: NVIDIA GPU detected and ready.[/bold green]\n")
+    console.print(
+        "\n[bold green]CUDA preflight check PASSED: NVIDIA GPU detected and ready.[/bold green]\n"
+    )
     return torch.device("cuda:0")
 
 
 def print_dry_run_plan(dataset_name: str, split_id: str, seed: int) -> None:
     """Display the dry-run execution plan sourced from read-only versioned manifests."""
     paths = ArtifactPaths.default()
-    console.print("[bold yellow]====================================================================[/bold yellow]")
-    console.print("[bold yellow]            DRY-RUN PILOT PLAN ONLY (No Training Executed)          [/bold yellow]")
-    console.print("[bold yellow]====================================================================[/bold yellow]\n")
+    console.print(
+        "[bold yellow]====================================================================[/bold yellow]"
+    )
+    console.print(
+        "[bold yellow]            DRY-RUN PILOT PLAN ONLY (No Training Executed)          [/bold yellow]"
+    )
+    console.print(
+        "[bold yellow]====================================================================[/bold yellow]\n"
+    )
 
     # Read edge count metadata from frozen graph manifests (read-only)
     g1_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id / "pca_knn_k20_unweighted"
-    g2_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id / "rewired_control_pca_knn_seed42"
+    g2_dir = (
+        paths.artifacts_dir / "graphs" / dataset_name / split_id / "rewired_control_pca_knn_seed42"
+    )
 
     g1_edges = "unknown"
     g2_edges = "unknown"
     if (g1_dir / "graph_manifest.json").is_file():
-        m1 = GraphManifest.model_validate_json((g1_dir / "graph_manifest.json").read_text(encoding="utf-8"))
+        m1 = GraphManifest.model_validate_json(
+            (g1_dir / "graph_manifest.json").read_text(encoding="utf-8")
+        )
         g1_edges = f"{m1.num_edges:,}"
 
     if (g2_dir / "graph_manifest.json").is_file():
-        m2 = GraphManifest.model_validate_json((g2_dir / "graph_manifest.json").read_text(encoding="utf-8"))
+        m2 = GraphManifest.model_validate_json(
+            (g2_dir / "graph_manifest.json").read_text(encoding="utf-8")
+        )
         g2_edges = f"{m2.num_edges:,}"
 
     # Read baseline performance from versioned MLP metrics summary (read-only)
@@ -126,16 +152,22 @@ def print_dry_run_plan(dataset_name: str, split_id: str, seed: int) -> None:
         if "test" in mlp_metrics and "macro_f1" in mlp_metrics["test"]:
             mlp_f1_str = f"{mlp_metrics['test']['macro_f1']:.4f}"
 
-    plan_table = Table(title="Planned Pilot Experiment Configuration (Sourced from Frozen Manifests)")
+    plan_table = Table(
+        title="Planned Pilot Experiment Configuration (Sourced from Frozen Manifests)"
+    )
     plan_table.add_column("Parameter", style="cyan")
     plan_table.add_column("Planned Value", style="green")
 
     plan_table.add_row("Dataset", dataset_name)
     plan_table.add_row("Split ID", split_id)
     plan_table.add_row("Random Seed", str(seed))
-    plan_table.add_row("Model Architecture", "2-layer GCN (GCNConv: 50 -> 128 -> 12, BN, ReLU, Dropout 0.2)")
+    plan_table.add_row(
+        "Model Architecture", "2-layer GCN (GCNConv: 50 -> 128 -> 12, BN, ReLU, Dropout 0.2)"
+    )
     plan_table.add_row("Condition 1 (Graph)", f"pca_knn_k20_unweighted ({g1_edges} edges)")
-    plan_table.add_row("Condition 2 (Control)", f"rewired_control_pca_knn_seed42 ({g2_edges} edges)")
+    plan_table.add_row(
+        "Condition 2 (Control)", f"rewired_control_pca_knn_seed42 ({g2_edges} edges)"
+    )
     plan_table.add_row("Matched Baseline", f"MLP Baseline Seed 42 (Test Macro-F1: {mlp_f1_str})")
     plan_table.add_row("Early Stopping", "Validation Macro-F1 (patience 50, max epochs 500)")
     plan_table.add_row("Execution Device Target", "NVIDIA CUDA GPU")
@@ -155,29 +187,42 @@ def execute_pilot(
     seed: int,
     target_device: torch.device,
 ) -> None:
-    """Execute confirmed GCN pilot runs on real CUDA hardware."""
+    """Execute confirmed GCN pilot runs on real CUDA hardware consuming only precomputed artifacts."""
     paths = ArtifactPaths.default()
-    console.print("[bold cyan]====================================================================[/bold cyan]")
-    console.print(f"[bold cyan]  Executing Confirmed GNN GPU Pilot Benchmark (Seed={seed}, Device={target_device})  [/bold cyan]")
-    console.print("[bold cyan]====================================================================[/bold cyan]\n")
+    console.print(
+        "[bold cyan]====================================================================[/bold cyan]"
+    )
+    console.print(
+        f"[bold cyan]  Executing Confirmed GNN GPU Pilot Benchmark (Seed={seed}, Device={target_device})  [/bold cyan]"
+    )
+    console.print(
+        "[bold cyan]====================================================================[/bold cyan]\n"
+    )
 
+    # 1. Load Precomputed Features and Labels strictly from PreprocessedBundle
     prep_dir = paths.artifacts_dir / "preprocessed" / dataset_name / split_id
+    if not (prep_dir / "feature_manifest.json").is_file():
+        raise FileNotFoundError(f"Feature manifest missing at {prep_dir}")
+
     prep_bundle = PreprocessedBundle.load(prep_dir)
-
-    loader = StephensonHealthyPBMCLoader()
-    adata = loader.load()
-    obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
-
-    train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]]["donor_id"].tolist()
-    val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]]["donor_id"].tolist()
-    test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]]["donor_id"].tolist()
-
-    train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]]["site"].tolist()
-    val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]]["site"].tolist()
-    test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]]["site"].tolist()
 
     inv_label_map = {v: k for k, v in prep_bundle.label_to_id.items()}
     label_names = [inv_label_map[i] for i in range(len(prep_bundle.label_to_id))]
+
+    # 2. Load cell metadata (donors and sites) from preprocessed metadata artifact if present
+    cell_meta_file = prep_dir / "cell_metadata.json"
+    if cell_meta_file.is_file():
+        cell_meta = json.loads(cell_meta_file.read_text(encoding="utf-8"))
+        train_donors = cell_meta["train_donors"]
+        val_donors = cell_meta["val_donors"]
+        test_donors = cell_meta["test_donors"]
+        train_sites = cell_meta["train_sites"]
+        val_sites = cell_meta["val_sites"]
+        test_sites = cell_meta["test_sites"]
+    else:
+        # Fallback to None (standard classification metrics still computed)
+        train_donors, val_donors, test_donors = None, None, None
+        train_sites, val_sites, test_sites = None, None, None
 
     # Combine PCA features across partitions into full node feature matrix
     X_all = np.vstack([prep_bundle.X_pca_train, prep_bundle.X_pca_val, prep_bundle.X_pca_test])
@@ -185,7 +230,7 @@ def execute_pilot(
     y_val = prep_bundle.val_labels
     y_test = prep_bundle.test_labels
 
-    # Load matched MLP baseline
+    # 3. Load matched MLP baseline for comparative graph lift
     mlp_res_dir = paths.artifacts_dir / "results" / dataset_name / split_id / "mlp"
     if (
         not (mlp_res_dir / "run_manifest.json").is_file()
@@ -216,9 +261,13 @@ def execute_pilot(
     pilot_lifts = []
 
     for desc, g_name in pilot_graphs:
-        console.print("[bold cyan]--------------------------------------------------------------------[/bold cyan]")
+        console.print(
+            "[bold cyan]--------------------------------------------------------------------[/bold cyan]"
+        )
         console.print(f"[bold cyan]  Training GCN on Graph: {desc} ({g_name})[/bold cyan]")
-        console.print("[bold cyan]--------------------------------------------------------------------[/bold cyan]")
+        console.print(
+            "[bold cyan]--------------------------------------------------------------------[/bold cyan]"
+        )
 
         g_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id / g_name
         graph_bundle = GraphBundle.load(g_dir)
@@ -287,7 +336,9 @@ def execute_pilot(
             site_ids=test_sites,
         )
 
-        out_dir = paths.artifacts_dir / "results" / dataset_name / split_id / f"gcn_{g_name}_seed{seed}"
+        out_dir = (
+            paths.artifacts_dir / "results" / dataset_name / split_id / f"gcn_{g_name}_seed{seed}"
+        )
         out_dir.mkdir(parents=True, exist_ok=True)
 
         np.save(out_dir / "test_preds.npy", te_preds)
@@ -357,8 +408,14 @@ def execute_pilot(
     comp_table.add_column("Test Macro-F1", style="green")
     comp_table.add_column("Graph Lift (Δ)", style="yellow")
     comp_table.add_column("Test BalAcc", style="blue")
-    comp_table.add_column("Cambridge Obs F1", style="cyan")
-    comp_table.add_column("Newcastle Obs F1", style="cyan")
+    comp_table.add_column(
+        "Cambridge Obs F1",
+        style="cyan",
+    )
+    comp_table.add_column(
+        "Newcastle Obs F1",
+        style="cyan",
+    )
     comp_table.add_column("Runtime (s)", style="green")
     comp_table.add_column("Peak VRAM", style="magenta")
 
@@ -368,8 +425,16 @@ def execute_pilot(
         f"{mlp_test_summary.macro_f1:.4f}",
         "0.0000 (reference)",
         f"{mlp_test_summary.balanced_accuracy:.4f}",
-        f"{mlp_test_summary.per_site[0].observed_class_macro_f1:.4f}",
-        f"{mlp_test_summary.per_site[1].observed_class_macro_f1:.4f}",
+        (
+            f"{mlp_test_summary.per_site[0].observed_class_macro_f1:.4f}"
+            if mlp_test_summary.per_site
+            else "N/A"
+        ),
+        (
+            f"{mlp_test_summary.per_site[1].observed_class_macro_f1:.4f}"
+            if len(mlp_test_summary.per_site) > 1
+            else "N/A"
+        ),
         f"{mlp_manifest.training_time_seconds:.2f}s",
         "CPU",
     )
@@ -378,14 +443,18 @@ def execute_pilot(
         pilot_results, pilot_lifts, strict=False
     ):
         vram_str = f"{clf.peak_memory_mb_:.1f} MB" if clf.peak_memory_mb_ > 0 else "N/A"
+        camb_f1 = f"{te_s.per_site[0].observed_class_macro_f1:.4f}" if te_s.per_site else "N/A"
+        newc_f1 = (
+            f"{te_s.per_site[1].observed_class_macro_f1:.4f}" if len(te_s.per_site) > 1 else "N/A"
+        )
         comp_table.add_row(
             f"GCN (Seed {seed})",
             desc,
             f"{te_s.macro_f1:.4f}",
             f"[bold]{lift.overall_graph_lift:+.4f}[/bold]",
             f"{te_s.balanced_accuracy:.4f}",
-            f"{te_s.per_site[0].observed_class_macro_f1:.4f}",
-            f"{te_s.per_site[1].observed_class_macro_f1:.4f}",
+            camb_f1,
+            newc_f1,
             f"{clf.training_time_seconds_:.2f}s",
             vram_str,
         )
@@ -408,7 +477,9 @@ def execute_pilot(
 
     for c in pca_knn_test_summary.per_class:
         mlp_c = next(mc for mc in mlp_test_summary.per_class if mc.class_name == c.class_name)
-        rewired_c = next(rc for rc in rewired_test_summary.per_class if rc.class_name == c.class_name)
+        rewired_c = next(
+            rc for rc in rewired_test_summary.per_class if rc.class_name == c.class_name
+        )
 
         pca_lift = c.f1 - mlp_c.f1
         rewired_lift = rewired_c.f1 - mlp_c.f1

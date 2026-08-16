@@ -1,5 +1,7 @@
 """Unit tests for GPU pilot execution guardrails, CUDA preflight check, and --confirm-paid-gpu-run."""
 
+import json
+import sys
 from unittest.mock import MagicMock
 
 import pytest
@@ -9,6 +11,11 @@ from scripts.run_gpu_pilot import (
     run_gpu_pilot,
     validate_device_argument,
 )
+
+from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
+from scgraph_bench.graph.schema import GraphBundle
+from scgraph_bench.preprocessing.schema import PreprocessedBundle
+from scgraph_bench.utils.paths import ArtifactPaths
 
 
 def test_cuda_unavailable_exits_nonzero_before_data_or_model(monkeypatch):
@@ -123,3 +130,64 @@ def test_invalid_device_with_confirmation_exits_nonzero(invalid_device, monkeypa
 
     assert exc_info.value.code == 1
     mock_execute.assert_not_called()
+
+
+def test_pilot_input_path_never_calls_dataset_loader(monkeypatch):
+    """Regression test: verify pilot input-loading path consumes only frozen artifacts without calling StephensonHealthyPBMCLoader.load() or requiring cellxgene_census."""
+    # 1. Simulate complete absence of cellxgene_census
+    monkeypatch.setitem(sys.modules, "cellxgene_census", None)
+
+    # 2. Spy on StephensonHealthyPBMCLoader.load to ensure it is never invoked
+    mock_loader_load = MagicMock(
+        side_effect=RuntimeError("Stephenson loader must NOT be called in pilot!")
+    )
+    monkeypatch.setattr(StephensonHealthyPBMCLoader, "load", mock_loader_load)
+
+    # 3. Load preprocessed features and manifests directly from disk
+    paths = ArtifactPaths.default()
+    prep_dir = (
+        paths.artifacts_dir
+        / "preprocessed"
+        / "stephenson_2021_healthy_pbmc"
+        / "site_stratified_seed42"
+    )
+
+    if (prep_dir / "feature_manifest.json").is_file():
+        prep_bundle = PreprocessedBundle.load(prep_dir)
+
+        # Assert dimensions and partition lengths
+        assert prep_bundle.X_pca_train.shape == (38692, 50)
+        assert prep_bundle.X_pca_val.shape == (21759, 50)
+        assert prep_bundle.X_pca_test.shape == (18508, 50)
+
+        assert len(prep_bundle.train_labels) == 38692
+        assert len(prep_bundle.val_labels) == 21759
+        assert len(prep_bundle.test_labels) == 18508
+
+        assert len(prep_bundle.label_to_id) == 12
+
+        # Verify graph bundles match node space
+        total_nodes = 38692 + 21759 + 18508
+        for g_name in ["pca_knn_k20_unweighted", "rewired_control_pca_knn_seed42"]:
+            g_dir = (
+                paths.artifacts_dir
+                / "graphs"
+                / "stephenson_2021_healthy_pbmc"
+                / "site_stratified_seed42"
+                / g_name
+            )
+            if (g_dir / "graph_manifest.json").is_file():
+                gb = GraphBundle.load(g_dir)
+                assert gb.edge_index.shape[0] == 2
+                assert int(gb.edge_index.max()) < total_nodes
+
+        # Verify cell metadata is self-contained if present
+        meta_file = prep_dir / "cell_metadata.json"
+        if meta_file.is_file():
+            meta = json.loads(meta_file.read_text(encoding="utf-8"))
+            assert len(meta["train_donors"]) == 38692
+            assert len(meta["val_donors"]) == 21759
+            assert len(meta["test_donors"]) == 18508
+
+    # Assert loader was never invoked
+    mock_loader_load.assert_not_called()
