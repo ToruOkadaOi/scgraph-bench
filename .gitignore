@@ -63,6 +63,7 @@ dmypy.json
 /results/
 !/results/.gitkeep
 /mlruns/
+/pilot-downloads/
 *.h5ad
 *.h5
 *.npz

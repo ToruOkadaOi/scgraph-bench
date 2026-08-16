@@ -12,7 +12,6 @@ from rich.console import Console
 from rich.table import Table
 
 from scgraph_bench.config.model import LogisticRegressionConfig
-from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
 from scgraph_bench.evaluation.metrics import (
     compute_evaluation_summary,
     confusion_matrix_to_dataframe,
@@ -48,29 +47,8 @@ def train_logistic_regression_cli(
         val_sites = cell_meta["val_sites"]
         test_sites = cell_meta["test_sites"]
     else:
-        loader = StephensonHealthyPBMCLoader()
-        adata = loader.load()
-        obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
-
-        train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-            "donor_id"
-        ].tolist()
-        val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-            "donor_id"
-        ].tolist()
-        test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-            "donor_id"
-        ].tolist()
-
-        train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-            "site"
-        ].tolist()
-        val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-            "site"
-        ].tolist()
-        test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-            "site"
-        ].tolist()
+        train_donors, val_donors, test_donors = None, None, None
+        train_sites, val_sites, test_sites = None, None, None
 
     inv_label_map = {v: k for k, v in prep_bundle.label_to_id.items()}
     label_names = [inv_label_map[i] for i in range(len(prep_bundle.label_to_id))]

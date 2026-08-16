@@ -184,3 +184,114 @@ def test_mlp_deterministic_reproducibility():
 
     assert np.array_equal(preds1, preds2)
     assert np.isclose(mlp1.best_val_macro_f1_, mlp2.best_val_macro_f1_)
+
+
+def test_mlp_cli_input_path_never_calls_dataset_loader(monkeypatch):
+    """Regression test: verify train_mlp_cli consumes only frozen artifacts without calling StephensonHealthyPBMCLoader.load() or requiring cellxgene_census."""
+    import sys
+    from unittest.mock import MagicMock
+
+    from scripts.train_mlp import train_mlp_cli
+
+    from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
+    from scgraph_bench.tracking.schema import RunManifest
+    from scgraph_bench.utils.paths import ArtifactPaths
+
+    # 1. Simulate complete absence of cellxgene_census
+    monkeypatch.setitem(sys.modules, "cellxgene_census", None)
+
+    # 2. Spy on StephensonHealthyPBMCLoader.load to ensure it raises if ever called
+    mock_loader = MagicMock(
+        side_effect=RuntimeError("Stephenson loader must NOT be called in MLP CLI!")
+    )
+    monkeypatch.setattr(StephensonHealthyPBMCLoader, "load", mock_loader)
+
+    # 3. Execute 1-epoch smoke run for seed 42
+    paths = ArtifactPaths.default()
+    prep_dir = (
+        paths.artifacts_dir
+        / "preprocessed"
+        / "stephenson_2021_healthy_pbmc"
+        / "site_stratified_seed42"
+    )
+
+    if (prep_dir / "feature_manifest.json").is_file():
+        train_mlp_cli(
+            dataset_name="stephenson_2021_healthy_pbmc",
+            split_id="site_stratified_seed42",
+            seed=42,
+            max_epochs=1,
+            patience=1,
+        )
+
+        # Assert loader was never invoked
+        mock_loader.assert_not_called()
+
+        # Check results in seed 42 directory
+        res_dir = (
+            paths.artifacts_dir
+            / "results"
+            / "stephenson_2021_healthy_pbmc"
+            / "site_stratified_seed42"
+            / "mlp_seed42"
+        )
+        assert (res_dir / "metrics_summary.json").is_file()
+        assert (res_dir / "run_manifest.json").is_file()
+
+        manifest = RunManifest.model_validate_json(
+            (res_dir / "run_manifest.json").read_text(encoding="utf-8")
+        )
+        assert manifest.seed == 42
+        assert manifest.model_name == "mlp"
+
+
+def test_mlp_cli_multi_seed_provenance_and_schema(monkeypatch):
+    """Verify train_mlp_cli records seed-specific provenance for multi-seed sweeps (e.g. seed 7)."""
+    import sys
+    from unittest.mock import MagicMock
+
+    from scripts.train_mlp import train_mlp_cli
+
+    from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
+    from scgraph_bench.tracking.schema import RunManifest
+    from scgraph_bench.utils.paths import ArtifactPaths
+
+    monkeypatch.setitem(sys.modules, "cellxgene_census", None)
+    mock_loader = MagicMock(
+        side_effect=RuntimeError("Stephenson loader must NOT be called in MLP CLI!")
+    )
+    monkeypatch.setattr(StephensonHealthyPBMCLoader, "load", mock_loader)
+
+    paths = ArtifactPaths.default()
+    prep_dir = (
+        paths.artifacts_dir
+        / "preprocessed"
+        / "stephenson_2021_healthy_pbmc"
+        / "site_stratified_seed42"
+    )
+
+    if (prep_dir / "feature_manifest.json").is_file():
+        train_mlp_cli(
+            dataset_name="stephenson_2021_healthy_pbmc",
+            split_id="site_stratified_seed42",
+            seed=7,
+            max_epochs=1,
+            patience=1,
+        )
+
+        mock_loader.assert_not_called()
+
+        res_dir_seed7 = (
+            paths.artifacts_dir
+            / "results"
+            / "stephenson_2021_healthy_pbmc"
+            / "site_stratified_seed42"
+            / "mlp_seed7"
+        )
+        assert (res_dir_seed7 / "run_manifest.json").is_file()
+
+        manifest = RunManifest.model_validate_json(
+            (res_dir_seed7 / "run_manifest.json").read_text(encoding="utf-8")
+        )
+        assert manifest.seed == 7
+        assert manifest.model_name == "mlp"

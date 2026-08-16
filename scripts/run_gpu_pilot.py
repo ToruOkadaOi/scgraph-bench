@@ -231,13 +231,16 @@ def execute_pilot(
     y_test = prep_bundle.test_labels
 
     # 3. Load matched MLP baseline for comparative graph lift
-    mlp_res_dir = paths.artifacts_dir / "results" / dataset_name / split_id / "mlp"
+    mlp_res_dir = paths.artifacts_dir / "results" / dataset_name / split_id / f"mlp_seed{seed}"
+    if not (mlp_res_dir / "run_manifest.json").is_file():
+        mlp_res_dir = paths.artifacts_dir / "results" / dataset_name / split_id / "mlp"
+
     if (
         not (mlp_res_dir / "run_manifest.json").is_file()
         or not (mlp_res_dir / "metrics_summary.json").is_file()
     ):
         console.print(
-            "[bold red]Matched MLP baseline results missing! Run scripts/train_mlp.py first.[/bold red]"
+            f"[bold red]Matched MLP baseline results missing for Seed={seed}! Run 'scripts/train_mlp.py --seed {seed}' first.[/bold red]"
         )
         return
 

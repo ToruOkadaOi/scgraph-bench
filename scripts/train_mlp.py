@@ -1,4 +1,4 @@
-"""CLI runner for PyTorch MLP baseline on CPU."""
+"""CLI runner for PyTorch MLP baseline on CPU consuming strictly frozen preprocessed artifacts."""
 
 from __future__ import annotations
 
@@ -12,7 +12,6 @@ from rich.console import Console
 from rich.table import Table
 
 from scgraph_bench.config.model import MLPConfig
-from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
 from scgraph_bench.evaluation.metrics import (
     compute_evaluation_summary,
     confusion_matrix_to_dataframe,
@@ -40,7 +39,7 @@ def train_mlp_cli(
     console.print(f"[blue]Loading preprocessed features from:[/blue] {prep_dir}")
     prep_bundle = PreprocessedBundle.load(prep_dir)
 
-    # 1. Load metadata for stratified evaluation
+    # 1. Load cell metadata for stratified evaluation strictly from frozen metadata artifact
     cell_meta_file = prep_dir / "cell_metadata.json"
     if cell_meta_file.is_file():
         cell_meta = json.loads(cell_meta_file.read_text(encoding="utf-8"))
@@ -51,29 +50,8 @@ def train_mlp_cli(
         val_sites = cell_meta["val_sites"]
         test_sites = cell_meta["test_sites"]
     else:
-        loader = StephensonHealthyPBMCLoader()
-        adata = loader.load()
-        obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
-
-        train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-            "donor_id"
-        ].tolist()
-        val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-            "donor_id"
-        ].tolist()
-        test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-            "donor_id"
-        ].tolist()
-
-        train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-            "site"
-        ].tolist()
-        val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-            "site"
-        ].tolist()
-        test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-            "site"
-        ].tolist()
+        train_donors, val_donors, test_donors = None, None, None
+        train_sites, val_sites, test_sites = None, None, None
 
     inv_label_map = {v: k for k, v in prep_bundle.label_to_id.items()}
     label_names = [inv_label_map[i] for i in range(len(prep_bundle.label_to_id))]
@@ -131,35 +109,19 @@ def train_mlp_cli(
         site_ids=test_sites,
     )
 
-    # 5. Persist artifacts
-    out_dir = paths.artifacts_dir / "results" / dataset_name / split_id / "mlp"
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    if mlp.model is not None:
-        torch.save(mlp.model.state_dict(), out_dir / "model.pt")
-
-    np.save(out_dir / "train_preds.npy", train_preds)
-    np.save(out_dir / "val_preds.npy", val_preds)
-    np.save(out_dir / "test_preds.npy", test_preds)
-    np.save(out_dir / "train_probs.npy", train_probs)
-    np.save(out_dir / "val_probs.npy", val_probs)
-    np.save(out_dir / "test_probs.npy", test_probs)
-
-    mlp.training_history_.to_csv(out_dir / "training_history.csv", index=False)
+    # 5. Persist artifacts to both seed-specific directory and legacy mlp directory if seed=42
+    target_dirs = [
+        paths.artifacts_dir / "results" / dataset_name / split_id / f"mlp_seed{seed}",
+    ]
+    if seed == 42:
+        target_dirs.append(paths.artifacts_dir / "results" / dataset_name / split_id / "mlp")
 
     cm_test_df = confusion_matrix_to_dataframe(test_summary.confusion_matrix, label_names)
-    cm_test_df.to_csv(out_dir / "confusion_matrix_test.csv")
-
     metrics_payload = {
         "train": train_summary.model_dump(mode="json"),
         "val": val_summary.model_dump(mode="json"),
         "test": test_summary.model_dump(mode="json"),
     }
-    (out_dir / "metrics_summary.json").write_text(
-        json.dumps(metrics_payload, indent=2), encoding="utf-8"
-    )
-
-    # Run Manifest
     run_manifest = {
         "run_id": f"mlp_{split_id}_seed{seed}",
         "status": "success",
@@ -180,7 +142,6 @@ def train_mlp_cli(
         "best_val_macro_f1": mlp.best_val_macro_f1_,
         "training_time_seconds": mlp.training_time_seconds_,
     }
-    (out_dir / "run_manifest.json").write_text(json.dumps(run_manifest, indent=2), encoding="utf-8")
 
     # 6. Build tidy metrics dataframe
     tidy_rows = []
@@ -281,7 +242,29 @@ def train_mlp_cli(
                 }
             )
 
-    pd.DataFrame(tidy_rows).to_csv(out_dir / "tidy_metrics.csv", index=False)
+    tidy_df = pd.DataFrame(tidy_rows)
+
+    for out_dir in target_dirs:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        if mlp.model is not None:
+            torch.save(mlp.model.state_dict(), out_dir / "model.pt")
+
+        np.save(out_dir / "train_preds.npy", train_preds)
+        np.save(out_dir / "val_preds.npy", val_preds)
+        np.save(out_dir / "test_preds.npy", test_preds)
+        np.save(out_dir / "train_probs.npy", train_probs)
+        np.save(out_dir / "val_probs.npy", val_probs)
+        np.save(out_dir / "test_probs.npy", test_probs)
+
+        mlp.training_history_.to_csv(out_dir / "training_history.csv", index=False)
+        cm_test_df.to_csv(out_dir / "confusion_matrix_test.csv")
+        (out_dir / "metrics_summary.json").write_text(
+            json.dumps(metrics_payload, indent=2), encoding="utf-8"
+        )
+        (out_dir / "run_manifest.json").write_text(
+            json.dumps(run_manifest, indent=2), encoding="utf-8"
+        )
+        tidy_df.to_csv(out_dir / "tidy_metrics.csv", index=False)
 
     # 7. Print Rich Summary Tables
     summary_table = Table(
@@ -316,27 +299,28 @@ def train_mlp_cli(
     )
     console.print(summary_table)
 
-    site_table = Table(title="PyTorch MLP: Test Partition Per-Site Performance")
-    site_table.add_column("Site", style="cyan")
-    site_table.add_column("Cell Count", style="green")
-    site_table.add_column("Observed Macro-F1", style="magenta")
-    site_table.add_column("Global Macro-F1", style="blue")
-    site_table.add_column("Balanced Accuracy", style="yellow")
-    site_table.add_column("Overall Accuracy", style="cyan")
+    if test_summary.per_site:
+        site_table = Table(title="PyTorch MLP: Test Partition Per-Site Performance")
+        site_table.add_column("Site", style="cyan")
+        site_table.add_column("Cell Count", style="green")
+        site_table.add_column("Observed Macro-F1", style="magenta")
+        site_table.add_column("Global Macro-F1", style="blue")
+        site_table.add_column("Balanced Accuracy", style="yellow")
+        site_table.add_column("Overall Accuracy", style="cyan")
 
-    for s in test_summary.per_site:
-        site_table.add_row(
-            s.site,
-            f"{s.support:,}",
-            f"{s.observed_class_macro_f1:.4f}",
-            f"{s.global_label_macro_f1:.4f}",
-            f"{s.balanced_accuracy:.4f}",
-            f"{s.overall_accuracy:.4f}",
-        )
-    console.print(site_table)
+        for s in test_summary.per_site:
+            site_table.add_row(
+                s.site,
+                f"{s.support:,}",
+                f"{s.observed_class_macro_f1:.4f}",
+                f"{s.global_label_macro_f1:.4f}",
+                f"{s.balanced_accuracy:.4f}",
+                f"{s.overall_accuracy:.4f}",
+            )
+        console.print(site_table)
 
     console.print(
-        f"[bold green]MLP Baseline Completed Successfully! Artifacts saved in {out_dir}[/bold green]\n"
+        f"[bold green]MLP Baseline Completed Successfully! Artifacts saved in {target_dirs[0]}[/bold green]\n"
     )
 
 
