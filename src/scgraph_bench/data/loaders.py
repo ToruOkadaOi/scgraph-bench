@@ -94,7 +94,9 @@ class StephensonHealthyPBMCLoader(BaseDatasetLoader):
             raise FileNotFoundError(f"Stephenson donor manifest not found: {self.manifest_path}")
 
         manifest_df = pd.read_csv(self.manifest_path)
-        included_donors = manifest_df[manifest_df["inclusion_status"] == "included"]["donor_id"].tolist()
+        included_donors = manifest_df[manifest_df["inclusion_status"] == "included"][
+            "donor_id"
+        ].tolist()
         donor_to_site = dict(zip(manifest_df["donor_id"], manifest_df["site"], strict=False))
 
         mask_included = adata.obs["donor_id"].isin(included_donors)
@@ -136,7 +138,11 @@ class StephensonHealthyPBMCLoader(BaseDatasetLoader):
             config = config.model_copy(
                 update={
                     "constraints": config.constraints.model_copy(
-                        update={"min_cells_per_donor": min(config.constraints.min_cells_per_donor, dev_subsample_per_donor)}
+                        update={
+                            "min_cells_per_donor": min(
+                                config.constraints.min_cells_per_donor, dev_subsample_per_donor
+                            )
+                        }
                     )
                 }
             )
