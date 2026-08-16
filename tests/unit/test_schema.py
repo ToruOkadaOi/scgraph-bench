@@ -13,22 +13,21 @@ from scgraph_bench.tracking.schema import (
 def test_metric_record_success():
     """Verify standard success metric record creation."""
     rec = MetricRecord(
-        dataset="kang_pbmc",
+        dataset_name="kang_pbmc",
         split_id="split_01",
         seed=42,
         graph_name="pca_knn_k20",
-        graph_settings={"k": 20, "metric": "euclidean"},
-        model="mlp",
-        metric="macro_f1",
-        value=0.885,
+        model_name="mlp",
+        metric_name="macro_f1",
+        metric_value=0.885,
         partition="test",
         status=RunStatus.SUCCESS,
-        config_hash="abc123hash",
-        artifact_hash="xyz789hash",
+        model_config_hash="abc123hash",
+        graph_artifact_hash="xyz789hash",
         runtime_seconds=12.4,
     )
     assert rec.status == RunStatus.SUCCESS
-    assert rec.value == 0.885
+    assert rec.metric_value == 0.885
     assert rec.failure_metadata is None
 
 
@@ -41,19 +40,19 @@ def test_metric_record_failure_tracking():
         failed_phase="splitting",
     )
     rec = MetricRecord(
-        dataset="kang_pbmc",
+        dataset_name="kang_pbmc",
         split_id="split_02",
         seed=42,
         graph_name="bbknn",
-        model="mlp",
-        metric="macro_f1",
-        value=None,
+        model_name="mlp",
+        metric_name="macro_f1",
+        metric_value=None,
         status=RunStatus.FAILED,
         failure_metadata=fail_meta,
-        config_hash="abc123hash",
+        model_config_hash="abc123hash",
     )
     assert rec.status == RunStatus.FAILED
-    assert rec.value is None
+    assert rec.metric_value is None
     assert rec.failure_metadata is not None
     assert rec.failure_metadata.error_type == "ValueError"
 
@@ -75,19 +74,18 @@ def test_label_support_tracking():
 def test_graph_lift_record():
     """Verify graph lift record schema."""
     lift = GraphLiftRecord(
-        dataset="kang_pbmc",
+        dataset_name="kang_pbmc",
         split_id="split_01",
         seed=42,
         graph_name="pca_knn_k20",
-        gnm_model="GCN",
-        matched_mlp_model="MLP",
+        gnn_model_name="GCN",
+        matched_mlp_model_name="MLP",
         gnn_macro_f1=0.890,
         matched_mlp_macro_f1=0.870,
-        graph_lift=0.020,
-        config_hash="hash_123",
+        overall_graph_lift=0.020,
         is_valid_match=True,
     )
-    assert abs(lift.graph_lift - (lift.gnn_macro_f1 - lift.matched_mlp_macro_f1)) < 1e-6
+    assert abs(lift.overall_graph_lift - (lift.gnn_macro_f1 - lift.matched_mlp_macro_f1)) < 1e-6
     assert lift.is_valid_match is True
 
 
@@ -98,34 +96,34 @@ def test_tidy_results_dataframe_export():
     # Add successful record
     collection.add_record(
         MetricRecord(
-            dataset="kang_pbmc",
+            dataset_name="kang_pbmc",
             split_id="split_01",
             seed=42,
             graph_name="pca_knn",
-            model="logistic_regression",
-            metric="macro_f1",
-            value=0.85,
+            model_name="logistic_regression",
+            metric_name="macro_f1",
+            metric_value=0.85,
             status=RunStatus.SUCCESS,
-            config_hash="h1",
+            model_config_hash="h1",
         )
     )
 
     # Add failed record
     collection.add_record(
         MetricRecord(
-            dataset="kang_pbmc",
+            dataset_name="kang_pbmc",
             split_id="split_01",
             seed=42,
             graph_name="bbknn",
-            model="mlp",
-            metric="macro_f1",
-            value=None,
+            model_name="mlp",
+            metric_name="macro_f1",
+            metric_value=None,
             status=RunStatus.FAILED,
             failure_metadata=FailureMetadata(
                 error_type="RuntimeError",
                 error_message="CUDA out of memory simulation",
             ),
-            config_hash="h2",
+            model_config_hash="h2",
         )
     )
 

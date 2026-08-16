@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import anndata as ad
@@ -25,7 +25,9 @@ DATASET_ID = "tabula_sapiens_blood_figshare_v5"
 def download_file(url: str, dest_path: Path, expected_size: int | None = None) -> None:
     """Download file with progress bar."""
     if dest_path.is_file() and (expected_size is None or dest_path.stat().st_size == expected_size):
-        console.print(f"[green]File already exists:[/green] {dest_path} ({dest_path.stat().st_size:,} bytes)")
+        console.print(
+            f"[green]File already exists:[/green] {dest_path} ({dest_path.stat().st_size:,} bytes)"
+        )
         return
 
     dest_path.parent.mkdir(parents=True, exist_ok=True)
@@ -73,7 +75,7 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     h5ad_path = raw_dir / "TS_Blood.h5ad"
 
     # Step 1: Download zip if needed
-    download_timestamp = datetime.now(timezone.utc).isoformat()
+    download_timestamp = datetime.now(UTC).isoformat()
     download_file(FIGSHARE_FILE_URL, zip_path, expected_size=1169692522)
 
     # Step 2: Unzip if needed
@@ -98,13 +100,15 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     obs_cols = list(adata.obs.columns)
     layers = list(adata.layers.keys())
     assert "raw_counts" in layers, "Missing raw_counts in layers!"
-    assert adata.layers["raw_counts"].shape == adata.shape, "raw_counts shape mismatch with adata.shape!"
+    assert adata.layers["raw_counts"].shape == adata.shape, (
+        "raw_counts shape mismatch with adata.shape!"
+    )
 
     # Stage 0: Initial Raw
     n_cells_stage0 = adata.n_obs
     donors_stage0 = adata.obs["donor"].dropna().unique().tolist()
     n_donors_stage0 = len(donors_stage0)
-    methods_stage0 = adata.obs["method"].value_counts().to_dict()
+    adata.obs["method"].value_counts().to_dict()
 
     # Stage 1: Assay Filter (method == '10X')
     mask_10x = adata.obs["method"] == "10X"
@@ -115,9 +119,8 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
     # Stage 2: Quality & Annotation Filter (non-null cell_ontology_class)
     label_col = "cell_ontology_class"
-    mask_annotated = (
-        adata_10x.obs[label_col].notna()
-        & ~adata_10x.obs[label_col].isin(["unassigned", "unknown", "nan", ""])
+    mask_annotated = adata_10x.obs[label_col].notna() & ~adata_10x.obs[label_col].isin(
+        ["unassigned", "unknown", "nan", ""]
     )
     adata_annotated = adata_10x[mask_annotated].copy()
     n_cells_stage2 = adata_annotated.n_obs
@@ -138,16 +141,14 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
     # Stage 4: Exact vs Harmonized Label Policy
     # 4A: Exact Cell Ontology Classes as present in adata.obs["cell_ontology_class"]
-    unique_labels_s3 = adata_donors.obs[label_col].unique().tolist()
+    adata_donors.obs[label_col].unique().tolist()
 
     # Raw cross-tabulation by donor
-    class_donor_table = (
-        pd.crosstab(
-            adata_donors.obs[label_col],
-            adata_donors.obs["donor"],
-            margins=True,
-            margins_name="Total",
-        )
+    class_donor_table = pd.crosstab(
+        adata_donors.obs[label_col],
+        adata_donors.obs["donor"],
+        margins=True,
+        margins_name="Total",
     )
 
     # 4B: Proposed 8 Primary Robust Classes with case-insensitive mapping
@@ -199,17 +200,22 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
         "platelet",
     ]
 
-    primary_labels = [l for l in target_primary_8 if l in adata_donors.obs["canonical_label"].values]
+    primary_labels = [
+        lbl for lbl in target_primary_8 if lbl in adata_donors.obs["canonical_label"].values
+    ]
     deferred_labels = [
         "gamma-delta T cell",
         "plasmacytoid dendritic cell",
         "myeloid dendritic cell",
     ]
-    deferred_labels_present = [l for l in deferred_labels if l in adata_donors.obs["canonical_label"].values]
-    
+    deferred_labels_present = [
+        lbl for lbl in deferred_labels if lbl in adata_donors.obs["canonical_label"].values
+    ]
+
     excluded_labels = [
-        l for l in adata_donors.obs["canonical_label"].unique()
-        if l not in primary_labels and l not in deferred_labels_present
+        lbl
+        for lbl in adata_donors.obs["canonical_label"].unique()
+        if lbl not in primary_labels and lbl not in deferred_labels_present
     ]
 
     mask_primary = adata_donors.obs["canonical_label"].isin(primary_labels)
@@ -232,7 +238,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
     # Split assignment
     adata_primary.obs["split_partition"] = "unassigned"
-    adata_primary.obs.loc[adata_primary.obs["donor"].isin(train_donors), "split_partition"] = "train"
+    adata_primary.obs.loc[adata_primary.obs["donor"].isin(train_donors), "split_partition"] = (
+        "train"
+    )
     adata_primary.obs.loc[adata_primary.obs["donor"].isin(val_donors), "split_partition"] = "val"
     adata_primary.obs.loc[adata_primary.obs["donor"].isin(test_donors), "split_partition"] = "test"
 
@@ -246,7 +254,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     split_support_table = split_support_table[cols_order]
 
     # Invariant checks
-    assert split_support_table.loc["Total", "Total"] == n_cells_stage4_primary, "Split total mismatch"
+    assert split_support_table.loc["Total", "Total"] == n_cells_stage4_primary, (
+        "Split total mismatch"
+    )
     assert donor_counts_primary.sum() == n_cells_stage4_primary, "Donor count sum mismatch"
     assert len(adata_primary.obs_names) == len(set(adata_primary.obs_names)), "Duplicate cell IDs"
     assert adata_primary.obs["donor"].isna().sum() == 0, "Missing donors"
@@ -333,18 +343,23 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
         {
             "donor": donors_stage0,
             "cells_raw": [adata.obs[adata.obs["donor"] == d].shape[0] for d in donors_stage0],
-            "cells_10x": [adata_10x.obs[adata_10x.obs["donor"] == d].shape[0] for d in donors_stage0],
+            "cells_10x": [
+                adata_10x.obs[adata_10x.obs["donor"] == d].shape[0] for d in donors_stage0
+            ],
             "cells_annotated": [
-                adata_annotated.obs[adata_annotated.obs["donor"] == d].shape[0] if d in donors_stage2 else 0
+                adata_annotated.obs[adata_annotated.obs["donor"] == d].shape[0]
+                if d in donors_stage2
+                else 0
                 for d in donors_stage0
             ],
             "cells_primary_v0": [
-                adata_primary.obs[adata_primary.obs["donor"] == d].shape[0] if d in all_donors else 0
+                adata_primary.obs[adata_primary.obs["donor"] == d].shape[0]
+                if d in all_donors
+                else 0
                 for d in donors_stage0
             ],
             "donor_status": [
-                "retained" if d in all_donors else "dropped (<200 cells)"
-                for d in donors_stage0
+                "retained" if d in all_donors else "dropped (<200 cells)" for d in donors_stage0
             ],
         }
     ).sort_values("cells_primary_v0", ascending=False)
@@ -391,13 +406,13 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
 | Check | Expected | Actual / Verified | Status |
 | :--- | :--- | :--- | :--- |
-| **Sum of Stage 0 donor counts == raw cell count** | {n_cells_stage0:,} | {donor_stage_df['cells_raw'].sum():,} | **PASS** |
-| **Sum of Stage 1 donor counts == 10X cell count** | {n_cells_stage1:,} | {donor_stage_df['cells_10x'].sum():,} | **PASS** |
-| **Sum of Stage 3 donor counts == Stage 3 cell count** | {n_cells_stage3:,} | {donor_stage_df['cells_annotated'].sum():,} | **PASS** |
-| **Sum of Primary donor counts == Primary cell count** | {n_cells_stage4_primary:,} | {donor_stage_df['cells_primary_v0'].sum():,} | **PASS** |
-| **Sum of Split partition counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc['Total', 'Total']:,} | **PASS** |
-| **Sum of Primary class counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc['Total', 'Total']:,} | **PASS** |
-| **raw_counts layer matches AnnData dimensions** | {adata.shape} | {adata.layers['raw_counts'].shape} | **PASS** |
+| **Sum of Stage 0 donor counts == raw cell count** | {n_cells_stage0:,} | {donor_stage_df["cells_raw"].sum():,} | **PASS** |
+| **Sum of Stage 1 donor counts == 10X cell count** | {n_cells_stage1:,} | {donor_stage_df["cells_10x"].sum():,} | **PASS** |
+| **Sum of Stage 3 donor counts == Stage 3 cell count** | {n_cells_stage3:,} | {donor_stage_df["cells_annotated"].sum():,} | **PASS** |
+| **Sum of Primary donor counts == Primary cell count** | {n_cells_stage4_primary:,} | {donor_stage_df["cells_primary_v0"].sum():,} | **PASS** |
+| **Sum of Split partition counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc["Total", "Total"]:,} | **PASS** |
+| **Sum of Primary class counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc["Total", "Total"]:,} | **PASS** |
+| **raw_counts layer matches AnnData dimensions** | {adata.shape} | {adata.layers["raw_counts"].shape} | **PASS** |
 | **Retained Donors Count (>= 12 requirement)** | >= 12 | **{len(all_donors)} donors (Only 6 donors in TS Blood 10X)** | **FAIL** |
 | **9:3:3 Donor Split Feasibility** | 9:3:3 Split | **Not Feasible (Max split: 4:1:1)** | **FAIL** |
 | **Donor Disjointness across Train/Val/Test** | Mutually Disjoint | Mutually Disjoint | **PASS** |
@@ -418,20 +433,22 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
 ## Donor Breakdown Across Proposed Split ({len(train_donors)} Train / {len(val_donors)} Val / {len(test_donors)} Test)
 
-- **Train Donors ({len(train_donors)})**: `{', '.join(train_donors)}` ({split_support_table.loc['Total', 'train']:,} cells)
-- **Validation Donors ({len(val_donors)})**: `{', '.join(val_donors)}` ({split_support_table.loc['Total', 'val']:,} cells)
-- **Test Donors ({len(test_donors)})**: `{', '.join(test_donors)}` ({split_support_table.loc['Total', 'test']:,} cells)
+- **Train Donors ({len(train_donors)})**: `{", ".join(train_donors)}` ({split_support_table.loc["Total", "train"]:,} cells)
+- **Validation Donors ({len(val_donors)})**: `{", ".join(val_donors)}` ({split_support_table.loc["Total", "val"]:,} cells)
+- **Test Donors ({len(test_donors)})**: `{", ".join(test_donors)}` ({split_support_table.loc["Total", "test"]:,} cells)
 
 ---
 
 ## Label Policy Summary
 
-- **Primary Robust Classes ({len(primary_labels)})**: `{', '.join(primary_labels)}`
-- **Deferred Low-Support Classes ({len(deferred_labels_present)})**: `{', '.join(deferred_labels_present)}`
-- **Excluded Rare / Tissue Classes ({len(excluded_labels)})**: `{', '.join(excluded_labels)}`
+- **Primary Robust Classes ({len(primary_labels)})**: `{", ".join(primary_labels)}`
+- **Deferred Low-Support Classes ({len(deferred_labels_present)})**: `{", ".join(deferred_labels_present)}`
+- **Excluded Rare / Tissue Classes ({len(excluded_labels)})**: `{", ".join(excluded_labels)}`
 """
     (output_dir / "audit_summary.md").write_text(summary_md, encoding="utf-8")
-    console.print(f"[bold green]Audit completed successfully! All artifacts written to {output_dir}[/bold green]")
+    console.print(
+        f"[bold green]Audit completed successfully! All artifacts written to {output_dir}[/bold green]"
+    )
 
 
 if __name__ == "__main__":

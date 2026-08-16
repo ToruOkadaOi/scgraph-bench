@@ -10,19 +10,28 @@ install-dev:
 	$(UV) pip install -e ".[dev]"
 
 lint:
-	$(UV) run ruff check src tests
+	$(UV) run ruff check src tests scripts
 
 format:
-	$(UV) run ruff format src tests
-	$(UV) run ruff check --fix src tests
+	$(UV) run ruff format src tests scripts
+	$(UV) run ruff check --fix src tests scripts
 
 test:
 	$(UV) run pytest -v tests
 
 typecheck:
-	$(UV) run mypy src tests || true
+	$(UV) run mypy --explicit-package-bases src tests scripts
 
 check: lint typecheck test
+
+validate:
+	$(UV) run python scripts/validate_artifacts.py
+
+pipeline:
+	$(UV) run python scripts/run_pipeline.py
+
+reproduce:
+	$(UV) run python scripts/reproduce_pipeline.py
 
 clean:
 	rm -rf build/ dist/ *.egg-info .pytest_cache .ruff_cache .mypy_cache htmlcov .coverage

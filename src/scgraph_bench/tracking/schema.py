@@ -1,4 +1,4 @@
-"""Tidy benchmark results schema with run status, failure tracking, and graph lift."""
+"""Tidy benchmark results schema with run status, failure tracking, provenance, and graph lift."""
 
 from __future__ import annotations
 
@@ -8,6 +8,8 @@ from typing import Any
 
 import pandas as pd
 from pydantic import BaseModel, ConfigDict, Field
+
+from scgraph_bench.utils.hashing import hash_dict
 
 
 class RunStatus(StrEnum):
@@ -51,60 +53,122 @@ class LabelSupportTracking(BaseModel):
     )
 
 
+class RunManifest(BaseModel):
+    """Cryptographic provenance manifest for a trained model or baseline run."""
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    run_id: str
+    status: RunStatus = RunStatus.SUCCESS
+    model_name: str
+    model_config_hash: str
+    dataset_name: str
+    dataset_version: str = "2025-11-08"
+    split_id: str
+    split_hash: str = ""
+    feature_manifest_hash: str
+    preprocessing_config_hash: str = ""
+    graph_artifact_hash: str | None = None
+    label_mapping_hash: str
+    seed: int
+    device: str | dict[str, Any] = "cpu"
+    parameter_count: int | None = None
+    best_epoch: int | None = None
+    best_val_macro_f1: float | None = None
+    selected_params: dict[str, Any] | None = None
+    training_time_seconds: float = 0.0
+    failure_metadata: FailureMetadata | None = None
+    created_at_utc: str = Field(
+        default_factory=lambda: datetime.now(UTC).isoformat(),
+    )
+
+    def compute_manifest_hash(self) -> str:
+        """Compute SHA-256 hash of run manifest."""
+        return hash_dict(self.model_dump(mode="json"))
+
+
 class MetricRecord(BaseModel):
     """Individual atomic metric record adhering to the tidy benchmark schema.
 
-    Schema: dataset × split_id × seed × graph_name × graph_settings × model × metric
+    Schema: dataset × split_id × seed × graph_name × model × metric × partition × stratum
     """
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    dataset: str
+    run_id: str = ""
+    dataset_name: str
+    dataset_version: str = "2025-11-08"
     split_id: str
+    split_hash: str = ""
     seed: int
-    graph_name: str
-    graph_settings: dict[str, Any] = Field(default_factory=dict)
-    model: str
-    metric: str
-    value: float | None = None
+    graph_name: str = "none"
+    model_name: str
+    metric_name: str
+    metric_value: float | None = None
     partition: str = Field(
         default="test",
-        description="Target evaluation split partition (train, val, test).",
+        description="Evaluation split partition (train, val, test).",
     )
+    donor_id: str | None = None
+    site: str | None = None
+    class_label: str | None = None
+    observed_support: int | None = None
     status: RunStatus = RunStatus.SUCCESS
     failure_metadata: FailureMetadata | None = None
-    config_hash: str
-    artifact_hash: str | None = None
+    feature_manifest_hash: str = ""
+    preprocessing_config_hash: str = ""
+    graph_artifact_hash: str | None = None
+    label_mapping_hash: str = ""
+    model_config_hash: str = ""
+    runtime_seconds: float = 0.0
     timestamp: str = Field(
         default_factory=lambda: datetime.now(UTC).isoformat(),
     )
-    runtime_seconds: float = 0.0
 
 
 class GraphLiftRecord(BaseModel):
     """Explicit matched graph lift comparison record.
 
     graph_lift = macro_f1(GNN) - macro_f1(matched_MLP)
+    Enforces identical dataset, version, split, split_hash, seed, features, preprocessing, and label policy.
     """
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    dataset: str
+    dataset_name: str
+    dataset_version: str = "2025-11-08"
     split_id: str
+    split_hash: str = ""
     seed: int
     graph_name: str
-    gnm_model: str
-    matched_mlp_model: str
+    gnn_model_name: str
+    matched_mlp_model_name: str
     gnn_macro_f1: float
     matched_mlp_macro_f1: float
-    graph_lift: float
-    config_hash: str
+    overall_graph_lift: float
+    gnn_balanced_accuracy: float = 0.0
+    matched_mlp_balanced_accuracy: float = 0.0
+    balanced_accuracy_lift: float = 0.0
+    cambridge_gnn_f1: float | None = None
+    cambridge_mlp_f1: float | None = None
+    cambridge_lift: float | None = None
+    newcastle_gnn_f1: float | None = None
+    newcastle_mlp_f1: float | None = None
+    newcastle_lift: float | None = None
+    per_donor_lifts: dict[str, float] = Field(default_factory=dict)
+    per_class_lifts: dict[str, float] = Field(default_factory=dict)
+    feature_manifest_hash: str = ""
+    preprocessing_config_hash: str = ""
+    label_mapping_hash: str = ""
     is_valid_match: bool = True
     notes: str | None = None
+    timestamp: str = Field(
+        default_factory=lambda: datetime.now(UTC).isoformat(),
+    )
 
 
 class TidyResultsCollection(BaseModel):
-    """Collection of metric records with tabular export capability."""
+    """Collection of metric records and graph lift comparisons."""
 
     records: list[MetricRecord] = Field(default_factory=list)
     lifts: list[GraphLiftRecord] = Field(default_factory=list)
@@ -119,25 +183,13 @@ class TidyResultsCollection(BaseModel):
         """Convert metric records to a flat pandas DataFrame."""
         rows = []
         for r in self.records:
-            rows.append(
-                {
-                    "dataset": r.dataset,
-                    "split_id": r.split_id,
-                    "seed": r.seed,
-                    "graph_name": r.graph_name,
-                    "model": r.model,
-                    "metric": r.metric,
-                    "value": r.value,
-                    "partition": r.partition,
-                    "status": r.status.value,
-                    "error_type": r.failure_metadata.error_type if r.failure_metadata else None,
-                    "error_message": r.failure_metadata.error_message
-                    if r.failure_metadata
-                    else None,
-                    "config_hash": r.config_hash,
-                    "artifact_hash": r.artifact_hash,
-                    "runtime_seconds": r.runtime_seconds,
-                    "timestamp": r.timestamp,
-                }
-            )
+            d = r.model_dump()
+            d["error_type"] = r.failure_metadata.error_type if r.failure_metadata else None
+            d["error_message"] = r.failure_metadata.error_message if r.failure_metadata else None
+            rows.append(d)
+        return pd.DataFrame(rows)
+
+    def lifts_to_dataframe(self) -> pd.DataFrame:
+        """Convert graph lift records to a flat pandas DataFrame."""
+        rows = [lift_rec.model_dump() for lift_rec in self.lifts]
         return pd.DataFrame(rows)

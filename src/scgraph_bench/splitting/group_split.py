@@ -50,10 +50,10 @@ def create_site_stratified_donor_split(
 
     rng = np.random.default_rng(seed)
 
-    # Get donor-to-site mapping and per-donor cell counts
-    donor_df = adata.obs[[donor_key, site_key]].drop_duplicates().set_index(donor_key)
+    # Get unique donor-to-site mapping and per-donor cell counts
+    donor_site_series = adata.obs.groupby(donor_key, observed=True)[site_key].first()
     donor_cell_counts = adata.obs[donor_key].value_counts()
-    donor_df["cell_count"] = donor_cell_counts
+    donor_df = pd.DataFrame({site_key: donor_site_series, "cell_count": donor_cell_counts})
 
     sites = sorted(donor_df[site_key].unique().tolist())
     train_donors: list[str] = []

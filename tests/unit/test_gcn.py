@@ -1,0 +1,86 @@
+"""Unit tests for GCN model architecture, strict label isolation, and device placement."""
+
+import numpy as np
+import torch
+from torch_geometric.data import Data
+
+from scgraph_bench.models.gcn import GCNClassifier, GCNConfig, GCNNet
+
+
+def test_gcn_network_forward_pass_shapes():
+    """Verify that GCNNet produces correct logit tensor shapes [N, num_classes]."""
+    x = torch.randn(100, 50)
+    edge_index = torch.randint(0, 100, (2, 300), dtype=torch.long)
+    net = GCNNet(in_features=50, hidden_dim=64, num_classes=12, dropout=0.1)
+
+    out = net(x, edge_index)
+    assert out.shape == (100, 12)
+    assert not torch.isnan(out).any()
+
+
+def test_gcn_classifier_fit_predict_strict_label_isolation():
+    """Verify that GCNClassifier fits and predicts with strict label isolation on train_mask."""
+    n_tr, n_va, n_te = 60, 20, 20
+    n_tot = n_tr + n_va + n_te
+    n_classes = 4
+
+    x = torch.randn(n_tot, 50)
+    y_train = torch.randint(0, n_classes, (n_tr,))
+    y_val = np.random.randint(0, n_classes, n_va)
+    np.random.randint(0, n_classes, n_te)
+
+    train_mask = torch.zeros(n_tot, dtype=torch.bool)
+    val_mask = torch.zeros(n_tot, dtype=torch.bool)
+    test_mask = torch.zeros(n_tot, dtype=torch.bool)
+
+    train_mask[:n_tr] = True
+    val_mask[n_tr : n_tr + n_va] = True
+    test_mask[n_tr + n_va :] = True
+
+    # Build strict inductive edges: train-train and train-to-val/test
+    src_tr = torch.randint(0, n_tr, (100,))
+    dst_tr = torch.randint(0, n_tr, (100,))
+    src_val = torch.randint(0, n_tr, (50,))
+    dst_val = torch.randint(n_tr, n_tr + n_va, (50,))
+    src_te = torch.randint(0, n_tr, (50,))
+    dst_te = torch.randint(n_tr + n_va, n_tot, (50,))
+
+    edge_index = torch.stack(
+        [
+            torch.cat([src_tr, src_val, src_te]),
+            torch.cat([dst_tr, dst_val, dst_te]),
+        ]
+    )
+
+    y_full = torch.full((n_tot,), fill_value=-1, dtype=torch.long)
+    y_full[train_mask] = y_train
+
+    data = Data(
+        x=x,
+        edge_index=edge_index,
+        y=y_full,
+        train_mask=train_mask,
+        val_mask=val_mask,
+        test_mask=test_mask,
+    )
+
+    cfg = GCNConfig(
+        in_features=50,
+        hidden_dim=32,
+        num_classes=n_classes,
+        max_epochs=10,
+        patience=5,
+        seed=42,
+        device="cpu",
+    )
+    clf = GCNClassifier(cfg)
+    clf.fit(pyg_data=data, val_labels=y_val)
+
+    assert clf.best_epoch_ is not None and clf.best_epoch_ >= 1
+    assert clf.best_val_macro_f1_ is not None
+
+    tr_preds, va_preds, te_preds = clf.predict_all(data)
+    assert len(tr_preds) == n_tr
+    assert len(va_preds) == n_va
+    assert len(te_preds) == n_te
+    assert np.all(tr_preds >= 0) and np.all(tr_preds < n_classes)

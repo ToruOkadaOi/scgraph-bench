@@ -1,19 +1,23 @@
-"""Experiment tracking and tidy result structures."""
+"""Experiment tracking, tidy metric aggregation, provenance manifests, and matched graph lift."""
 
+from scgraph_bench.tracking.aggregator import ResultsAggregator
+from scgraph_bench.tracking.graph_lift import compute_matched_graph_lift
+from scgraph_bench.tracking.mlflow_tracker import LocalMLflowTracker
 from scgraph_bench.tracking.schema import (
-    FailureMetadata,
     GraphLiftRecord,
-    LabelSupportTracking,
     MetricRecord,
+    RunManifest,
     RunStatus,
     TidyResultsCollection,
 )
 
 __all__ = [
-    "RunStatus",
-    "FailureMetadata",
-    "LabelSupportTracking",
-    "MetricRecord",
     "GraphLiftRecord",
+    "LocalMLflowTracker",
+    "MetricRecord",
+    "ResultsAggregator",
+    "RunManifest",
+    "RunStatus",
     "TidyResultsCollection",
+    "compute_matched_graph_lift",
 ]

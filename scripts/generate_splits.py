@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-from pathlib import Path
-
 from rich.console import Console
 
 from scgraph_bench.config.dataset import DatasetConfig
@@ -23,15 +21,21 @@ def generate_stephenson_frozen_split(
     paths = ArtifactPaths.default()
     paths.ensure_directories()
 
-    ds_config = DatasetConfig.from_yaml(paths.configs_dir / "dataset" / "stephenson_healthy_pbmc.yaml")
+    ds_config = DatasetConfig.from_yaml(
+        paths.configs_dir / "dataset" / "stephenson_healthy_pbmc.yaml"
+    )
     sp_config = SplitConfig.from_yaml(paths.configs_dir / "split" / "site_stratified_default.yaml")
 
     console.print(f"[blue]Loading dataset:[/blue] {dataset_name} via production loader...")
     loader = get_dataset_loader(dataset_name)
     adata = loader.load(ds_config, primary_only=True)
-    console.print(f"[green]Dataset loaded:[/green] shape={adata.shape}, donors={adata.obs['donor_id'].nunique()}")
+    console.print(
+        f"[green]Dataset loaded:[/green] shape={adata.shape}, donors={adata.obs['donor_id'].nunique()}"
+    )
 
-    console.print(f"[blue]Generating site-stratified donor split:[/blue] {split_id} (seed={seed})...")
+    console.print(
+        f"[blue]Generating site-stratified donor split:[/blue] {split_id} (seed={seed})..."
+    )
     split_def = create_site_stratified_donor_split(
         adata=adata,
         donor_key=ds_config.donor_key,
@@ -47,9 +51,15 @@ def generate_stephenson_frozen_split(
     console.print(f"[bold green]Frozen split saved successfully to:[/bold green] {out_file}")
 
     console.print("\n[bold]Split Partition Summary:[/bold]")
-    console.print(f"  Train Donors ({len(split_def.train_donors)}): {', '.join(split_def.train_donors)} -> {len(split_def.train_cell_ids):,} cells")
-    console.print(f"  Val Donors   ({len(split_def.val_donors)}): {', '.join(split_def.val_donors)} -> {len(split_def.val_cell_ids):,} cells")
-    console.print(f"  Test Donors  ({len(split_def.test_donors)}): {', '.join(split_def.test_donors)} -> {len(split_def.test_cell_ids):,} cells")
+    console.print(
+        f"  Train Donors ({len(split_def.train_donors)}): {', '.join(split_def.train_donors)} -> {len(split_def.train_cell_ids):,} cells"
+    )
+    console.print(
+        f"  Val Donors   ({len(split_def.val_donors)}): {', '.join(split_def.val_donors)} -> {len(split_def.val_cell_ids):,} cells"
+    )
+    console.print(
+        f"  Test Donors  ({len(split_def.test_donors)}): {', '.join(split_def.test_donors)} -> {len(split_def.test_cell_ids):,} cells"
+    )
 
     console.print("\n[bold]Site Composition:[/bold]")
     console.print(f"  Train: {split_def.site_composition.get('train')}")

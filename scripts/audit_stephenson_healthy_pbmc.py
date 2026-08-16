@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import anndata as ad
@@ -32,7 +32,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
         console.print(f"[green]Loading cached AnnData from {h5ad_path}...[/green]")
         adata = ad.read_h5ad(h5ad_path)
     else:
-        console.print(f"[blue]Extracting healthy PBMC subset via CELLxGENE Census ({CENSUS_VERSION})...[/blue]")
+        console.print(
+            f"[blue]Extracting healthy PBMC subset via CELLxGENE Census ({CENSUS_VERSION})...[/blue]"
+        )
         with cellxgene_census.open_soma(census_version=CENSUS_VERSION) as census:
             adata = cellxgene_census.get_anndata(
                 census,
@@ -45,7 +47,7 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
         console.print(f"[blue]Saving local cache to {h5ad_path}...[/blue]")
         adata.write_h5ad(h5ad_path)
 
-    download_timestamp = datetime.now(timezone.utc).isoformat()
+    download_timestamp = datetime.now(UTC).isoformat()
     h5ad_size = h5ad_path.stat().st_size
 
     # Verify raw integer count properties
@@ -65,9 +67,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     adata_unperturbed = adata[mask_unperturbed].copy()
     n_cells_stage1 = adata_unperturbed.n_obs
     donors_stage1 = (
-        adata_unperturbed.obs["donor_id"].value_counts()[
-            adata_unperturbed.obs["donor_id"].value_counts() > 0
-        ].index.tolist()
+        adata_unperturbed.obs["donor_id"]
+        .value_counts()[adata_unperturbed.obs["donor_id"].value_counts() > 0]
+        .index.tolist()
     )
     n_donors_stage1 = len(donors_stage1)
 
@@ -82,9 +84,8 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
     # Stage 3: Quality Annotation Filter (drop non-specific or low-quality annotations)
     label_col = "cell_type"
-    mask_annotated = (
-        adata_donors.obs[label_col].notna()
-        & ~adata_donors.obs[label_col].isin(["unassigned", "unknown", "nan", "doublet"])
+    mask_annotated = adata_donors.obs[label_col].notna() & ~adata_donors.obs[label_col].isin(
+        ["unassigned", "unknown", "nan", "doublet"]
     )
     adata_annotated = adata_donors[mask_annotated].copy()
     n_cells_stage3 = adata_annotated.n_obs
@@ -107,15 +108,16 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     # Propose robust primary classes: present in >= 10 donors with >= 100 total cells
     primary_labels = class_donor_presence[class_donor_presence >= 10].index.tolist()
     # Remove sparse/ill-defined labels if any
-    primary_labels = [l for l in primary_labels if l != "Total"]
+    primary_labels = [lbl for lbl in primary_labels if lbl != "Total"]
 
     deferred_labels = class_donor_presence[
         (class_donor_presence >= 4) & (class_donor_presence < 10)
     ].index.tolist()
 
     excluded_labels = [
-        l for l in class_donor_table.index
-        if l not in primary_labels and l not in deferred_labels and l != "Total"
+        lbl
+        for lbl in class_donor_table.index
+        if lbl not in primary_labels and lbl not in deferred_labels and lbl != "Total"
     ]
 
     mask_primary = adata_annotated.obs[label_col].isin(primary_labels)
@@ -141,9 +143,13 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
     # Split assignment
     adata_primary.obs["split_partition"] = "unassigned"
-    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(train_donors), "split_partition"] = "train"
+    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(train_donors), "split_partition"] = (
+        "train"
+    )
     adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(val_donors), "split_partition"] = "val"
-    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(test_donors), "split_partition"] = "test"
+    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(test_donors), "split_partition"] = (
+        "test"
+    )
 
     split_support_table = pd.crosstab(
         adata_primary.obs[label_col],
@@ -153,7 +159,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     )[["train", "val", "test", "Total"]]
 
     # Assertion Checks
-    assert split_support_table.loc["Total", "Total"] == n_cells_stage4_primary, "Split total mismatch"
+    assert split_support_table.loc["Total", "Total"] == n_cells_stage4_primary, (
+        "Split total mismatch"
+    )
     assert donor_counts_primary.sum() == n_cells_stage4_primary, "Donor count sum mismatch"
     assert len(adata_primary.obs_names) == len(set(adata_primary.obs_names)), "Duplicate cell IDs"
     assert adata_primary.obs["donor_id"].isna().sum() == 0, "Missing donors"
@@ -242,7 +250,8 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
             "donor_id": all_donors,
             "cohort": ["Cambridge" if d.startswith("C-") else "Newcastle" for d in all_donors],
             "cells_unperturbed": [
-                adata_unperturbed.obs[adata_unperturbed.obs["donor_id"] == d].shape[0] for d in all_donors
+                adata_unperturbed.obs[adata_unperturbed.obs["donor_id"] == d].shape[0]
+                for d in all_donors
             ],
             "cells_primary_v0": [
                 adata_primary.obs[adata_primary.obs["donor_id"] == d].shape[0] for d in all_donors
@@ -296,9 +305,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 | **Sum of Stage 0 donor counts == healthy cell count** | {n_cells_stage0:,} | {n_cells_stage0:,} | **PASS** |
 | **Sum of Stage 1 donor counts == unperturbed cell count** | {n_cells_stage1:,} | {n_cells_stage1:,} | **PASS** |
 | **Sum of Stage 3 donor counts == Stage 3 cell count** | {n_cells_stage3:,} | {n_cells_stage3:,} | **PASS** |
-| **Sum of Primary donor counts == Primary cell count** | {n_cells_stage4_primary:,} | {donor_stage_df['cells_primary_v0'].sum():,} | **PASS** |
-| **Sum of Split partition counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc['Total', 'Total']:,} | **PASS** |
-| **Sum of Primary class counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc['Total', 'Total']:,} | **PASS** |
+| **Sum of Primary donor counts == Primary cell count** | {n_cells_stage4_primary:,} | {donor_stage_df["cells_primary_v0"].sum():,} | **PASS** |
+| **Sum of Split partition counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc["Total", "Total"]:,} | **PASS** |
+| **Sum of Primary class counts == Primary cell count** | {n_cells_stage4_primary:,} | {split_support_table.loc["Total", "Total"]:,} | **PASS** |
 | **Raw count matrix is sparse integer counts** | True | {is_integer_counts} | **PASS** |
 | **Retained Donors Count (>= 12 requirement)** | >= 12 | **{len(all_donors)} donors** | **PASS** |
 | **12:6:6 / 14:5:5 Donor Split Feasibility** | Feasible | **Feasible ({len(train_donors)} Train / {len(val_donors)} Val / {len(test_donors)} Test)** | **PASS** |
@@ -320,20 +329,22 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
 ## Donor Breakdown Across Proposed Split ({len(train_donors)} Train / {len(val_donors)} Val / {len(test_donors)} Test)
 
-- **Train Donors ({len(train_donors)})**: `{', '.join(train_donors)}` ({split_support_table.loc['Total', 'train']:,} cells)
-- **Validation Donors ({len(val_donors)})**: `{', '.join(val_donors)}` ({split_support_table.loc['Total', 'val']:,} cells)
-- **Test Donors ({len(test_donors)})**: `{', '.join(test_donors)}` ({split_support_table.loc['Total', 'test']:,} cells)
+- **Train Donors ({len(train_donors)})**: `{", ".join(train_donors)}` ({split_support_table.loc["Total", "train"]:,} cells)
+- **Validation Donors ({len(val_donors)})**: `{", ".join(val_donors)}` ({split_support_table.loc["Total", "val"]:,} cells)
+- **Test Donors ({len(test_donors)})**: `{", ".join(test_donors)}` ({split_support_table.loc["Total", "test"]:,} cells)
 
 ---
 
 ## Label Policy Summary
 
-- **Primary Robust Classes ({len(primary_labels)})**: `{', '.join(primary_labels)}`
-- **Deferred Low-Support Classes ({len(deferred_labels)})**: `{', '.join(deferred_labels)}`
-- **Excluded Sparse Classes ({len(excluded_labels)})**: `{', '.join(excluded_labels)}`
+- **Primary Robust Classes ({len(primary_labels)})**: `{", ".join(primary_labels)}`
+- **Deferred Low-Support Classes ({len(deferred_labels)})**: `{", ".join(deferred_labels)}`
+- **Excluded Sparse Classes ({len(excluded_labels)})**: `{", ".join(excluded_labels)}`
 """
     (output_dir / "audit_summary.md").write_text(summary_md, encoding="utf-8")
-    console.print(f"[bold green]Audit completed successfully! All artifacts written to {output_dir}[/bold green]")
+    console.print(
+        f"[bold green]Audit completed successfully! All artifacts written to {output_dir}[/bold green]"
+    )
 
 
 if __name__ == "__main__":

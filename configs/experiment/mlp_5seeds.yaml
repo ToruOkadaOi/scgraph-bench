@@ -1,0 +1,24 @@
+# Five-seed MLP benchmark comparison configuration
+dataset_name: stephenson_2021_healthy_pbmc
+split_id: site_stratified_seed42
+model_type: mlp
+seeds:
+  - 42
+  - 43
+  - 44
+  - 45
+  - 46
+mlp:
+  input_dim: 50
+  hidden_dims:
+    - 128
+    - 128
+  num_classes: 12
+  activation: relu
+  dropout: 0.3
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 256
+  max_epochs: 500
+  patience: 50
+  device: cpu
