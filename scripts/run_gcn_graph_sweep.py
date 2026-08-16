@@ -5,7 +5,8 @@ Evaluates 5 seeds (7, 17, 42, 73, 101) across 3 graph variants:
 - mutual_knn_reference_standard_query_k20_unweighted (mutual kNN reference graph)
 - bbknn_kperbatch2_donors12 (batch-balanced kNN)
 
-Consumes strictly precomputed immutable frozen artifacts (features, labels, graphs, and matched MLP baselines).
+Consumes strictly precomputed immutable frozen artifacts (features, labels, graphs).
+Supports --skip-lift to decouple GCN GPU training from offline lift aggregation.
 """
 
 from __future__ import annotations
@@ -50,6 +51,7 @@ def run_gcn_graph_sweep(
     device: str = "auto",
     max_epochs: int = 500,
     patience: int = 50,
+    skip_lift: bool = False,
 ) -> list[dict[str, float | str | int]]:
     """Execute the multi-seed GCN sweep over specified graph variants."""
     target_graphs = graphs if graphs is not None else DEFAULT_GRAPHS
@@ -112,28 +114,34 @@ def run_gcn_graph_sweep(
             set_seed(seed)
             run_tag = f"[{g_idx}/{len(target_graphs)} - {s_idx}/{len(target_seeds)}] {g_name} (Seed {seed})"
 
-            # 1. Load matched MLP baseline for comparative graph lift
-            mlp_res_dir = (
-                paths.artifacts_dir / "results" / dataset_name / split_id / f"mlp_seed{seed}"
-            )
-            if not (mlp_res_dir / "run_manifest.json").is_file():
-                mlp_res_dir = paths.artifacts_dir / "results" / dataset_name / split_id / "mlp"
+            # 1. Optionally load matched MLP baseline for comparative graph lift
+            mlp_manifest: RunManifest | None = None
+            mlp_test_summary: EvaluationSummary | None = None
 
-            if (
-                not (mlp_res_dir / "run_manifest.json").is_file()
-                or not (mlp_res_dir / "metrics_summary.json").is_file()
-            ):
-                raise FileNotFoundError(
-                    f"Matched MLP baseline missing for Seed={seed}! Run 'scripts/train_mlp.py --seed {seed}' first."
+            if not skip_lift:
+                mlp_res_dir = (
+                    paths.artifacts_dir / "results" / dataset_name / split_id / f"mlp_seed{seed}"
                 )
+                if not (mlp_res_dir / "run_manifest.json").is_file() and seed == 42:
+                    mlp_res_dir = paths.artifacts_dir / "results" / dataset_name / split_id / "mlp"
 
-            mlp_manifest = RunManifest.model_validate_json(
-                (mlp_res_dir / "run_manifest.json").read_text(encoding="utf-8")
-            )
-            mlp_metrics = json.loads(
-                (mlp_res_dir / "metrics_summary.json").read_text(encoding="utf-8")
-            )
-            mlp_test_summary = EvaluationSummary.model_validate(mlp_metrics["test"])
+                if (mlp_res_dir / "run_manifest.json").is_file() and (
+                    mlp_res_dir / "metrics_summary.json"
+                ).is_file():
+                    try:
+                        cand_manifest = RunManifest.model_validate_json(
+                            (mlp_res_dir / "run_manifest.json").read_text(encoding="utf-8")
+                        )
+                        if cand_manifest.seed == seed:
+                            mlp_manifest = cand_manifest
+                            mlp_metrics = json.loads(
+                                (mlp_res_dir / "metrics_summary.json").read_text(encoding="utf-8")
+                            )
+                            mlp_test_summary = EvaluationSummary.model_validate(mlp_metrics["test"])
+                    except Exception as err:
+                        console.print(
+                            f"[yellow]Note: Matched MLP baseline for seed {seed} could not be loaded ({err}). Skipping online lift.[/yellow]"
+                        )
 
             # 2. Fit GCN Classifier with identical hyperparameters
             cfg = GCNConfig(
@@ -239,21 +247,32 @@ def run_gcn_graph_sweep(
                 artifacts={"confusion_matrix_test.csv": out_dir / "confusion_matrix_test.csv"},
             )
 
-            # 7. Compute Matched Graph Lift
-            lift_record = compute_matched_graph_lift(
-                gnn_summary=test_summary,
-                mlp_summary=mlp_test_summary,
-                gnn_manifest=run_manifest,
-                mlp_manifest=mlp_manifest,
-                graph_name=g_name,
-            )
+            # 7. Compute Matched Graph Lift if available
+            lift_str = "N/A"
+            lift_val: float | None = None
+            mlp_f1_str = "N/A"
 
-            res_entry = {
+            if mlp_test_summary is not None and mlp_manifest is not None:
+                try:
+                    lift_record = compute_matched_graph_lift(
+                        gnn_summary=test_summary,
+                        mlp_summary=mlp_test_summary,
+                        gnn_manifest=run_manifest,
+                        mlp_manifest=mlp_manifest,
+                        graph_name=g_name,
+                    )
+                    lift_val = lift_record.overall_graph_lift
+                    lift_str = f"{lift_val:+.4f}"
+                    mlp_f1_str = f"{mlp_test_summary.macro_f1:.4f}"
+                except Exception as err:
+                    console.print(f"[yellow]Lift calculation skipped: {err}[/yellow]")
+
+            res_entry: dict[str, float | str | int] = {
                 "graph_name": g_name,
                 "seed": seed,
                 "test_macro_f1": test_summary.macro_f1,
-                "mlp_macro_f1": mlp_test_summary.macro_f1,
-                "matched_graph_lift": lift_record.overall_graph_lift,
+                "mlp_macro_f1": mlp_test_summary.macro_f1 if mlp_test_summary else "N/A",
+                "matched_graph_lift": lift_val if lift_val is not None else "N/A",
                 "test_balanced_acc": test_summary.balanced_accuracy,
                 "best_epoch": clf.best_epoch_,
                 "runtime_seconds": clf.training_time_seconds_,
@@ -261,8 +280,13 @@ def run_gcn_graph_sweep(
             sweep_results.append(res_entry)
 
             # One-line summary
+            lift_display = (
+                f" | MLP Ref: [bold magenta]{mlp_f1_str}[/bold magenta] | Matched Lift: [bold yellow]{lift_str}[/bold yellow]"
+                if lift_val is not None
+                else ""
+            )
             console.print(
-                f"[bold green]✔ {run_tag}[/bold green] -> Test Macro-F1: [bold cyan]{test_summary.macro_f1:.4f}[/bold cyan] | MLP Ref: [bold magenta]{mlp_test_summary.macro_f1:.4f}[/bold magenta] | Matched Graph Lift: [bold yellow]{lift_record.overall_graph_lift:+.4f}[/bold yellow] ({clf.training_time_seconds_:.1f}s, epoch {clf.best_epoch_})"
+                f"[bold green]✔ {run_tag}[/bold green] -> Test Macro-F1: [bold cyan]{test_summary.macro_f1:.4f}[/bold cyan] | Test BalAcc: [bold blue]{test_summary.balanced_accuracy:.4f}[/bold blue]{lift_display} ({clf.training_time_seconds_:.1f}s, epoch {clf.best_epoch_})"
             )
 
     # Summary Table across entire sweep
@@ -278,12 +302,22 @@ def run_gcn_graph_sweep(
     table.add_column("Runtime (s)", style="green")
 
     for r in sweep_results:
+        f1_mlp = (
+            f"{r['mlp_macro_f1']:.4f}"
+            if isinstance(r["mlp_macro_f1"], float)
+            else str(r["mlp_macro_f1"])
+        )
+        f1_lift = (
+            f"{r['matched_graph_lift']:+.4f}"
+            if isinstance(r["matched_graph_lift"], float)
+            else str(r["matched_graph_lift"])
+        )
         table.add_row(
             str(r["graph_name"]),
             str(r["seed"]),
             f"{float(r['test_macro_f1']):.4f}",
-            f"{float(r['mlp_macro_f1']):.4f}",
-            f"[bold]{float(r['matched_graph_lift']):+.4f}[/bold]",
+            f1_mlp,
+            f"[bold]{f1_lift}[/bold]",
             f"{float(r['test_balanced_acc']):.4f}",
             str(r["best_epoch"]),
             f"{float(r['runtime_seconds']):.1f}s",
@@ -317,6 +351,12 @@ if __name__ == "__main__":
     )
     parser.add_argument("--epochs", type=int, default=500)
     parser.add_argument("--patience", type=int, default=50)
+    parser.add_argument(
+        "--skip-lift",
+        action="store_true",
+        default=False,
+        help="Skip online matched graph lift computation and complete all GCN training runs.",
+    )
     args = parser.parse_args()
 
     run_gcn_graph_sweep(
@@ -327,4 +367,5 @@ if __name__ == "__main__":
         device=args.device,
         max_epochs=args.epochs,
         patience=args.patience,
+        skip_lift=args.skip_lift,
     )

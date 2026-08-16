@@ -115,3 +115,44 @@ def test_run_gcn_graph_sweep_smoke():
         assert results[0]["seed"] == 42
         assert "test_macro_f1" in results[0]
         assert "matched_graph_lift" in results[0]
+
+
+def test_run_gcn_graph_sweep_skip_lift():
+    """Verify run_gcn_graph_sweep with skip_lift=True completes without requiring matched MLP baselines."""
+    from scripts.run_gcn_graph_sweep import run_gcn_graph_sweep
+
+    from scgraph_bench.utils.paths import ArtifactPaths
+
+    paths = ArtifactPaths.default()
+    prep_dir = (
+        paths.artifacts_dir
+        / "preprocessed"
+        / "stephenson_2021_healthy_pbmc"
+        / "site_stratified_seed42"
+    )
+
+    if (prep_dir / "feature_manifest.json").is_file():
+        results = run_gcn_graph_sweep(
+            dataset_name="stephenson_2021_healthy_pbmc",
+            split_id="site_stratified_seed42",
+            graphs=["pca_knn_k24_unweighted"],
+            seeds=[999],  # non-existent seed baseline
+            device="cpu",
+            max_epochs=1,
+            patience=1,
+            skip_lift=True,
+        )
+        assert len(results) == 1
+        assert results[0]["seed"] == 999
+        assert results[0]["matched_graph_lift"] == "N/A"
+
+
+def test_compute_offline_graph_lift():
+    """Verify compute_offline_graph_lift scans and aggregates result directories."""
+    from scripts.compute_graph_lift_offline import compute_offline_graph_lift
+
+    df = compute_offline_graph_lift(
+        dataset_name="stephenson_2021_healthy_pbmc",
+        split_id="site_stratified_seed42",
+    )
+    assert df is not None
