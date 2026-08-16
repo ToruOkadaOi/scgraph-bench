@@ -2,6 +2,11 @@
 
 from scgraph_bench.models.base import BaseClassifier
 from scgraph_bench.models.gcn import GCNClassifier, GCNConfig, GCNNet
+from scgraph_bench.models.graphsage import (
+    GraphSAGEClassifier,
+    GraphSAGEConfig,
+    GraphSAGENet,
+)
 from scgraph_bench.models.logistic_regression import (
     LogisticRegressionBaseline,
     LogisticRegressionConfig,
@@ -13,6 +18,9 @@ __all__ = [
     "GCNClassifier",
     "GCNConfig",
     "GCNNet",
+    "GraphSAGEClassifier",
+    "GraphSAGEConfig",
+    "GraphSAGENet",
     "LogisticRegressionBaseline",
     "LogisticRegressionConfig",
     "MLPBaseline",

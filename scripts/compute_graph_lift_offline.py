@@ -1,6 +1,6 @@
 """Offline Matched Graph Lift Aggregator.
 
-Scans artifacts/results/<dataset>/<split>/ for all GNN and MLP runs,
+Scans artifacts/results/<dataset>/<split>/ for all GNN runs (GCN, GraphSAGE) and MLP baselines,
 performs cryptographic and seed-matched alignment, computes overall & stratified graph lifts,
 and exports comprehensive summary tables.
 """
@@ -59,10 +59,12 @@ def compute_offline_graph_lift(
     if not mlp_runs:
         console.print("[bold yellow]Warning: No MLP baselines found on disk.[/bold yellow]")
 
-    # 2. Discover all GCN runs
-    gnn_runs: list[tuple[str, int, Path, RunManifest, EvaluationSummary]] = []
+    # 2. Discover all GNN runs (GCN, GraphSAGE)
+    gnn_runs: list[tuple[str, str, int, Path, RunManifest, EvaluationSummary]] = []
     for d in sorted(res_root.iterdir()):
-        if not d.is_dir() or not d.name.startswith("gcn_"):
+        if not d.is_dir():
+            continue
+        if not (d.name.startswith("gcn_") or d.name.startswith("graphsage_")):
             continue
 
         m_file = d / "run_manifest.json"
@@ -76,22 +78,25 @@ def compute_offline_graph_lift(
             if "test" in metrics:
                 summary = EvaluationSummary.model_validate(metrics["test"])
 
-                # Extract graph name from run directory or manifest
-                match = re.match(r"gcn_(.+)_seed(\d+)", d.name)
+                # Extract model and graph name from run directory or manifest
+                model_name = manifest.model_name or (
+                    "graphsage" if d.name.startswith("graphsage_") else "gcn"
+                )
+                match = re.match(r"(?:gcn|graphsage)_(.+)_seed(\d+)", d.name)
                 graph_name = (
                     match.group(1) if match else (manifest.graph_artifact_hash or "unknown")
                 )
-                gnn_runs.append((graph_name, manifest.seed, d, manifest, summary))
+                gnn_runs.append((model_name, graph_name, manifest.seed, d, manifest, summary))
         except Exception as err:
             console.print(f"[yellow]Skipping {d.name}: {err}[/yellow]")
 
     console.print(
-        f"\n[bold green]Found {len(gnn_runs)} GCN runs across {len({r[0] for r in gnn_runs})} graph variants.[/bold green]\n"
+        f"\n[bold green]Found {len(gnn_runs)} GNN runs across {len({(r[0], r[1]) for r in gnn_runs})} model/graph conditions.[/bold green]\n"
     )
 
     # 3. Compute Matched Graph Lift for each GNN run
     records = []
-    for graph_name, seed, run_dir, gnn_manifest, gnn_summary in gnn_runs:
+    for model_name, graph_name, seed, run_dir, gnn_manifest, gnn_summary in gnn_runs:
         mlp_match = mlp_runs.get(seed)
 
         lift_overall = None
@@ -130,9 +135,9 @@ def compute_offline_graph_lift(
 
         records.append(
             {
+                "model_name": model_name,
                 "graph_name": graph_name,
                 "seed": seed,
-                "model_name": "gcn",
                 "match_status": match_status,
                 "gnn_test_macro_f1": gnn_summary.macro_f1,
                 "mlp_test_macro_f1": mlp_macro_f1,
@@ -152,56 +157,70 @@ def compute_offline_graph_lift(
 
     # 4. Display Formatted Summary Table
     table = Table(title=f"Offline Matched Graph Lift Summary ({dataset_name} - {split_id})")
+    table.add_column("Model", style="bold cyan")
     table.add_column("Graph Variant", style="cyan")
     table.add_column("Seed", style="yellow")
-    table.add_column("GCN Test F1", style="green")
+    table.add_column("GNN Test F1", style="green")
     table.add_column("MLP Ref F1", style="magenta")
-    table.add_column("Matched Lift (Δ)", style="yellow")
-    table.add_column("GCN BalAcc", style="blue")
-    table.add_column("Best Epoch", style="cyan")
-    table.add_column("Match Status", style="green")
+    table.add_column("Matched Lift (Δ)", style="bold yellow")
+    table.add_column("GNN BalAcc", style="blue")
+    table.add_column("Camb F1", style="cyan")
+    table.add_column("Newc F1", style="cyan")
+    table.add_column("Best Epoch", style="green")
+    table.add_column("Match Status", style="yellow")
 
     for _, row in df_results.iterrows():
         lift_str = (
             f"{row['matched_graph_lift']:+.4f}" if pd.notna(row["matched_graph_lift"]) else "N/A"
         )
         mlp_str = f"{row['mlp_test_macro_f1']:.4f}" if pd.notna(row["mlp_test_macro_f1"]) else "N/A"
+        camb_str = f"{row['cambridge_obs_f1']:.4f}" if pd.notna(row["cambridge_obs_f1"]) else "N/A"
+        newc_str = f"{row['newcastle_obs_f1']:.4f}" if pd.notna(row["newcastle_obs_f1"]) else "N/A"
         table.add_row(
+            str(row["model_name"]).upper(),
             str(row["graph_name"]),
             str(row["seed"]),
             f"{row['gnn_test_macro_f1']:.4f}",
             mlp_str,
             f"[bold]{lift_str}[/bold]",
             f"{row['gnn_test_balacc']:.4f}",
+            camb_str,
+            newc_str,
             str(row["best_epoch"]),
             str(row["match_status"]),
         )
     console.print(table)
 
-    # 5. Compute mean and standard deviation per graph variant if multiple seeds exist
+    # 5. Compute mean and standard deviation per model & graph variant
     if not df_results.empty and "matched_graph_lift" in df_results.columns:
         matched_df = df_results[df_results["matched_graph_lift"].notna()]
         if not matched_df.empty:
-            agg_table = Table(title="Aggregated Graph Lift by Graph Topology (Mean ± Std)")
+            agg_table = Table(title="Aggregated Model Benchmark (Mean ± Std across Seeds)")
+            agg_table.add_column("Model", style="bold cyan")
             agg_table.add_column("Graph Variant", style="cyan")
             agg_table.add_column("N Seeds", style="yellow")
-            agg_table.add_column("GCN Test Macro-F1", style="green")
+            agg_table.add_column("GNN Test Macro-F1", style="green")
+            agg_table.add_column("Matched MLP Macro-F1", style="magenta")
             agg_table.add_column("Matched Graph Lift (Δ)", style="bold yellow")
-            agg_table.add_column("GCN Balanced Acc", style="blue")
+            agg_table.add_column("GNN Balanced Acc", style="blue")
 
-            for g_name, grp in matched_df.groupby("graph_name"):
+            for (m_name, g_name), grp in matched_df.groupby(["model_name", "graph_name"]):
                 n_s = len(grp)
-                gcn_f1_mean = grp["gnn_test_macro_f1"].mean()
-                gcn_f1_std = grp["gnn_test_macro_f1"].std() if n_s > 1 else 0.0
+                gnn_f1_mean = grp["gnn_test_macro_f1"].mean()
+                gnn_f1_std = grp["gnn_test_macro_f1"].std() if n_s > 1 else 0.0
+                mlp_f1_mean = grp["mlp_test_macro_f1"].mean()
+                mlp_f1_std = grp["mlp_test_macro_f1"].std() if n_s > 1 else 0.0
                 lift_mean = grp["matched_graph_lift"].mean()
                 lift_std = grp["matched_graph_lift"].std() if n_s > 1 else 0.0
                 balacc_mean = grp["gnn_test_balacc"].mean()
                 balacc_std = grp["gnn_test_balacc"].std() if n_s > 1 else 0.0
 
                 agg_table.add_row(
+                    str(m_name).upper(),
                     str(g_name),
                     str(n_s),
-                    f"{gcn_f1_mean:.4f} ± {gcn_f1_std:.4f}",
+                    f"{gnn_f1_mean:.4f} ± {gnn_f1_std:.4f}",
+                    f"{mlp_f1_mean:.4f} ± {mlp_f1_std:.4f}",
                     f"[bold]{lift_mean:+.4f} ± {lift_std:.4f}[/bold]",
                     f"{balacc_mean:.4f} ± {balacc_std:.4f}",
                 )
