@@ -84,3 +84,34 @@ def test_gcn_classifier_fit_predict_strict_label_isolation():
     assert len(va_preds) == n_va
     assert len(te_preds) == n_te
     assert np.all(tr_preds >= 0) and np.all(tr_preds < n_classes)
+
+
+def test_run_gcn_graph_sweep_smoke():
+    """Smoke test: verify run_gcn_graph_sweep executes on precomputed artifacts on CPU."""
+    from scripts.run_gcn_graph_sweep import run_gcn_graph_sweep
+
+    from scgraph_bench.utils.paths import ArtifactPaths
+
+    paths = ArtifactPaths.default()
+    prep_dir = (
+        paths.artifacts_dir
+        / "preprocessed"
+        / "stephenson_2021_healthy_pbmc"
+        / "site_stratified_seed42"
+    )
+
+    if (prep_dir / "feature_manifest.json").is_file():
+        results = run_gcn_graph_sweep(
+            dataset_name="stephenson_2021_healthy_pbmc",
+            split_id="site_stratified_seed42",
+            graphs=["pca_knn_k24_unweighted"],
+            seeds=[42],
+            device="cpu",
+            max_epochs=1,
+            patience=1,
+        )
+        assert len(results) == 1
+        assert results[0]["graph_name"] == "pca_knn_k24_unweighted"
+        assert results[0]["seed"] == 42
+        assert "test_macro_f1" in results[0]
+        assert "matched_graph_lift" in results[0]
