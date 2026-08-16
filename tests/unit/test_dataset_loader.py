@@ -1,6 +1,10 @@
 """Unit tests for dataset loaders and schema validation."""
 
+import anndata as ad
+import numpy as np
+import pandas as pd
 import pytest
+from scipy import sparse
 
 from scgraph_bench.config.dataset import DatasetConfig
 from scgraph_bench.data.loaders import (
@@ -55,11 +59,70 @@ def test_schema_validation_catches_missing_columns(synthetic_adata):
         validate_anndata_schema(synthetic_adata, config)
 
 
-def test_stephenson_loader_dev_subsampling():
-    """Verify development subsample produces deterministic reduced dataset."""
-    loader = StephensonHealthyPBMCLoader()
-    # Test dev subsampling with 50 cells per donor
-    adata = loader.load(dev_subsample_per_donor=50, seed=42)
-    assert adata.n_obs == 23 * 50  # 23 donors * 50 cells
-    assert (adata.obs["donor_id"].value_counts() == 50).all()
-    assert adata.obs["cell_type"].isin(PRIMARY_V0_LABELS_STEPHENSON).all()
+def test_stephenson_loader_dev_subsampling(tmp_path):
+    """Verify development subsample produces deterministic reduced dataset on cached Stephenson fixture."""
+    # 1. Create a synthetic AnnData matching Stephenson 23-donor structure
+    manifest_path = tmp_path / "stephenson_manifest.csv"
+    donors_cambridge = [f"CAM_{i:02d}" for i in range(12)]
+    donors_newcastle = [f"NCL_{i:02d}" for i in range(11)]
+    all_donors = donors_cambridge + donors_newcastle
+
+    manifest_df = pd.DataFrame(
+        {
+            "donor_id": all_donors,
+            "site": ["Cambridge"] * 12 + ["Newcastle"] * 11,
+            "inclusion_status": ["included"] * 23,
+        }
+    )
+    manifest_df.to_csv(manifest_path, index=False)
+
+    # 2. Build mock cache .h5ad with 100 cells per donor across primary labels
+    cells_per_donor = 100
+    n_cells = len(all_donors) * cells_per_donor
+    cell_ids = [f"cell_{i:05d}" for i in range(n_cells)]
+    cell_donors = [d for d in all_donors for _ in range(cells_per_donor)]
+    rng = np.random.default_rng(42)
+    cell_labels = rng.choice(PRIMARY_V0_LABELS_STEPHENSON, size=n_cells)
+
+    mock_x = sparse.csr_matrix(rng.poisson(lam=2.0, size=(n_cells, 50)).astype(np.float32))
+    mock_obs = pd.DataFrame(
+        {
+            "donor_id": cell_donors,
+            "cell_type": cell_labels,
+        },
+        index=cell_ids,
+    )
+    mock_var = pd.DataFrame(
+        {"feature_id": [f"ENSG{j:08d}" for j in range(50)]},
+        index=[f"ENSG{j:08d}" for j in range(50)],
+    )
+    mock_adata = ad.AnnData(X=mock_x, obs=mock_obs, var=mock_var)
+
+    cache_dir = tmp_path / "cache"
+    cache_dir.mkdir()
+    cache_file = cache_dir / "stephenson_2021_healthy_pbmc.h5ad"
+    mock_adata.write_h5ad(cache_file)
+
+    # 3. Test loader with subsampling
+    loader = StephensonHealthyPBMCLoader(cache_dir=cache_dir, manifest_path=manifest_path)
+    adata_sub = loader.load(dev_subsample_per_donor=50, seed=42)
+
+    assert adata_sub.n_obs == 23 * 50  # 23 donors * 50 cells = 1150
+    assert (adata_sub.obs["donor_id"].value_counts() == 50).all()
+    assert adata_sub.obs["cell_type"].isin(PRIMARY_V0_LABELS_STEPHENSON).all()
+    assert "site" in adata_sub.obs.columns
+
+
+def test_stephenson_loader_missing_census_error(tmp_path, monkeypatch):
+    """Verify that missing cache triggers clear RuntimeError if cellxgene_census is unavailable."""
+    import sys
+
+    # Simulate cellxgene_census missing from sys.modules
+    monkeypatch.setitem(sys.modules, "cellxgene_census", None)
+
+    empty_cache = tmp_path / "empty_cache"
+    empty_cache.mkdir()
+    loader = StephensonHealthyPBMCLoader(cache_dir=empty_cache)
+
+    with pytest.raises(RuntimeError, match="cellxgene_census is required"):
+        loader.load()

@@ -76,7 +76,13 @@ class StephensonHealthyPBMCLoader(BaseDatasetLoader):
             adata = ad.read_h5ad(cache_file)
         else:
             logger.info("Local cache not found. Extracting via cellxgene_census...")
-            import cellxgene_census
+            try:
+                import cellxgene_census
+            except ImportError as err:
+                raise RuntimeError(
+                    f"cellxgene_census is required to extract the Stephenson dataset from Census to {cache_file}. "
+                    "Please install it via `pip install cellxgene-census` or place the pre-cached .h5ad in cache_dir."
+                ) from err
 
             with cellxgene_census.open_soma(census_version="2025-11-08") as census:
                 adata = cellxgene_census.get_anndata(

@@ -51,15 +51,9 @@ def validate_device_argument(requested_device: str) -> None:
 
 def perform_cuda_hardware_check() -> torch.device:
     """Strictly verify NVIDIA CUDA GPU hardware presence when execution is confirmed."""
-    console.print(
-        "[bold cyan]====================================================================[/bold cyan]"
-    )
-    console.print(
-        "[bold cyan]               CUDA Hardware Preflight Verification                 [/bold cyan]"
-    )
-    console.print(
-        "[bold cyan]====================================================================[/bold cyan]\n"
-    )
+    console.print("[bold cyan]====================================================================[/bold cyan]")
+    console.print("[bold cyan]               CUDA Hardware Preflight Verification                 [/bold cyan]")
+    console.print("[bold cyan]====================================================================[/bold cyan]\n")
 
     cuda_available = torch.cuda.is_available()
     cuda_version = torch.version.cuda
@@ -76,16 +70,10 @@ def perform_cuda_hardware_check() -> torch.device:
 
     if not cuda_available:
         telemetry_table.add_row("torch.cuda.get_device_name(0)", "N/A (No CUDA-capable GPU)")
-        telemetry_table.add_row(
-            "torch.cuda.get_device_properties(0).total_memory", "N/A (No CUDA-capable GPU)"
-        )
-        telemetry_table.add_row(
-            "CUDA Status", "[bold red]Unavailable (No CUDA-capable GPU detected)[/bold red]"
-        )
+        telemetry_table.add_row("torch.cuda.get_device_properties(0).total_memory", "N/A (No CUDA-capable GPU)")
+        telemetry_table.add_row("CUDA Status", "[bold red]Unavailable (No CUDA-capable GPU detected)[/bold red]")
         console.print(telemetry_table)
-        console.print(
-            "\n[bold red]ERROR: CUDA GPU unavailable. Refusing to run GPU pilot on CPU.[/bold red]\n"
-        )
+        console.print("\n[bold red]ERROR: CUDA GPU unavailable. Refusing to run GPU pilot on CPU.[/bold red]\n")
         console.print(
             "[yellow]To run this pilot, move the repository to an NVIDIA GPU cluster/instance (e.g. Vast.ai) with CUDA enabled.[/yellow]\n"
         )
@@ -105,43 +93,29 @@ def perform_cuda_hardware_check() -> torch.device:
     telemetry_table.add_row("CUDA Multiprocessor Count", str(multi_proc_count))
     telemetry_table.add_row("Selected Device", f"cuda:0 ({dev_name})")
     console.print(telemetry_table)
-    console.print(
-        "\n[bold green]CUDA preflight check PASSED: NVIDIA GPU detected and ready.[/bold green]\n"
-    )
+    console.print("\n[bold green]CUDA preflight check PASSED: NVIDIA GPU detected and ready.[/bold green]\n")
     return torch.device("cuda:0")
 
 
 def print_dry_run_plan(dataset_name: str, split_id: str, seed: int) -> None:
     """Display the dry-run execution plan sourced from read-only versioned manifests."""
     paths = ArtifactPaths.default()
-    console.print(
-        "[bold yellow]====================================================================[/bold yellow]"
-    )
-    console.print(
-        "[bold yellow]            DRY-RUN PILOT PLAN ONLY (No Training Executed)          [/bold yellow]"
-    )
-    console.print(
-        "[bold yellow]====================================================================[/bold yellow]\n"
-    )
+    console.print("[bold yellow]====================================================================[/bold yellow]")
+    console.print("[bold yellow]            DRY-RUN PILOT PLAN ONLY (No Training Executed)          [/bold yellow]")
+    console.print("[bold yellow]====================================================================[/bold yellow]\n")
 
     # Read edge count metadata from frozen graph manifests (read-only)
     g1_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id / "pca_knn_k20_unweighted"
-    g2_dir = (
-        paths.artifacts_dir / "graphs" / dataset_name / split_id / "rewired_control_pca_knn_seed42"
-    )
+    g2_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id / "rewired_control_pca_knn_seed42"
 
     g1_edges = "unknown"
     g2_edges = "unknown"
     if (g1_dir / "graph_manifest.json").is_file():
-        m1 = GraphManifest.model_validate_json(
-            (g1_dir / "graph_manifest.json").read_text(encoding="utf-8")
-        )
+        m1 = GraphManifest.model_validate_json((g1_dir / "graph_manifest.json").read_text(encoding="utf-8"))
         g1_edges = f"{m1.num_edges:,}"
 
     if (g2_dir / "graph_manifest.json").is_file():
-        m2 = GraphManifest.model_validate_json(
-            (g2_dir / "graph_manifest.json").read_text(encoding="utf-8")
-        )
+        m2 = GraphManifest.model_validate_json((g2_dir / "graph_manifest.json").read_text(encoding="utf-8"))
         g2_edges = f"{m2.num_edges:,}"
 
     # Read baseline performance from versioned MLP metrics summary (read-only)
@@ -152,22 +126,16 @@ def print_dry_run_plan(dataset_name: str, split_id: str, seed: int) -> None:
         if "test" in mlp_metrics and "macro_f1" in mlp_metrics["test"]:
             mlp_f1_str = f"{mlp_metrics['test']['macro_f1']:.4f}"
 
-    plan_table = Table(
-        title="Planned Pilot Experiment Configuration (Sourced from Frozen Manifests)"
-    )
+    plan_table = Table(title="Planned Pilot Experiment Configuration (Sourced from Frozen Manifests)")
     plan_table.add_column("Parameter", style="cyan")
     plan_table.add_column("Planned Value", style="green")
 
     plan_table.add_row("Dataset", dataset_name)
     plan_table.add_row("Split ID", split_id)
     plan_table.add_row("Random Seed", str(seed))
-    plan_table.add_row(
-        "Model Architecture", "2-layer GCN (GCNConv: 50 -> 128 -> 12, BN, ReLU, Dropout 0.2)"
-    )
+    plan_table.add_row("Model Architecture", "2-layer GCN (GCNConv: 50 -> 128 -> 12, BN, ReLU, Dropout 0.2)")
     plan_table.add_row("Condition 1 (Graph)", f"pca_knn_k20_unweighted ({g1_edges} edges)")
-    plan_table.add_row(
-        "Condition 2 (Control)", f"rewired_control_pca_knn_seed42 ({g2_edges} edges)"
-    )
+    plan_table.add_row("Condition 2 (Control)", f"rewired_control_pca_knn_seed42 ({g2_edges} edges)")
     plan_table.add_row("Matched Baseline", f"MLP Baseline Seed 42 (Test Macro-F1: {mlp_f1_str})")
     plan_table.add_row("Early Stopping", "Validation Macro-F1 (patience 50, max epochs 500)")
     plan_table.add_row("Execution Device Target", "NVIDIA CUDA GPU")
@@ -181,36 +149,17 @@ def print_dry_run_plan(dataset_name: str, split_id: str, seed: int) -> None:
     )
 
 
-def run_gpu_pilot(
-    dataset_name: str = "stephenson_2021_healthy_pbmc",
-    split_id: str = "site_stratified_seed42",
-    seed: int = 42,
-    device: str = "cuda",
-    confirm_paid_gpu_run: bool = False,
+def execute_pilot(
+    dataset_name: str,
+    split_id: str,
+    seed: int,
+    target_device: torch.device,
 ) -> None:
-    set_seed(seed)
+    """Execute confirmed GCN pilot runs on real CUDA hardware."""
     paths = ArtifactPaths.default()
-
-    # Step 1: Strictly validate --device == 'cuda'
-    validate_device_argument(requested_device=device)
-
-    # Step 2: If --confirm-paid-gpu-run is absent, display dry run and exit 0 without requiring CUDA hardware
-    if not confirm_paid_gpu_run:
-        print_dry_run_plan(dataset_name=dataset_name, split_id=split_id, seed=seed)
-        return
-
-    # Step 3: Only when confirmation is present, strictly enforce CUDA GPU hardware presence
-    target_device = perform_cuda_hardware_check()
-
-    console.print(
-        "[bold cyan]====================================================================[/bold cyan]"
-    )
-    console.print(
-        f"[bold cyan]  Executing Confirmed GNN GPU Pilot Benchmark (Seed={seed}, Device={target_device})  [/bold cyan]"
-    )
-    console.print(
-        "[bold cyan]====================================================================[/bold cyan]\n"
-    )
+    console.print("[bold cyan]====================================================================[/bold cyan]")
+    console.print(f"[bold cyan]  Executing Confirmed GNN GPU Pilot Benchmark (Seed={seed}, Device={target_device})  [/bold cyan]")
+    console.print("[bold cyan]====================================================================[/bold cyan]\n")
 
     prep_dir = paths.artifacts_dir / "preprocessed" / dataset_name / split_id
     prep_bundle = PreprocessedBundle.load(prep_dir)
@@ -219,23 +168,13 @@ def run_gpu_pilot(
     adata = loader.load()
     obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
 
-    train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-        "donor_id"
-    ].tolist()
-    val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-        "donor_id"
-    ].tolist()
-    test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-        "donor_id"
-    ].tolist()
+    train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]]["donor_id"].tolist()
+    val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]]["donor_id"].tolist()
+    test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]]["donor_id"].tolist()
 
-    train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-        "site"
-    ].tolist()
+    train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]]["site"].tolist()
     val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]]["site"].tolist()
-    test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-        "site"
-    ].tolist()
+    test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]]["site"].tolist()
 
     inv_label_map = {v: k for k, v in prep_bundle.label_to_id.items()}
     label_names = [inv_label_map[i] for i in range(len(prep_bundle.label_to_id))]
@@ -277,13 +216,9 @@ def run_gpu_pilot(
     pilot_lifts = []
 
     for desc, g_name in pilot_graphs:
-        console.print(
-            "[bold cyan]--------------------------------------------------------------------[/bold cyan]"
-        )
+        console.print("[bold cyan]--------------------------------------------------------------------[/bold cyan]")
         console.print(f"[bold cyan]  Training GCN on Graph: {desc} ({g_name})[/bold cyan]")
-        console.print(
-            "[bold cyan]--------------------------------------------------------------------[/bold cyan]"
-        )
+        console.print("[bold cyan]--------------------------------------------------------------------[/bold cyan]")
 
         g_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id / g_name
         graph_bundle = GraphBundle.load(g_dir)
@@ -352,9 +287,7 @@ def run_gpu_pilot(
             site_ids=test_sites,
         )
 
-        out_dir = (
-            paths.artifacts_dir / "results" / dataset_name / split_id / f"gcn_{g_name}_seed{seed}"
-        )
+        out_dir = paths.artifacts_dir / "results" / dataset_name / split_id / f"gcn_{g_name}_seed{seed}"
         out_dir.mkdir(parents=True, exist_ok=True)
 
         np.save(out_dir / "test_preds.npy", te_preds)
@@ -475,9 +408,7 @@ def run_gpu_pilot(
 
     for c in pca_knn_test_summary.per_class:
         mlp_c = next(mc for mc in mlp_test_summary.per_class if mc.class_name == c.class_name)
-        rewired_c = next(
-            rc for rc in rewired_test_summary.per_class if rc.class_name == c.class_name
-        )
+        rewired_c = next(rc for rc in rewired_test_summary.per_class if rc.class_name == c.class_name)
 
         pca_lift = c.f1 - mlp_c.f1
         rewired_lift = rewired_c.f1 - mlp_c.f1
@@ -494,6 +425,35 @@ def run_gpu_pilot(
 
     console.print("\n")
     console.print(class_table)
+
+
+def run_gpu_pilot(
+    dataset_name: str = "stephenson_2021_healthy_pbmc",
+    split_id: str = "site_stratified_seed42",
+    seed: int = 42,
+    device: str = "cuda",
+    confirm_paid_gpu_run: bool = False,
+) -> None:
+    set_seed(seed)
+
+    # Step 1: Strictly validate --device == 'cuda'
+    validate_device_argument(requested_device=device)
+
+    # Step 2: If --confirm-paid-gpu-run is absent, display dry run and exit 0 without requiring CUDA hardware
+    if not confirm_paid_gpu_run:
+        print_dry_run_plan(dataset_name=dataset_name, split_id=split_id, seed=seed)
+        return
+
+    # Step 3: Only when confirmation is present, strictly enforce CUDA GPU hardware presence
+    target_device = perform_cuda_hardware_check()
+
+    # Step 4: Execute pilot on confirmed CUDA GPU
+    execute_pilot(
+        dataset_name=dataset_name,
+        split_id=split_id,
+        seed=seed,
+        target_device=target_device,
+    )
 
 
 if __name__ == "__main__":

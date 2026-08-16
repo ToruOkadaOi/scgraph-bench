@@ -1,19 +1,55 @@
 """Unit tests for site-stratified donor splitting and frozen split serialization."""
 
+import anndata as ad
+import numpy as np
+import pandas as pd
+import pytest
+from scipy import sparse
+
 from scgraph_bench.config.split import SplitType
-from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
 from scgraph_bench.splitting.group_split import create_site_stratified_donor_split
 from scgraph_bench.splitting.random_split import create_random_cell_split
 from scgraph_bench.splitting.schema import SplitDefinition
 
 
-def test_site_stratified_split_disjointness():
-    """Verify site-stratified donor splitting yields strictly disjoint partitions."""
-    loader = StephensonHealthyPBMCLoader()
-    adata = loader.load(dev_subsample_per_donor=100, seed=42)
+@pytest.fixture
+def multi_site_adata() -> ad.AnnData:
+    """Deterministic in-memory multi-donor, multi-site single-cell fixture."""
+    rng = np.random.default_rng(42)
+    donors_cambridge = [f"CAM_{i:02d}" for i in range(12)]
+    donors_newcastle = [f"NCL_{i:02d}" for i in range(11)]
+    all_donors = donors_cambridge + donors_newcastle
+    donor_to_site = {d: ("Cambridge" if d.startswith("CAM") else "Newcastle") for d in all_donors}
 
+    cells_per_donor = 40
+    n_cells = len(all_donors) * cells_per_donor
+    cell_ids = [f"cell_{i:05d}" for i in range(n_cells)]
+    cell_donors = [d for d in all_donors for _ in range(cells_per_donor)]
+    cell_sites = [donor_to_site[d] for d in cell_donors]
+    cell_types = [f"cell_type_{i}" for i in range(12)]
+    cell_labels = rng.choice(cell_types, size=n_cells)
+
+    mock_x = sparse.csr_matrix(rng.poisson(lam=2.0, size=(n_cells, 30)).astype(np.float32))
+    mock_obs = pd.DataFrame(
+        {
+            "cell_id": cell_ids,
+            "donor_id": cell_donors,
+            "site": cell_sites,
+            "cell_type": cell_labels,
+        },
+        index=cell_ids,
+    )
+    mock_var = pd.DataFrame(
+        {"gene_id": [f"gene_{j}" for j in range(30)]},
+        index=[f"gene_{j}" for j in range(30)],
+    )
+    return ad.AnnData(X=mock_x, obs=mock_obs, var=mock_var)
+
+
+def test_site_stratified_split_disjointness(multi_site_adata):
+    """Verify site-stratified donor splitting yields strictly disjoint partitions."""
     split_def = create_site_stratified_donor_split(
-        adata=adata,
+        adata=multi_site_adata,
         donor_key="donor_id",
         site_key="site",
         label_key="cell_type",
@@ -38,16 +74,13 @@ def test_site_stratified_split_disjointness():
     assert train_c.isdisjoint(test_c)
     assert val_c.isdisjoint(test_c)
 
-    assert len(train_c) + len(val_c) + len(test_c) == adata.n_obs
+    assert len(train_c) + len(val_c) + len(test_c) == multi_site_adata.n_obs
 
 
-def test_frozen_split_json_roundtrip(tmp_path):
+def test_frozen_split_json_roundtrip(multi_site_adata, tmp_path):
     """Verify SplitDefinition serializes to JSON and reloads with 100% cell ID alignment."""
-    loader = StephensonHealthyPBMCLoader()
-    adata = loader.load(dev_subsample_per_donor=50, seed=42)
-
     split_def = create_site_stratified_donor_split(
-        adata=adata,
+        adata=multi_site_adata,
         split_id="test_roundtrip",
         seed=100,
     )
@@ -66,10 +99,7 @@ def test_frozen_split_json_roundtrip(tmp_path):
     assert reloaded.compute_artifact_hash() == split_def.compute_artifact_hash()
 
 
-def test_random_cell_split_marked_as_debug():
+def test_random_cell_split_marked_as_debug(multi_site_adata):
     """Verify random-cell splitter returns SplitType.RANDOM_CELL_DEBUG."""
-    loader = StephensonHealthyPBMCLoader()
-    adata = loader.load(dev_subsample_per_donor=30, seed=42)
-
-    debug_split = create_random_cell_split(adata=adata, split_id="debug_random", seed=42)
+    debug_split = create_random_cell_split(adata=multi_site_adata, split_id="debug_random", seed=42)
     assert debug_split.split_type == SplitType.RANDOM_CELL_DEBUG
