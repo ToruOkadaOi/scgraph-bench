@@ -62,13 +62,18 @@ class GCNNet(nn.Module):
         self.conv2 = GCNConv(hidden_dim, num_classes)
         self.dropout = nn.Dropout(p=dropout)
 
-    def forward(self, x: torch.Tensor, edge_index: torch.Tensor) -> torch.Tensor:
+    def forward(
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_weight: torch.Tensor | None = None,
+    ) -> torch.Tensor:
         """Forward pass applying graph convolutions, batch norm, and dropout."""
-        h = self.conv1(x, edge_index)
+        h = self.conv1(x, edge_index, edge_weight=edge_weight)
         h = self.bn1(h)
         h = F.relu(h)
         h = self.dropout(h)
-        out = self.conv2(h, edge_index)
+        out = self.conv2(h, edge_index, edge_weight=edge_weight)
         return out
 
 
@@ -163,11 +168,15 @@ class GCNClassifier:
             self.config.seed,
         )
 
+        edge_weight = getattr(data, "edge_attr", None)
+        if edge_weight is None:
+            edge_weight = getattr(data, "edge_weight", None)
+
         for epoch in range(1, self.config.max_epochs + 1):
             self.model.train()
             optimizer.zero_grad()
 
-            logits = self.model(data.x, data.edge_index)
+            logits = self.model(data.x, data.edge_index, edge_weight=edge_weight)
             loss = criterion(logits[train_mask], y_train)
             loss.backward()
             optimizer.step()
@@ -237,8 +246,12 @@ class GCNClassifier:
 
         self.model.eval()
         data = pyg_data.to(self.device_)
+        edge_weight = getattr(data, "edge_attr", None)
+        if edge_weight is None:
+            edge_weight = getattr(data, "edge_weight", None)
+
         with torch.no_grad():
-            logits = self.model(data.x, data.edge_index)
+            logits = self.model(data.x, data.edge_index, edge_weight=edge_weight)
             preds = torch.argmax(logits, dim=1).cpu().numpy()
 
         train_preds = preds[data.train_mask.cpu().numpy()]
@@ -261,8 +274,12 @@ class GCNClassifier:
 
         self.model.eval()
         data = pyg_data.to(self.device_)
+        edge_weight = getattr(data, "edge_attr", None)
+        if edge_weight is None:
+            edge_weight = getattr(data, "edge_weight", None)
+
         with torch.no_grad():
-            logits = self.model(data.x, data.edge_index)
+            logits = self.model(data.x, data.edge_index, edge_weight=edge_weight)
             probs = F.softmax(logits, dim=1).cpu().numpy()
 
         train_probs = probs[data.train_mask.cpu().numpy()]

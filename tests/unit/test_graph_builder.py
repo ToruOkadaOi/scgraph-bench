@@ -455,3 +455,64 @@ def test_rewired_control_degree_preservation():
 
     assert bundle.manifest.num_disallowed_edges == 0
     assert bundle.manifest.num_edges > 0
+
+
+def test_graph_variants_k_sweep_weighted_and_rewired():
+    """Verify construction and properties of k10, k50, weighted k20, and rewired k20 graph variants."""
+    rng = np.random.default_rng(42)
+    n_tr, n_va, n_te, d = 80, 20, 20, 6
+
+    X_tr = rng.normal(size=(n_tr, d)).astype(np.float32)
+    X_va = rng.normal(size=(n_va, d)).astype(np.float32)
+    X_te = rng.normal(size=(n_te, d)).astype(np.float32)
+
+    tr_cids = [f"tr_{i}" for i in range(n_tr)]
+    va_cids = [f"va_{i}" for i in range(n_va)]
+    te_cids = [f"te_{i}" for i in range(n_te)]
+
+    # 1. Test k=10 unweighted
+    b10 = PCAkNNGraphBuilder(PCAkNNConfig(k=10, weighting=EdgeWeightingMode.UNWEIGHTED))
+    res10 = b10.build(X_tr, X_va, X_te, tr_cids, va_cids, te_cids, "hash", "test_ds", "test_split")
+    assert res10.manifest.k == 10
+    assert res10.manifest.graph_name == "pca_knn_k10_unweighted"
+    assert res10.manifest.num_train_to_val_edges == 10 * n_va
+    assert res10.manifest.num_train_to_test_edges == 10 * n_te
+    assert res10.edge_weight is None
+
+    # 2. Test k=20 RBF-weighted
+    b20_w = PCAkNNGraphBuilder(PCAkNNConfig(k=20, weighting=EdgeWeightingMode.RBF_WEIGHTED))
+    res20_w = b20_w.build(
+        X_tr, X_va, X_te, tr_cids, va_cids, te_cids, "hash", "test_ds", "test_split"
+    )
+    assert res20_w.manifest.k == 20
+    assert res20_w.manifest.weighting == "rbf_weighted"
+    assert res20_w.edge_weight is not None
+    assert len(res20_w.edge_weight) == res20_w.manifest.num_edges
+    assert torch.all(res20_w.edge_weight > 0.0) and torch.all(res20_w.edge_weight <= 1.0)
+
+    # 3. Test k=50 unweighted
+    b50 = PCAkNNGraphBuilder(PCAkNNConfig(k=50, weighting=EdgeWeightingMode.UNWEIGHTED))
+    res50 = b50.build(X_tr, X_va, X_te, tr_cids, va_cids, te_cids, "hash", "test_ds", "test_split")
+    assert res50.manifest.k == 50
+    assert res50.manifest.graph_name == "pca_knn_k50_unweighted"
+    assert res50.manifest.num_train_to_val_edges == 50 * n_va
+
+    # 4. Test rewired control (deterministic seed=42, no self loops, no duplicates, degree preservation)
+    from scgraph_bench.config.graph import RewiredControlConfig
+    from scgraph_bench.graph.rewired_control import RewiredControlGraphBuilder
+
+    b_rewired = RewiredControlGraphBuilder(RewiredControlConfig(seed=42, n_swaps_factor=10.0))
+    res_rewired = b_rewired.build(
+        X_tr, X_va, X_te, tr_cids, va_cids, te_cids, "hash", "test_ds", "test_split"
+    )
+
+    edge_arr = res_rewired.edge_index.numpy()
+    srcs = edge_arr[0]
+    dsts = edge_arr[1]
+
+    # No self-loops
+    assert not np.any(srcs == dsts)
+
+    # No duplicate edges
+    edge_tuples = set(zip(srcs, dsts, strict=True))
+    assert len(edge_tuples) == len(srcs)
