@@ -10,6 +10,8 @@
 
 This is essentially to isolate the effect of `graph construction from model architecture`. A null or negative graph lift over an MLP baseline could be treated as a valid scientific finding.
 
+Standard transductive GNNs (GCN, GraphSAGE) are evaluated under an inductive, donor-held-out protocol to test generalization to unseen donors
+
 ---
 
 ## 2. Scientific Principles
