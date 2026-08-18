@@ -168,7 +168,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Compute matched graph lift over MLP.")
     parser.add_argument("--dataset", type=str, default="stephenson_2021_healthy_pbmc")
     parser.add_argument("--split", type=str, default="site_stratified_seed42")
-    parser.add_argument("--models", nargs="+", default=["gcn"])
+    parser.add_argument("--models", nargs="+", default=["gcn", "graphsage"])
     parser.add_argument("--graphs", nargs="+", default=None)
     parser.add_argument("--seeds", nargs="+", type=int, default=[7, 17, 42, 73, 101])
     args = parser.parse_args()
