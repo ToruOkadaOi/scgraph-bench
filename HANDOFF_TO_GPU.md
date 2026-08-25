@@ -95,10 +95,14 @@ All graphs have been diagnosed with partition-specific expected class-compositio
 
 ## 5. Non-Graph Baseline Benchmark Reference
 
+Canonical reference numbers live in `audits/baselines_snapshot/site_stratified_seed42/` (immutable, git-tracked). Seed-42 anchors:
+
 | Model | Seed | Train Macro-F1 | Val Macro-F1 | Test Macro-F1 | Test Balanced Acc | Test Cambridge Obs F1 | Test Newcastle Obs F1 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Logistic Regression** | 42 | 0.9132 | 0.8752 | **0.8810** | 0.8903 | 0.8799 | 0.8349 |
 | **PyTorch MLP Baseline** | 42 | 0.9517 | 0.8913 | **0.9012** | 0.9135 | 0.8943 | 0.8717 |
+
+Five-seed canonical MLP: **0.9026 ± 0.0015** (seeds 7/17/42/73/101 → 0.9011/0.9041/0.9012/0.9041/0.9025). Matched-lift comparisons must use these per-seed values, not the seed-42 anchor alone.
 
 ---
 
