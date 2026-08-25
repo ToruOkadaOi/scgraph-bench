@@ -72,6 +72,14 @@ class RunManifest(BaseModel):
     label_mapping_hash: str
     seed: int
     device: str | dict[str, Any] = "cpu"
+    code_version: str | None = Field(
+        default=None,
+        description="Git commit SHA (with dirty flag) capturing the exact source version used.",
+    )
+    torch_geometric_version: str | None = Field(
+        default=None,
+        description="Version of the installed torch_geometric library at run time.",
+    )
     parameter_count: int | None = None
     best_epoch: int | None = None
     best_val_macro_f1: float | None = None

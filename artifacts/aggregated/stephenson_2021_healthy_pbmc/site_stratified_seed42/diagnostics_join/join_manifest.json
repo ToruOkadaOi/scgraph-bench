@@ -1,0 +1,9 @@
+{
+  "dataset_name": "stephenson_2021_healthy_pbmc",
+  "split_id": "site_stratified_seed42",
+  "n_graphs": 3,
+  "n_diagnostics_reports": 6,
+  "graphs_missing_diagnostics": [
+    "pca_knn_k10_unweighted"
+  ]
+}

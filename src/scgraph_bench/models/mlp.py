@@ -48,6 +48,10 @@ class PyTorchMLP(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.network(x)
 
+    def embed(self, x: torch.Tensor) -> torch.Tensor:
+        """Return penultimate-layer representations (all layers except the classifier head)."""
+        return self.network[:-1](x)
+
 
 class MLPBaseline(BaseClassifier):
     """Feature-only PyTorch MLP baseline.
@@ -171,11 +175,17 @@ class MLPBaseline(BaseClassifier):
                     val_logits = self.model(X_va)
                     val_preds = torch.argmax(val_logits, dim=-1).cpu().numpy()
                     val_f1 = float(f1_score(y_va, val_preds, average="macro", zero_division=0.0))
+                    val_loss_tensor = criterion(
+                        val_logits,
+                        torch.tensor(np.asarray(y_val, dtype=np.int64)).to(device),
+                    )
+                    val_loss = float(val_loss_tensor.item())
 
                 history_records.append(
                     {
                         "epoch": epoch,
                         "train_loss": avg_train_loss,
+                        "val_loss": val_loss,
                         "val_macro_f1": val_f1,
                     }
                 )
@@ -225,6 +235,16 @@ class MLPBaseline(BaseClassifier):
         self.is_fitted = True
         logger.info("MLP training completed in %.2f seconds.", self.training_time_seconds_)
         return self
+
+    def embed(self, X: np.ndarray) -> np.ndarray:
+        """Return penultimate-layer embeddings for the given feature matrix."""
+        if not self.is_fitted or self.model is None:
+            raise RuntimeError("Model is not fitted. Call fit() first.")
+        self.model.eval()
+        device = next(self.model.parameters()).device
+        with torch.no_grad():
+            x_tensor = torch.tensor(np.asarray(X, dtype=np.float32)).to(device)
+            return self.model.embed(x_tensor).cpu().numpy()
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Predict class labels."""

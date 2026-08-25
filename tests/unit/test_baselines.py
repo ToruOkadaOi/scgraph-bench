@@ -2,6 +2,7 @@
 
 import joblib
 import numpy as np
+import pytest
 import torch
 
 from scgraph_bench.config.model import LogisticRegressionConfig, MLPConfig
@@ -66,6 +67,17 @@ def test_mlp_early_stopping_and_checkpoint_selection():
     # Best val macro F1 must match the maximum recorded in training history
     max_history_f1 = mlp.training_history_["val_macro_f1"].max()
     assert np.isclose(mlp.best_val_macro_f1_, max_history_f1)
+
+    assert {"epoch", "train_loss", "val_loss", "val_macro_f1"}.issubset(
+        mlp.training_history_.columns
+    )
+
+    embeddings = mlp.embed(X_va)
+    assert embeddings.shape == (n_va, 32)
+    assert np.isfinite(embeddings).all()
+
+    with pytest.raises(RuntimeError):
+        MLPBaseline(MLPConfig(device="cpu", seed=42)).embed(X_va)
 
 
 def test_stratified_metric_aggregation_on_synthetic_fixture():

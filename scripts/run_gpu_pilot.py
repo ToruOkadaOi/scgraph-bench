@@ -36,6 +36,7 @@ from scgraph_bench.tracking.mlflow_tracker import LocalMLflowTracker
 from scgraph_bench.tracking.schema import RunManifest, RunStatus
 from scgraph_bench.utils.paths import ArtifactPaths
 from scgraph_bench.utils.seed import set_seed
+from scgraph_bench.utils.versioning import get_code_version, get_torch_geometric_version
 
 console = Console()
 
@@ -374,6 +375,8 @@ def execute_pilot(
             label_mapping_hash=prep_bundle.manifest.label_mapping_hash,
             seed=seed,
             device=clf.device_info_,
+            code_version=get_code_version(),
+            torch_geometric_version=get_torch_geometric_version(),
             parameter_count=clf.parameter_count_,
             best_epoch=clf.best_epoch_,
             best_val_macro_f1=clf.best_val_macro_f1_,

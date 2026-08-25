@@ -15,6 +15,7 @@ import argparse
 import json
 
 import numpy as np
+import pandas as pd
 import torch
 from rich.console import Console
 from rich.table import Table
@@ -32,6 +33,7 @@ from scgraph_bench.tracking.mlflow_tracker import LocalMLflowTracker
 from scgraph_bench.tracking.schema import RunManifest, RunStatus
 from scgraph_bench.utils.paths import ArtifactPaths
 from scgraph_bench.utils.seed import set_seed
+from scgraph_bench.utils.versioning import get_code_version, get_torch_geometric_version
 
 console = Console()
 
@@ -204,6 +206,12 @@ def run_gcn_graph_sweep(
             df_cm = confusion_matrix_to_dataframe(test_summary.confusion_matrix, label_names)
             df_cm.to_csv(out_dir / "confusion_matrix_test.csv")
 
+            tr_emb, va_emb, te_emb = clf.embed_all(pyg_data)
+            np.save(out_dir / "embeddings_train.npy", tr_emb)
+            np.save(out_dir / "embeddings_val.npy", va_emb)
+            np.save(out_dir / "embeddings_test.npy", te_emb)
+            pd.DataFrame(clf.history_).to_csv(out_dir / "training_history.csv", index=False)
+
             eval_summaries = {
                 "train": train_summary,
                 "val": val_summary,
@@ -231,6 +239,8 @@ def run_gcn_graph_sweep(
                 label_mapping_hash=prep_bundle.manifest.label_mapping_hash,
                 seed=seed,
                 device=clf.device_info_,
+                code_version=get_code_version(),
+                torch_geometric_version=get_torch_geometric_version(),
                 parameter_count=clf.parameter_count_,
                 best_epoch=clf.best_epoch_,
                 best_val_macro_f1=clf.best_val_macro_f1_,

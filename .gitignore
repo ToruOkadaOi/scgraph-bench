@@ -58,12 +58,19 @@ dmypy.json
 # Large Datasets, Artifacts, and Caches (splits/ is tracked in git)
 /data/
 !/data/.gitkeep
-/artifacts/
+# Artifacts: heavy binaries stay out of git; small aggregated evidence is tracked
+/artifacts/*
 !/artifacts/.gitkeep
-/results/
+!/artifacts/aggregated/
+/artifacts/aggregated/**/*.png
+/results/*
 !/results/.gitkeep
+!/results/reports/
 /mlruns/
 /pilot-downloads/
+/gpu-runs/
+/tmp-sweep/
+five_seed_summary.txt
 *.h5ad
 *.h5
 *.npz
@@ -71,6 +78,7 @@ dmypy.json
 *.parquet
 *.tar.gz
 *.tar
+*.npy
 
 # IDEs
 .idea/

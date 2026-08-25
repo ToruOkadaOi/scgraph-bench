@@ -1,0 +1,9 @@
+{
+  "dataset_name": "stephenson_2021_healthy_pbmc",
+  "split_id": "site_stratified_seed42",
+  "n_runs": 13,
+  "ece_bins": 15,
+  "partitions": [
+    "test"
+  ]
+}

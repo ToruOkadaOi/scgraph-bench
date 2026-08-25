@@ -123,3 +123,33 @@ Labels and donor metadata are used **exclusively** in post hoc diagnostic functi
 - Donor/Batch Mixing Entropy: Dispersion of neighbor connections across distinct donor batches.
 - Partition Cross-Edge Counts: Number of train–train vs. test–train edges.
 - Graph Topology: Density, connected components, degree distribution (mean, median, min, max, std), isolated node fraction.
+
+## 8. Secondary Diagnostic Families (Phase 12+)
+
+The following metric families extend the benchmark's diagnostic surface. All are computed strictly post hoc from persisted artifacts.
+
+### 8.1 Confidence & Calibration
+Computed from saved class-probability matrices (`test_probs.npy`) and therefore retroactively applicable to all historical runs:
+- **Expected Calibration Error (ECE)**: top-label confidence binned into 15 equal-width bins; weighted absolute gap between bin accuracy and mean bin confidence.
+- **Multiclass Brier Score**: mean over samples of Σ_c (p_c − onehot_c)².
+- **Prediction Entropy**: Shannon entropy (nats) of each predicted distribution.
+- **Max-Probability Confidence & Margin**: top-1 probability; margin = top1 − top2.
+- **Reliability diagrams** per model/graph condition with per-seed curves.
+
+### 8.2 Per-Class & Per-Batch Stratified Analysis
+- Matched per-class ΔF1 = F1_class(GNN) − F1_class(seed-matched MLP), aggregated per graph variant.
+- Worst-class rankings under the full 12-class vocabulary.
+- Per-donor observed-class macro-F1 scatter against the matched MLP baseline.
+
+### 8.3 Training Dynamics Capture
+Every sweep run persists `training_history.csv` recording per-epoch: epoch index, train loss, validation loss, and validation macro-F1. Analyses: trajectory overlays (mean±SD across seeds), convergence speed (best-epoch distributions), final train−val loss gaps.
+
+### 8.4 Embedding Quality
+Hidden-layer embeddings are persisted per partition (`embeddings_{train,val,test}.npy`). Metrics:
+- Silhouette coefficient (Euclidean).
+- kNN separability probe trained on train-split embeddings, scored on test embeddings; compared against the raw PCA input space to isolate message-passing contribution.
+- Centroid separation: mean between-class centroid distance ÷ mean within-class radius.
+- 2D UMAP projections colored by class/donor/site.
+
+### 8.5 GPU Result Delivery Audit Contract
+Deliveries from remote training machines must be produced by `package_gpu_results.py` (SHA-256 file index + pack-time audit in `batch_manifest.json`, bound to a single batch fingerprint) and verified by `receive_gpu_delivery.py` before any result is treated as canonical: per-file hashes → batch aggregate hash → provenance hash-chain match against local frozen artifacts → independent recomputation of reported metrics from frozen labels. PASS runs auto-ingest into `artifacts/results/`; FAIL runs quarantine; all deliveries append to `audits/gpu_runs/ingestion_log.jsonl`.

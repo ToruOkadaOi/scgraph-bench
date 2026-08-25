@@ -19,6 +19,7 @@ from scgraph_bench.evaluation.metrics import (
 from scgraph_bench.models.mlp import MLPBaseline
 from scgraph_bench.preprocessing.schema import PreprocessedBundle
 from scgraph_bench.utils.paths import ArtifactPaths
+from scgraph_bench.utils.versioning import get_code_version
 
 console = Console()
 
@@ -137,6 +138,7 @@ def train_mlp_cli(
         "label_mapping_hash": prep_bundle.manifest.label_mapping_hash,
         "seed": seed,
         "device": mlp.device_info_,
+        "code_version": get_code_version(),
         "parameter_count": mlp.parameter_count_,
         "best_epoch": mlp.best_epoch_,
         "best_val_macro_f1": mlp.best_val_macro_f1_,
@@ -255,6 +257,9 @@ def train_mlp_cli(
         np.save(out_dir / "train_probs.npy", train_probs)
         np.save(out_dir / "val_probs.npy", val_probs)
         np.save(out_dir / "test_probs.npy", test_probs)
+        np.save(out_dir / "embeddings_train.npy", mlp.embed(prep_bundle.X_pca_train))
+        np.save(out_dir / "embeddings_val.npy", mlp.embed(prep_bundle.X_pca_val))
+        np.save(out_dir / "embeddings_test.npy", mlp.embed(prep_bundle.X_pca_test))
 
         mlp.training_history_.to_csv(out_dir / "training_history.csv", index=False)
         cm_test_df.to_csv(out_dir / "confusion_matrix_test.csv")

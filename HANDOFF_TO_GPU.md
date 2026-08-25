@@ -182,20 +182,39 @@ $$\Delta_{\text{lift}} = \text{Macro-F1}(\text{GNN}_{\text{seed } S}) - \text{Ma
 
 ## 9. GPU Smoke-Test & Execution Plan
 
+### Step 0: Pull Latest Code (Instrumented Sweeps — REQUIRED)
+The sweeps now persist `training_history.csv`, `embeddings_{train,val,test}.npy`, and
+`code_version` in every run manifest. Ensure the pulled commit includes:
+`src/scgraph_bench/models/{gcn,graphsage,mlp}.py` with `history_` / `embed_all()`.
+
 ### Step 1: Pre-flight Verification (30 seconds)
 ```bash
-# Verify all precomputed artifacts are present and intact
 uv run python scripts/validate_artifacts.py
 ```
 
 ### Step 2: 1-Epoch GPU Smoke Test
 Execute a single 1-epoch forward/backward pass on GPU using `GCNConv` to confirm CUDA acceleration, memory allocation, and zero NaN values.
 
-### Step 3: Seed 42 Benchmark Execution
-Train GCN on `pca_knn_k20_unweighted` with seed 42. Compare test Macro-F1 directly against the matched MLP seed-42 baseline (**0.9012**).
+### Step 3: Instrumented Benchmark Grid Sweep (all graphs × 5 seeds)
+```bash
+GRAPHS="pca_knn_k20_unweighted pca_knn_k24_unweighted mutual_knn_reference_standard_query_k20_unweighted bbknn_kperbatch2_donors12 pca_knn_k50_unweighted"
 
-### Step 4: 5-Seed Benchmark Grid Sweep
-Run the full 5-seed benchmark sweep (`[42, 43, 44, 45, 46]`) across all 5 graph variants and model architectures, export tidy tables, and finalize findings.
+for g in $GRAPHS; do
+  uv run python scripts/run_gcn_sweep.py --graph "$g" --device cuda
+done
+
+for g in $GRAPHS; do
+  uv run python scripts/run_graphsage_sweep.py --graph "$g" --device cuda
+done
+```
+(MLP baseline refresh is CPU-side and already instrumented locally; skip on GPU unless re-running.)
+
+### Step 4: Package Results for Transfer — run LAST before teardown
+```bash
+uv run python scripts/package_gpu_results.py \
+    --dataset stephenson_2021_healthy_pbmc --split site_stratified_seed42
+# → records the printed BATCH FINGERPRINT, then rsync the tarball to the local machine
+```
 
 ---
 
@@ -210,3 +229,45 @@ make pipeline
 # Or directly via Python
 uv run python scripts/run_pipeline.py
 ```
+
+---
+
+## 11. Result Delivery & Audit Contract (Mandatory)
+
+All results produced on the GPU instance MUST be delivered via the two-sided pipeline. Raw tarballs without a batch manifest are treated as legacy and require manual audit.
+
+### On the GPU machine — run LAST, before teardown:
+
+```bash
+# Audits every run, hashes every file, emits gpu_results_<split>_<hash>.tar.gz
+# and prints a BATCH FINGERPRINT (record it; verify after rsync).
+uv run python scripts/package_gpu_results.py \
+    --dataset stephenson_2021_healthy_pbmc \
+    --split site_stratified_seed42
+```
+
+The packer refuses nothing silently: runs failing pack-time checks are included but marked FAIL in `batch_manifest.json`.
+
+### On the local machine:
+
+```bash
+# Preview verification + disposition (writes nothing)
+uv run python scripts/receive_gpu_delivery.py gpu_results_*.tar.gz --dry-run
+
+# Verify all four layers and auto-ingest PASS runs into artifacts/results/
+uv run python scripts/receive_gpu_delivery.py gpu_results_*.tar.gz
+```
+
+Verification layers: (1) per-file SHA-256 vs manifest, (2) batch aggregate hash, (3) provenance hash-chain match against local canonical artifacts (`feature_manifest_hash`, `split_hash`, `label_mapping_hash`), (4) independent recomputation of reported macro-F1/confusion matrices from frozen labels.
+
+### Required run-directory contents (instrumented contract):
+
+| File | Requirement |
+|---|---|
+| `run_manifest.json` | Must validate as `RunManifest`; should include `code_version` |
+| `metrics_summary.json` | train/val/test `EvaluationSummary` payloads |
+| `test_preds.npy`, `test_probs.npy` | Length-aligned with test labels; probs rows sum to 1; argmax(probs) == preds |
+| `training_history.csv` | epoch, train_loss, val_loss, val_macro_f1 |
+| `embeddings_{train,val,test}.npy` | Hidden-layer activations |
+
+Missing optional files produce WARN verdicts (ingested, but flagged); inconsistent metrics/provenance produce FAIL (quarantined). Every delivery appends to `audits/gpu_runs/ingestion_log.jsonl`.

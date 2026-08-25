@@ -76,6 +76,17 @@ class GCNNet(nn.Module):
         out = self.conv2(h, edge_index, edge_weight=edge_weight)
         return out
 
+    def embed(
+        self,
+        x: torch.Tensor,
+        edge_index: torch.Tensor,
+        edge_weight: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        """Return hidden-layer representations (post conv1, batch norm, ReLU)."""
+        h = self.conv1(x, edge_index, edge_weight=edge_weight)
+        h = self.bn1(h)
+        return F.relu(h)
+
 
 class GCNClassifier:
     """Strict-inductive GCN Classifier managing training, early stopping, and evaluation."""
@@ -90,6 +101,7 @@ class GCNClassifier:
         self.training_time_seconds_: float = 0.0
         self.parameter_count_: int | None = None
         self.peak_memory_mb_: float = 0.0
+        self.history_: list[dict[str, float]] = []
 
     def _resolve_device(self, target: str) -> torch.device:
         if target == "auto":
@@ -156,6 +168,8 @@ class GCNClassifier:
         best_state: dict[str, Any] | None = None
         best_epoch = -1
         patience_counter = 0
+        history: list[dict[str, float]] = []
+        y_val_tensor = torch.tensor(np.asarray(val_labels, dtype=np.int64))
 
         # Memory tracking
         if self.device_.type == "cuda":
@@ -187,6 +201,16 @@ class GCNClassifier:
                 val_logits = logits[val_mask].cpu().numpy()
                 val_preds = np.argmax(val_logits, axis=1)
                 val_f1 = float(f1_score(val_labels, val_preds, average="macro", zero_division=0.0))
+                val_loss = float(criterion(torch.from_numpy(val_logits), y_val_tensor).item())
+
+            history.append(
+                {
+                    "epoch": epoch,
+                    "train_loss": float(loss.item()),
+                    "val_loss": val_loss,
+                    "val_macro_f1": val_f1,
+                }
+            )
 
             if val_f1 > best_val_f1:
                 best_val_f1 = val_f1
@@ -217,6 +241,7 @@ class GCNClassifier:
 
         self.best_epoch_ = best_epoch
         self.best_val_macro_f1_ = best_val_f1
+        self.history_ = history
         self.training_time_seconds_ = time.perf_counter() - start_time
 
         if self.device_.type == "cuda":
@@ -259,6 +284,31 @@ class GCNClassifier:
         test_preds = preds[data.test_mask.cpu().numpy()]
 
         return train_preds, val_preds, test_preds
+
+    def embed_all(self, pyg_data: Data) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Generate hidden-layer embeddings for train, validation, and test partitions.
+
+        Returns:
+            Tuple of (embeddings_train, embeddings_val, embeddings_test).
+        """
+        if self.model is None:
+            raise RuntimeError("Model has not been fitted.")
+
+        self.model.eval()
+        data = pyg_data.to(self.device_)
+        edge_weight = getattr(data, "edge_attr", None)
+        if edge_weight is None:
+            edge_weight = getattr(data, "edge_weight", None)
+
+        with torch.no_grad():
+            h = self.model.embed(data.x, data.edge_index, edge_weight=edge_weight)
+            embeddings = h.cpu().numpy()
+
+        train_emb = embeddings[data.train_mask.cpu().numpy()]
+        val_emb = embeddings[data.val_mask.cpu().numpy()]
+        test_emb = embeddings[data.test_mask.cpu().numpy()]
+
+        return train_emb, val_emb, test_emb
 
     def predict_proba_all(self, pyg_data: Data) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         """Generate class probabilities for train, validation, and test partitions.
