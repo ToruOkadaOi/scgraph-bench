@@ -1,73 +1,601 @@
 run_id,model_name,graph_name,seed,class_index,class_name,f1,mlp_f1,class_delta_f1
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9243542435424354,0.9148148148148149,0.009539428727620591
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9794532178638139,0.9809004092769441,-0.001447191413130211
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8111015490533563,0.8248837724153198,-0.013782223361963553
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9134266459305339,0.9183516764781162,-0.00492503054758231
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7423764458464774,0.7468002225932109,-0.004423776746733443
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,6,gamma-delta T cell,0.7800269905533064,0.7375537799631223,0.04247321059018405
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,7,mucosal invariant T cell,0.7797655768044417,0.8144690781796966,-0.03470350137525491
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,8,naive B cell,1.0,1.0,0.0
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8600623484586075,0.8777640191049001,-0.017701670646292578
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8795662100456622,0.9017980636237898,-0.022231853578127625
-gcn_pca_knn_k10_unweighted_seed17,gcn,pca_knn_k10_unweighted,17,11,platelet,0.896551724137931,0.9034132171387074,-0.00686149300077632
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9229357798165138,0.9152854511970534,0.007650328619460356
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9792517006802721,0.9808612440191388,-0.001609543338866648
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8136980400603059,0.8147982062780269,-0.0011001662177210214
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9153945666235447,0.9147442326980942,0.0006503339254504414
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7447257383966245,0.7392953929539295,0.005430345442694939
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,6,gamma-delta T cell,0.784,0.7332908975175048,0.05070910248249527
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,7,mucosal invariant T cell,0.784,0.8,-0.016000000000000014
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,8,naive B cell,1.0,1.0,0.0
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8623024830699775,0.8749568221070811,-0.012654339037103668
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8818493150684932,0.8958217270194986,-0.013972411951005403
-gcn_pca_knn_k10_unweighted_seed42,gcn,pca_knn_k10_unweighted,42,11,platelet,0.896551724137931,0.8954154727793696,0.0011362513585614353
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9235023041474655,0.9135338345864662,0.009968469560999282
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9792658055744392,0.9809911744738629,-0.0017253688994236516
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8153250107619457,0.8230184581976113,-0.007693447435665579
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9151750972762646,0.925312261024726,-0.010137163748461409
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7423764458464774,0.7671657201858544,-0.024789274339376943
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,6,gamma-delta T cell,0.7813333333333333,0.7463087248322148,0.03502460850111855
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,7,mucosal invariant T cell,0.7825015403573629,0.8259061200237671,-0.04340457966640421
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,8,naive B cell,1.0,1.0,0.0
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8623502864086097,0.8754650132860939,-0.013114726877484273
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.882420091324201,0.900824097755044,-0.018404006430843056
-gcn_pca_knn_k10_unweighted_seed7,gcn,pca_knn_k10_unweighted,7,11,platelet,0.896700143472023,0.8952654232424677,0.0014347202295552641
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,0,CD14-positive monocyte,0.524179403658231,0.9997777283840854,-0.4755983247258544
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.0,0.9152854511970534,-0.9152854511970534
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.0,0.9808612440191388,-0.9808612440191388
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.004230118443316413,0.8147982062780269,-0.8105680878347105
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.0,0.9147442326980942,-0.9147442326980942
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.006993006993006993,0.7392953929539295,-0.7323023859609226
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,6,gamma-delta T cell,0.0,0.7332908975175048,-0.7332908975175048
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,7,mucosal invariant T cell,0.1712538226299694,0.8,-0.6287461773700307
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,8,naive B cell,0.0,1.0,-1.0
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.14753747323340471,0.8749568221070811,-0.7274193488736764
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.0048828125,0.8958217270194986,-0.8909389145194986
-gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,11,platelet,0.0,0.8954154727793696,-0.8954154727793696
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,0,CD14-positive monocyte,0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,1,"CD16-negative, CD56-bright natural killer cell, human",0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,2,"CD16-positive, CD56-dim natural killer cell, human",0.4457378440645083,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,3,"central memory CD4-positive, alpha-beta T cell",0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,4,"effector CD8-positive, alpha-beta T cell",0.002296211251435132,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,5,"effector memory CD8-positive, alpha-beta T cell",0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,6,gamma-delta T cell,0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,7,mucosal invariant T cell,0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,8,naive B cell,0.9551820728291317,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.0,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.006122448979591836,,
-gcn_pca_knn_k24_unweighted_seed999,gcn,pca_knn_k24_unweighted,999,11,platelet,0.08571066311652085,,
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,0,CD14-positive monocyte,0.4810379241516966,0.9997777283840854,-0.5187398042323887
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.0,0.9152854511970534,-0.9152854511970534
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.0012277470841006752,0.9808612440191388,-0.9796334969350381
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,3,"central memory CD4-positive, alpha-beta T cell",0.1479464488314046,0.8147982062780269,-0.6668517574466223
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,4,"effector CD8-positive, alpha-beta T cell",0.0018957345971563982,0.9147442326980942,-0.9128484981009378
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,5,"effector memory CD8-positive, alpha-beta T cell",0.014914243102162566,0.7392953929539295,-0.7243811498517669
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,6,gamma-delta T cell,0.05248703082087275,0.7332908975175048,-0.6808038666966321
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,7,mucosal invariant T cell,0.0045045045045045045,0.8,-0.7954954954954956
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,8,naive B cell,0.0,1.0,-1.0
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.0009675858732462506,0.8749568221070811,-0.8739892362338348
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.0011086474501108647,0.8958217270194986,-0.8947130795693877
-graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,11,platelet,0.009428571428571429,0.8954154727793696,-0.8859869013507982
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9235074626865671,0.9050576752440106,0.018449787442556542
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.9765083657258746,0.9775415738042174,-0.0010332080783427289
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,3,"central memory CD4-positive, alpha-beta T cell",0.8113529662825437,0.8352473498233216,-0.023894383540777886
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,4,"effector CD8-positive, alpha-beta T cell",0.9163408913213448,0.9247089262613195,-0.008368034939974733
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7621536853110298,0.7985648385443362,-0.03641115323330646
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,6,gamma-delta T cell,0.8043775649794802,0.8324468085106383,-0.02806924353115814
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,7,mucosal invariant T cell,0.7951219512195122,0.8565072302558399,-0.06138527903632762
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8588598901098901,0.887667216419278,-0.02880732630938798
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8804597701149425,0.917774762550882,-0.0373149924359395
+gcn_bbknn_kperbatch2_donors12_seed101,gcn,bbknn_kperbatch2_donors12,101,11,platelet,0.91005291005291,0.8958630527817404,0.014189857271169615
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9207828518173345,0.9136690647482014,0.007113787069133126
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9755026186855887,0.9781569965870307,-0.002654377901441962
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,3,"central memory CD4-positive, alpha-beta T cell",0.8126875267895414,0.8402793421941879,-0.027591815404646503
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,4,"effector CD8-positive, alpha-beta T cell",0.9151657530670844,0.9284619315278487,-0.013296178460764363
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7590172503920544,0.7904,-0.031382749607945626
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,6,gamma-delta T cell,0.7955801104972375,0.8323699421965318,-0.036789831699294284
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,7,mucosal invariant T cell,0.798314268512944,0.8579577866514546,-0.059643518138510654
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8599862731640356,0.8911355840404405,-0.031149310876404823
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8808705612829324,0.9251626898047722,-0.044292128521839835
+gcn_bbknn_kperbatch2_donors12_seed17,gcn,bbknn_kperbatch2_donors12,17,11,platelet,0.9130763416477702,0.8931351733899504,0.019941168257819775
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9243697478991597,0.9084444444444445,0.01592530345471521
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9761784085149519,0.977039067854695,-0.0008606593397431084
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,3,"central memory CD4-positive, alpha-beta T cell",0.8138936535162951,0.8331846565566459,-0.019291003040350807
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,4,"effector CD8-positive, alpha-beta T cell",0.9127129750982962,0.9183726353977715,-0.005659660299475289
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7595854922279792,0.7987711213517665,-0.03918562912378731
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,6,gamma-delta T cell,0.8010936431989063,0.8303341902313625,-0.029240547032456154
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,7,mucosal invariant T cell,0.7926829268292683,0.8515842134519177,-0.058901286622649374
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,8,naive B cell,1.0,1.0,0.0
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8578280232956492,0.887509130752374,-0.02968110745672481
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8794041821827556,0.9209225700164745,-0.04151838783371886
+gcn_bbknn_kperbatch2_donors12_seed42,gcn,bbknn_kperbatch2_donors12,42,11,platelet,0.9115646258503401,0.8882642304989459,0.023300395351394276
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9242282507015903,0.8858603066439523,0.03836794405763799
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9756838905775076,0.9713496720745599,0.004334218502947684
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,3,"central memory CD4-positive, alpha-beta T cell",0.8134648370497427,0.8308177517458887,-0.01735291469614597
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,4,"effector CD8-positive, alpha-beta T cell",0.9137614678899083,0.9203539823008849,-0.006592514410976635
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7602278612118073,0.7983665135273098,-0.03813865231550251
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,6,gamma-delta T cell,0.796736913664174,0.8297734627831715,-0.03303654911899756
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,7,mucosal invariant T cell,0.7982937233394272,0.8688340807174888,-0.07054035737806164
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8602261048304214,0.8924634014097235,-0.03223729657930208
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8793796668581275,0.9227000544365814,-0.04332038757845391
+gcn_bbknn_kperbatch2_donors12_seed7,gcn,bbknn_kperbatch2_donors12,7,11,platelet,0.9159727479182438,0.8933143669985776,0.02265838091966621
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9209302325581395,0.9036251105216623,0.017305122036477272
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9763273588096043,0.9771986970684039,-0.0008713382587995921
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,3,"central memory CD4-positive, alpha-beta T cell",0.8140984311197077,0.8385941347660623,-0.02449570364635456
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,4,"effector CD8-positive, alpha-beta T cell",0.9132826827351324,0.9320192064695476,-0.018736523734415256
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7580893682588598,0.7995712754555199,-0.04148190719666012
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,6,gamma-delta T cell,0.7975376196990424,0.8360128617363344,-0.03847524203729202
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,7,mucosal invariant T cell,0.7985212569316081,0.8615560640732265,-0.06303480714161835
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,8,naive B cell,1.0,1.0,0.0
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8599248377177998,0.8892122976168819,-0.029287459899082102
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.879083094555874,0.92157394843962,-0.04249085388374607
+gcn_bbknn_kperbatch2_donors12_seed73,gcn,bbknn_kperbatch2_donors12,73,11,platelet,0.9128127369219106,0.8903043170559094,0.02250841986600116
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9298409728718429,0.9050576752440106,0.024783297627832268
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.9787018255578094,0.9775415738042174,0.0011602517535920231
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8032094594594594,0.8352473498233216,-0.032037890363862176
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9054805401111994,0.9247089262613195,-0.019228386150120125
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7352157698454982,0.7985648385443362,-0.06334906869883805
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,6,gamma-delta T cell,0.7545638945233266,0.8324468085106383,-0.07788291398731173
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,7,mucosal invariant T cell,0.7547169811320755,0.8565072302558399,-0.10179024912376433
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8489837056946078,0.887667216419278,-0.038683510724670245
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8597311513734658,0.917774762550882,-0.05804361117741619
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed101,gcn,mutual_knn_reference_standard_query_k20_unweighted,101,11,platelet,0.8962536023054755,0.8958630527817404,0.0003905495237350731
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9305816135084428,0.9136690647482014,0.016912548760241397
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9788815678324041,0.9781569965870307,0.0007245712453733955
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8021141649048625,0.8402793421941879,-0.038165177289325336
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.8997333333333334,0.9284619315278487,-0.028728598194515342
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7340031729243787,0.7904,-0.056396827075621325
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,6,gamma-delta T cell,0.7535449020931803,0.8323699421965318,-0.07882504010335156
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,7,mucosal invariant T cell,0.7573194534808068,0.8579577866514546,-0.10063833317064785
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8480268681780017,0.8911355840404405,-0.04310871586243881
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.861216176898458,0.9251626898047722,-0.06394651290631426
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed17,gcn,mutual_knn_reference_standard_query_k20_unweighted,17,11,platelet,0.8962536023054755,0.8931351733899504,0.003118428915525051
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9315838800374883,0.9084444444444445,0.023139435593043767
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9788744296095995,0.977039067854695,0.0018353617549045076
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8028887000849617,0.8331846565566459,-0.03029595647168415
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9055702917771883,0.9183726353977715,-0.01280234362058319
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7353255069370331,0.7987711213517665,-0.0634456144147334
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,6,gamma-delta T cell,0.7538983050847458,0.8303341902313625,-0.0764358851466167
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,7,mucosal invariant T cell,0.7529107373868047,0.8515842134519177,-0.09867347606511301
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,8,naive B cell,1.0,1.0,0.0
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8461796246648794,0.887509130752374,-0.04132950608749464
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8604651162790697,0.9209225700164745,-0.06045745373740474
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed42,gcn,mutual_knn_reference_standard_query_k20_unweighted,42,11,platelet,0.8956083513318934,0.8882642304989459,0.007344120832947554
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9289719626168225,0.8858603066439523,0.043111655972870144
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9791983764586504,0.9713496720745599,0.007848704384090466
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8029598308668076,0.8308177517458887,-0.02785792087908112
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9057702488088936,0.9203539823008849,-0.01458373349199138
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7350427350427351,0.7983665135273098,-0.06332377848457471
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,6,gamma-delta T cell,0.7542315504400813,0.8297734627831715,-0.07554191234309027
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,7,mucosal invariant T cell,0.7579083279535184,0.8688340807174888,-0.11092575276397043
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8492597577388964,0.8924634014097235,-0.043203643670827074
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8616370521409845,0.9227000544365814,-0.06106300229559691
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed7,gcn,mutual_knn_reference_standard_query_k20_unweighted,7,11,platelet,0.8976945244956772,0.8933143669985776,0.004380157497099635
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9317118802619271,0.9036251105216623,0.028086769740264805
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9792054099746408,0.9771986970684039,0.002006712906236885
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8039923550647696,0.8385941347660623,-0.034601779701292634
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9030029231995748,0.9320192064695476,-0.029016283269972853
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7338666666666667,0.7995712754555199,-0.0657046087888532
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,6,gamma-delta T cell,0.75118004045853,0.8360128617363344,-0.08483282127780434
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,7,mucosal invariant T cell,0.7608554763447829,0.8615560640732265,-0.10070058772844359
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,8,naive B cell,1.0,1.0,0.0
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8477932539016614,0.8892122976168819,-0.04141904371522054
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8623587365980875,0.92157394843962,-0.059215211841532556
+gcn_mutual_knn_reference_standard_query_k20_unweighted_seed73,gcn,mutual_knn_reference_standard_query_k20_unweighted,73,11,platelet,0.8968997837058399,0.8903043170559094,0.006595466649930493
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9287696577243293,0.9050576752440106,0.023711982480318694
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.9816388983339001,0.9775415738042174,0.0040973245296827
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8114334470989761,0.8352473498233216,-0.02381390272434547
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.91785436641617,0.9247089262613195,-0.006854559845149488
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7526427061310782,0.7985648385443362,-0.04592213241325804
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,6,gamma-delta T cell,0.7761394101876675,0.8324468085106383,-0.056307398322970825
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,7,mucosal invariant T cell,0.7703984819734345,0.8565072302558399,-0.08610874828240533
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8591646530894028,0.887667216419278,-0.02850256332987522
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8796799085452986,0.917774762550882,-0.03809485400558332
+gcn_pca_knn_k20_unweighted_seed101,gcn,pca_knn_k20_unweighted,101,11,platelet,0.9004329004329005,0.8958630527817404,0.004569847651160086
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9263351749539595,0.9136690647482014,0.01266611020575803
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9806122448979592,0.9781569965870307,0.0024552483109284706
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8133848133848134,0.8402793421941879,-0.026894528809374485
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9149987002859371,0.9284619315278487,-0.013463231241911622
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7523910733262487,0.7904,-0.03800892667375133
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,6,gamma-delta T cell,0.7851851851851852,0.8323699421965318,-0.04718475701134661
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,7,mucosal invariant T cell,0.7891825445605408,0.8579577866514546,-0.06877524209091379
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8624265468371932,0.8911355840404405,-0.028709037203247245
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8839590443686007,0.9251626898047722,-0.0412036454361715
+gcn_pca_knn_k20_unweighted_seed17,gcn,pca_knn_k20_unweighted,17,11,platelet,0.9023861171366594,0.8931351733899504,0.009250943746708984
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9253456221198156,0.9084444444444445,0.016901177675371137
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.980445502465567,0.977039067854695,0.003406434610872089
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8122326775021386,0.8331846565566459,-0.020951979054507297
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9164070612668743,0.9183726353977715,-0.001965574130897152
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7551560021152829,0.7987711213517665,-0.043615119236483646
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,6,gamma-delta T cell,0.7808764940239044,0.8303341902313625,-0.0494576962074581
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,7,mucosal invariant T cell,0.7745159275452842,0.8515842134519177,-0.0770682859066335
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,8,naive B cell,1.0,1.0,0.0
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.860408728784205,0.887509130752374,-0.027100401968168986
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8807077625570776,0.9209225700164745,-0.04021480745939687
+gcn_pca_knn_k20_unweighted_seed42,gcn,pca_knn_k20_unweighted,42,11,platelet,0.9017341040462428,0.8882642304989459,0.013469873547296896
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9277777777777778,0.8858603066439523,0.04191747113382549
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9808051639205028,0.9713496720745599,0.009455491845942854
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8130881094952951,0.8308177517458887,-0.01772964225059359
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9148659203332465,0.9203539823008849,-0.005488061967638402
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7476439790575916,0.7983665135273098,-0.050722534469718195
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,6,gamma-delta T cell,0.7769591426657736,0.8297734627831715,-0.05281432011739795
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,7,mucosal invariant T cell,0.7703984819734345,0.8688340807174888,-0.09843559874405428
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8601000517509056,0.8924634014097235,-0.03236334965881782
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8800685322672759,0.9227000544365814,-0.04263152216930555
+gcn_pca_knn_k20_unweighted_seed7,gcn,pca_knn_k20_unweighted,7,11,platelet,0.8997837058399423,0.8933143669985776,0.006469338841364691
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9211009174311927,0.9036251105216623,0.017475806909530434
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9799114742934968,0.9771986970684039,0.0027127772250928883
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8142887884656768,0.8385941347660623,-0.0243053463003855
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9151041666666667,0.9320192064695476,-0.016915039802880893
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7528916929547844,0.7995712754555199,-0.04667958250073545
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,6,gamma-delta T cell,0.7829614604462475,0.8360128617363344,-0.0530514012900869
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,7,mucosal invariant T cell,0.7901840490797546,0.8615560640732265,-0.0713720149934719
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,8,naive B cell,1.0,1.0,0.0
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8629757785467128,0.8892122976168819,-0.026236519070169106
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8854875283446711,0.92157394843962,-0.03608642009494889
+gcn_pca_knn_k20_unweighted_seed73,gcn,pca_knn_k20_unweighted,73,11,platelet,0.9017341040462428,0.8903043170559094,0.011429786990333368
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9227941176470589,0.9050576752440106,0.01773644240304828
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.9800986562340535,0.9775415738042174,0.0025570824298360995
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8156089193825042,0.8352473498233216,-0.019638430440817367
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9177444386963269,0.9247089262613195,-0.006964487564992572
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7529411764705882,0.7985648385443362,-0.04562366207374802
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,6,gamma-delta T cell,0.7859554355165429,0.8324468085106383,-0.04649137299409545
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,7,mucosal invariant T cell,0.781908302354399,0.8565072302558399,-0.07459892790144085
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8652015919709293,0.887667216419278,-0.022465624448348764
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8818362142249929,0.917774762550882,-0.03593854832588905
+gcn_pca_knn_k24_unweighted_seed101,gcn,pca_knn_k24_unweighted,101,11,platelet,0.9017341040462428,0.8958630527817404,0.0058710512645023805
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9235023041474655,0.9136690647482014,0.00983323939926406
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9799456152277363,0.9781569965870307,0.0017886186407055638
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8162825759207409,0.8402793421941879,-0.023996766273446934
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9178117708063261,0.9284619315278487,-0.010650160721522584
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7521367521367521,0.7904,-0.03826324786324786
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,6,gamma-delta T cell,0.7910142954390742,0.8323699421965318,-0.04135564675745762
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,7,mucosal invariant T cell,0.7926605504587156,0.8579577866514546,-0.06529723619273897
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8660220994475138,0.8911355840404405,-0.025113484592926616
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8849307322589766,0.9251626898047722,-0.04023195754579567
+gcn_pca_knn_k24_unweighted_seed17,gcn,pca_knn_k24_unweighted,17,11,platelet,0.9043478260869565,0.8931351733899504,0.011212652697006109
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9209558823529411,0.9084444444444445,0.012511437908496625
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9795918367346939,0.977039067854695,0.00255276887999889
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8106951871657754,0.8331846565566459,-0.022489469390870487
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9176837185146716,0.9183726353977715,-0.0006889168830999104
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7570142932768661,0.7987711213517665,-0.04175682807490044
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,6,gamma-delta T cell,0.7820254862508383,0.8303341902313625,-0.048308703980524115
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,7,mucosal invariant T cell,0.775330396475771,0.8515842134519177,-0.07625381697614675
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,8,naive B cell,1.0,1.0,0.0
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8609431680773881,0.887509130752374,-0.0265659626749859
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8792270531400966,0.9209225700164745,-0.04169551687637785
+gcn_pca_knn_k24_unweighted_seed42,gcn,pca_knn_k24_unweighted,42,11,platelet,0.9023861171366594,0.8882642304989459,0.014121886637713521
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9235023041474655,0.8858603066439523,0.03764199750351316
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9797790994052676,0.9713496720745599,0.008429427330707728
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8147033533963887,0.8308177517458887,-0.016114398349500014
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9149713093375065,0.9203539823008849,-0.005382672963378465
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7480190174326465,0.7983665135273098,-0.05034749609466327
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,6,gamma-delta T cell,0.7891891891891892,0.8297734627831715,-0.04058427359398231
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,7,mucosal invariant T cell,0.791641057160418,0.8688340807174888,-0.0771930235570708
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.864312911041883,0.8924634014097235,-0.028150490367840453
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8841153193894856,0.9227000544365814,-0.03858473504709581
+gcn_pca_knn_k24_unweighted_seed7,gcn,pca_knn_k24_unweighted,7,11,platelet,0.9015918958031838,0.8933143669985776,0.008277528804606193
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9226519337016574,0.9036251105216623,0.019026823179995156
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9804388501445824,0.9771986970684039,0.0032401530761785313
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8122326775021386,0.8385941347660623,-0.026361457263923693
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9168399168399168,0.9320192064695476,-0.015179289629630777
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7565308254963428,0.7995712754555199,-0.04304044995917711
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,6,gamma-delta T cell,0.7807196198234895,0.8360128617363344,-0.055293241912844904
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,7,mucosal invariant T cell,0.7770700636942676,0.8615560640732265,-0.08448600037895893
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,8,naive B cell,1.0,1.0,0.0
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8581730769230769,0.8892122976168819,-0.031039220693805047
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8779931584948689,0.92157394843962,-0.04358078994475112
+gcn_pca_knn_k24_unweighted_seed73,gcn,pca_knn_k24_unweighted,73,11,platelet,0.9040697674418605,0.8903043170559094,0.013765450385951117
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9212233549582948,0.9050576752440106,0.016165679714284176
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.9789616559212758,0.9775415738042174,0.0014200821170584632
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8145610278372591,0.8352473498233216,-0.02068632198606246
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9161661008096109,0.9247089262613195,-0.008542825451708591
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7585481325618095,0.7985648385443362,-0.04001670598252671
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,6,gamma-delta T cell,0.7853260869565217,0.8324468085106383,-0.04712072155411662
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,7,mucosal invariant T cell,0.7858032378580324,0.8565072302558399,-0.07070399239780745
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8629476584022039,0.887667216419278,-0.02471955801707415
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8887627695800226,0.917774762550882,-0.029011992970859324
+gcn_pca_knn_k50_unweighted_seed101,gcn,pca_knn_k50_unweighted,101,11,platelet,0.9059080962800875,0.8958630527817404,0.010045043498347117
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9263746505125815,0.9136690647482014,0.012705585764380078
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9801526717557252,0.9781569965870307,0.0019956751686944774
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.815625670744795,0.8402793421941879,-0.0246536714493929
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9117107676185486,0.9284619315278487,-0.016751163909300093
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7561615102254851,0.7904,-0.034238489774514935
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,6,gamma-delta T cell,0.7898699520876112,0.8323699421965318,-0.04249999010892058
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,7,mucosal invariant T cell,0.7967980295566502,0.8579577866514546,-0.06115975709480437
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8624957029907184,0.8911355840404405,-0.028639881049722038
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8887630908576281,0.9251626898047722,-0.036399598947144174
+gcn_pca_knn_k50_unweighted_seed17,gcn,pca_knn_k50_unweighted,17,11,platelet,0.9100219458668617,0.8931351733899504,0.016886772476911283
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.924791086350975,0.9084444444444445,0.016346641906530457
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9803122878479293,0.977039067854695,0.0032732199932343775
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8168772756478904,0.8331846565566459,-0.016307380908755498
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9138968856320335,0.9183726353977715,-0.004475749765737946
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7595599790466213,0.7987711213517665,-0.03921114230514522
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,6,gamma-delta T cell,0.787305874409183,0.8303341902313625,-0.043028315822179475
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,7,mucosal invariant T cell,0.7803970223325062,0.8515842134519177,-0.07118719111941152
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,8,naive B cell,1.0,1.0,0.0
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.862860100051751,0.887509130752374,-0.024649030700623076
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8894557823129252,0.9209225700164745,-0.03146678770354927
+gcn_pca_knn_k50_unweighted_seed42,gcn,pca_knn_k50_unweighted,42,11,platelet,0.9078947368421053,0.8882642304989459,0.019630506343159437
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9263746505125815,0.8858603066439523,0.04051434386862918
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9804985585891131,0.9713496720745599,0.009148886514553145
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8149892933618844,0.8308177517458887,-0.015828458384004263
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9138066544406602,0.9203539823008849,-0.0065473278602247165
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7576862949452841,0.7983665135273098,-0.04068021858202575
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,6,gamma-delta T cell,0.7864406779661017,0.8297734627831715,-0.043332784817069814
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,7,mucosal invariant T cell,0.7825,0.8688340807174888,-0.08633408071748883
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8620630273807474,0.8924634014097235,-0.030400374028976107
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8898978433598184,0.9227000544365814,-0.032802211076763066
+gcn_pca_knn_k50_unweighted_seed7,gcn,pca_knn_k50_unweighted,7,11,platelet,0.9052478134110787,0.8933143669985776,0.011933446412501159
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.922077922077922,0.9036251105216623,0.018452811556259774
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9792939579090292,0.9771986970684039,0.0020952608406252793
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8159931212381771,0.8385941347660623,-0.022601013527885128
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9141361256544502,0.9320192064695476,-0.017883080815097374
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7511737089201878,0.7995712754555199,-0.048397566535332115
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,6,gamma-delta T cell,0.7896174863387978,0.8360128617363344,-0.046395375397536576
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,7,mucosal invariant T cell,0.7863354037267081,0.8615560640732265,-0.07522066034651842
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,8,naive B cell,1.0,1.0,0.0
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.864065990720055,0.8892122976168819,-0.025146306896826953
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.8881969997169544,0.92157394843962,-0.03337694872266561
+gcn_pca_knn_k50_unweighted_seed73,gcn,pca_knn_k50_unweighted,73,11,platelet,0.9072315558802045,0.8903043170559094,0.016927238824295143
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9225159525979946,0.9050576752440106,0.017458277353983975
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.980218281036835,0.9775415738042174,0.0026767072326175922
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,3,"central memory CD4-positive, alpha-beta T cell",0.8349514563106796,0.8352473498233216,-0.00029589351264203145
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,4,"effector CD8-positive, alpha-beta T cell",0.9290289520881373,0.9247089262613195,0.004320025826817786
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7828447339847991,0.7985648385443362,-0.015720104559537096
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,6,gamma-delta T cell,0.8216145833333334,0.8324468085106383,-0.010832225177304977
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,7,mucosal invariant T cell,0.8503401360544217,0.8565072302558399,-0.006167094201418144
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8853980721171011,0.887667216419278,-0.002269144302176951
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9194260485651214,0.917774762550882,0.0016512860142394725
+graphsage_bbknn_kperbatch2_donors12_seed101,graphsage,bbknn_kperbatch2_donors12,101,11,platelet,0.8949640287769784,0.8958630527817404,-0.0008990240047619391
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,0,CD14-positive monocyte,0.9993328885923949,0.9997778271495223,-0.0004449385571274611
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9204025617566332,0.9136690647482014,0.0067334970084317325
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.978730644886847,0.9781569965870307,0.0005736482998163206
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,3,"central memory CD4-positive, alpha-beta T cell",0.8296981714033929,0.8402793421941879,-0.010581170790795014
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,4,"effector CD8-positive, alpha-beta T cell",0.9288659793814433,0.9284619315278487,0.0004040478535946024
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7851772287862513,0.7904,-0.0052227712137487
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,6,gamma-delta T cell,0.8217562254259502,0.8323699421965318,-0.01061371677058165
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,7,mucosal invariant T cell,0.8491428571428571,0.8579577866514546,-0.008814929508597524
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8807923593915812,0.8911355840404405,-0.010343224648859284
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9163656571269797,0.9251626898047722,-0.008797032677792527
+graphsage_bbknn_kperbatch2_donors12_seed17,graphsage,bbknn_kperbatch2_donors12,17,11,platelet,0.8989090909090909,0.8931351733899504,0.00577391751914047
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,0,CD14-positive monocyte,0.9993328885923949,0.9997777283840854,-0.0004448397916905211
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9236430542778289,0.9084444444444445,0.015198609833384391
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.980105424247577,0.977039067854695,0.003066356392881997
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,3,"central memory CD4-positive, alpha-beta T cell",0.8322266489597167,0.8331846565566459,-0.0009580075969292112
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,4,"effector CD8-positive, alpha-beta T cell",0.9312387329384496,0.9183726353977715,0.012866097540678134
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7864806866952789,0.7987711213517665,-0.012290434656487603
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,6,gamma-delta T cell,0.8232958305757776,0.8303341902313625,-0.007038359655584858
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,7,mucosal invariant T cell,0.8461101646791596,0.8515842134519177,-0.005474048772758144
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,8,naive B cell,1.0,1.0,0.0
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8843849136411702,0.887509130752374,-0.0031242171112038086
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9190687361419069,0.9209225700164745,-0.001853833874567612
+graphsage_bbknn_kperbatch2_donors12_seed42,graphsage,bbknn_kperbatch2_donors12,42,11,platelet,0.902046783625731,0.8882642304989459,0.013782553126785113
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9202566452795601,0.8858603066439523,0.03439633863560776
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9785787147228834,0.9713496720745599,0.007229042648323469
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,3,"central memory CD4-positive, alpha-beta T cell",0.8283093053735255,0.8308177517458887,-0.002508446372363138
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,4,"effector CD8-positive, alpha-beta T cell",0.9259834368530021,0.9203539823008849,0.0056294545521171635
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,5,"effector memory CD8-positive, alpha-beta T cell",0.780331373597007,0.7983665135273098,-0.018035139930302813
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,6,gamma-delta T cell,0.8141239173884077,0.8297734627831715,-0.01564954539476382
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,7,mucosal invariant T cell,0.8474381116868164,0.8688340807174888,-0.021395969030672424
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8799439971998599,0.8924634014097235,-0.012519404209863527
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9085297418630752,0.9227000544365814,-0.014170312573506205
+graphsage_bbknn_kperbatch2_donors12_seed7,graphsage,bbknn_kperbatch2_donors12,7,11,platelet,0.9068047337278107,0.8933143669985776,0.013490366729233094
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,0,CD14-positive monocyte,0.9993328885923949,1.0,-0.0006671114076051143
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9206927985414768,0.9036251105216623,0.01706768801981451
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9803854681903462,0.9771986970684039,0.0031867711219423223
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,3,"central memory CD4-positive, alpha-beta T cell",0.8348361557070596,0.8385941347660623,-0.0037579790590026585
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,4,"effector CD8-positive, alpha-beta T cell",0.928222279392848,0.9320192064695476,-0.003796927076699652
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7901498929336188,0.7995712754555199,-0.009421382521901056
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,6,gamma-delta T cell,0.8268229166666666,0.8360128617363344,-0.009189945069667749
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,7,mucosal invariant T cell,0.8519362186788155,0.8615560640732265,-0.009619845394410964
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,8,naive B cell,1.0,1.0,0.0
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8859180035650623,0.8892122976168819,-0.0032942940518195796
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9212860310421286,0.92157394843962,-0.00028791739749145506
+graphsage_bbknn_kperbatch2_donors12_seed73,graphsage,bbknn_kperbatch2_donors12,73,11,platelet,0.8994938539407086,0.8903043170559094,0.009189536884799177
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9168949771689497,0.9050576752440106,0.011837301924939148
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.978882833787466,0.9775415738042174,0.0013412599832486327
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8352992573176059,0.8352473498233216,5.190749428429786e-05
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9242738589211619,0.9247089262613195,-0.0004350673401576355
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7773543821448013,0.7985648385443362,-0.021210456399534894
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,6,gamma-delta T cell,0.8013029315960912,0.8324468085106383,-0.03114387691454712
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,7,mucosal invariant T cell,0.8394629305312318,0.8565072302558399,-0.01704429972460808
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8833155460690146,0.887667216419278,-0.0043516703502634035
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9164847161572053,0.917774762550882,-0.0012900463936766915
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed101,graphsage,mutual_knn_reference_standard_query_k20_unweighted,101,11,platelet,0.9001447178002895,0.8958630527817404,0.004281665018549097
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.916058394160584,0.9136690647482014,0.002389329412382568
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9790424263077185,0.9781569965870307,0.0008854297206878359
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8364035087719298,0.8402793421941879,-0.003875833422258057
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9267029267029268,0.9284619315278487,-0.0017590048249219725
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7883995703544576,0.7904,-0.0020004296455423676
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,6,gamma-delta T cell,0.8260292164674635,0.8323699421965318,-0.006340725729068297
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,7,mucosal invariant T cell,0.8569787478460654,0.8579577866514546,-0.0009790388053891874
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8846632308512529,0.8911355840404405,-0.006472353189187596
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9172602739726028,0.9251626898047722,-0.00790241583216944
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed17,graphsage,mutual_knn_reference_standard_query_k20_unweighted,17,11,platelet,0.9015918958031838,0.8931351733899504,0.008456722413233364
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.918572735590119,0.9084444444444445,0.010128291145674484
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9795640326975477,0.977039067854695,0.002524964842852695
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8312254688181422,0.8331846565566459,-0.001959187738503676
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9223981313262393,0.9183726353977715,0.004025495928467793
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7680525164113785,0.7987711213517665,-0.030718604940388028
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,6,gamma-delta T cell,0.800524934383202,0.8303341902313625,-0.02980925584816041
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,7,mucosal invariant T cell,0.8322618351841029,0.8515842134519177,-0.0193223782678148
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,8,naive B cell,1.0,1.0,0.0
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8822700035248502,0.887509130752374,-0.005239127227523843
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9147586206896552,0.9209225700164745,-0.006163949326819296
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed42,graphsage,mutual_knn_reference_standard_query_k20_unweighted,42,11,platelet,0.8962536023054755,0.8882642304989459,0.007989371806529588
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.915684496826836,0.8858603066439523,0.029824190182883625
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9783461210571185,0.9713496720745599,0.0069964489825585785
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.837393021724819,0.8308177517458887,0.00657526997893032
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9254351779683034,0.9203539823008849,0.005081195667418492
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7851063829787234,0.7983665135273098,-0.013260130548586435
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,6,gamma-delta T cell,0.8218997361477572,0.8297734627831715,-0.007873726635414302
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,7,mucosal invariant T cell,0.8548387096774194,0.8688340807174888,-0.013995371040069426
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8864364542541829,0.8924634014097235,-0.00602694715554053
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9202083904579106,0.9227000544365814,-0.002491663978670844
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed7,graphsage,mutual_knn_reference_standard_query_k20_unweighted,7,11,platelet,0.900939985538684,0.8933143669985776,0.00762561854010646
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9170464904284412,0.9036251105216623,0.01342137990677894
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9793831998636906,0.9771986970684039,0.0021845027952867024
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.834469114091009,0.8385941347660623,-0.00412502067505327
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9258298755186722,0.9320192064695476,-0.006189330950875371
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7813852813852814,0.7995712754555199,-0.018185994070238465
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,6,gamma-delta T cell,0.8065146579804561,0.8360128617363344,-0.029498203755878305
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,7,mucosal invariant T cell,0.8452655889145496,0.8615560640732265,-0.016290475158676876
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,8,naive B cell,1.0,1.0,0.0
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8855314610735869,0.8892122976168819,-0.0036808365432949852
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9231610609789445,0.92157394843962,0.00158711253932442
+graphsage_mutual_knn_reference_standard_query_k20_unweighted_seed73,graphsage,mutual_knn_reference_standard_query_k20_unweighted,73,11,platelet,0.8981949458483754,0.8903043170559094,0.007890628792466048
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9142335766423357,0.9050576752440106,0.009175901398325137
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.978890023833844,0.9775415738042174,0.001348450029626691
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8307359307359308,0.8352473498233216,-0.004511419087390833
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9273570324574961,0.9247089262613195,0.002648106196176614
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7754880694143167,0.7985648385443362,-0.023076769130019548
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,6,gamma-delta T cell,0.8122503328894807,0.8324468085106383,-0.020196475621157672
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,7,mucosal invariant T cell,0.8341121495327103,0.8565072302558399,-0.022395080723129568
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8796164772727273,0.887667216419278,-0.008050739146550745
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9106548279689234,0.917774762550882,-0.007119934581958587
+graphsage_pca_knn_k20_unweighted_seed101,graphsage,pca_knn_k20_unweighted,101,11,platelet,0.8962536023054755,0.8958630527817404,0.0003905495237350731
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9178832116788321,0.9136690647482014,0.004214146930630713
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.979230507320395,0.9781569965870307,0.001073510733364258
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8350447891632073,0.8402793421941879,-0.005234553030980527
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9271182075714653,0.9284619315278487,-0.0013437239563833803
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7904,0.7904,0.0
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,6,gamma-delta T cell,0.8226018396846255,0.8323699421965318,-0.009768102511906296
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,7,mucosal invariant T cell,0.8553092182030338,0.8579577866514546,-0.0026485684484207628
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8819654619903863,0.8911355840404405,-0.009170122050054186
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9173599556295063,0.9251626898047722,-0.007802734175265891
+graphsage_pca_knn_k20_unweighted_seed17,graphsage,pca_knn_k20_unweighted,17,11,platelet,0.8949640287769784,0.8931351733899504,0.0018288553870280388
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9212454212454212,0.9084444444444445,0.012800976800976693
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9804188659969352,0.977039067854695,0.003379798142240209
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.828019952288007,0.8331846565566459,-0.005164704268638909
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.927371413802016,0.9183726353977715,0.008998778404244567
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7836383207750269,0.7987711213517665,-0.015132800576739602
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,6,gamma-delta T cell,0.8117099135063207,0.8303341902313625,-0.018624276725041744
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,7,mucosal invariant T cell,0.8372365339578455,0.8515842134519177,-0.01434767949407223
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,8,naive B cell,1.0,1.0,0.0
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8751322751322751,0.887509130752374,-0.012376855620098937
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9081775048841753,0.9209225700164745,-0.012745065132299227
+graphsage_pca_knn_k20_unweighted_seed42,graphsage,pca_knn_k20_unweighted,42,11,platelet,0.8968997837058399,0.8882642304989459,0.00863555320689402
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9173478655767484,0.8858603066439523,0.03148755893279609
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9788612342311627,0.9713496720745599,0.007511562156602758
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8277945619335347,0.8308177517458887,-0.0030231898123539436
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.92573491490459,0.9203539823008849,0.005380932603705091
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.774020397208803,0.7983665135273098,-0.024346116318506805
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,6,gamma-delta T cell,0.8162450066577897,0.8297734627831715,-0.013528456125381894
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,7,mucosal invariant T cell,0.8359788359788359,0.8688340807174888,-0.03285524473865287
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8768821966341895,0.8924634014097235,-0.01558120477553393
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.907769703745109,0.9227000544365814,-0.014930350691472416
+graphsage_pca_knn_k20_unweighted_seed7,graphsage,pca_knn_k20_unweighted,7,11,platelet,0.8975468975468975,0.8933143669985776,0.004232530548319957
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9168949771689497,0.9036251105216623,0.013269866647287465
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9792375765827094,0.9771986970684039,0.0020388795143054805
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8285280728376327,0.8385941347660623,-0.010066061928429515
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9283505154639176,0.9320192064695476,-0.0036686910056300537
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7861771058315334,0.7995712754555199,-0.01339416962398643
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,6,gamma-delta T cell,0.8190854870775348,0.8360128617363344,-0.016927374658799565
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,7,mucosal invariant T cell,0.8395061728395061,0.8615560640732265,-0.022049891233720365
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,8,naive B cell,1.0,1.0,0.0
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8790780141843971,0.8892122976168819,-0.010134283432484792
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9088888888888889,0.92157394843962,-0.012685059550731181
+graphsage_pca_knn_k20_unweighted_seed73,graphsage,pca_knn_k20_unweighted,73,11,platelet,0.8962536023054755,0.8903043170559094,0.005949285249566061
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.918869644484959,0.9050576752440106,0.013811969240948407
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.9800647469756347,0.9775415738042174,0.00252317317141737
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8367525098210389,0.8352473498233216,0.0015051599977172758
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9290853031860226,0.9247089262613195,0.0043763769247030515
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7826558265582656,0.7985648385443362,-0.015909011986070642
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,6,gamma-delta T cell,0.8193249503639973,0.8324468085106383,-0.013121858146641019
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,7,mucosal invariant T cell,0.8511870295309786,0.8565072302558399,-0.005320200724861279
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8852575488454707,0.887667216419278,-0.002409667573807339
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9165284687672748,0.917774762550882,-0.0012462937836071886
+graphsage_pca_knn_k24_unweighted_seed101,graphsage,pca_knn_k24_unweighted,101,11,platelet,0.900939985538684,0.8958630527817404,0.005076932756943653
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9180327868852459,0.9136690647482014,0.004363722137044501
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9793831998636906,0.9781569965870307,0.0012262032766598985
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8346422338568935,0.8402793421941879,-0.005637108337294361
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9280371421201961,0.9284619315278487,-0.00042478940765267037
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7826552462526767,0.7904,-0.0077447537473233075
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,6,gamma-delta T cell,0.8273145108338805,0.8323699421965318,-0.005055431362651297
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,7,mucosal invariant T cell,0.8546511627906976,0.8579577866514546,-0.0033066238607569742
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8816210451475294,0.8911355840404405,-0.009514538892911095
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9150943396226415,0.9251626898047722,-0.010068350182130703
+graphsage_pca_knn_k24_unweighted_seed17,graphsage,pca_knn_k24_unweighted,17,11,platelet,0.8981949458483754,0.8931351733899504,0.005059772458425038
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9187214611872146,0.9084444444444445,0.010277016742770151
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.9800715380684721,0.977039067854695,0.003032470213777172
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.8372398685651697,0.8331846565566459,0.0040552120085238785
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9276859504132231,0.9183726353977715,0.009313315015451629
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.7860589812332439,0.7987711213517665,-0.012712140118522619
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,6,gamma-delta T cell,0.8313570487483531,0.8303341902313625,0.0010228585169906879
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,7,mucosal invariant T cell,0.857307249712313,0.8515842134519177,0.005723036260395276
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,8,naive B cell,1.0,1.0,0.0
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8846699787083038,0.887509130752374,-0.002839152044070259
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9171515655306179,0.9209225700164745,-0.003771004485856544
+graphsage_pca_knn_k24_unweighted_seed42,graphsage,pca_knn_k24_unweighted,42,11,platelet,0.8967509025270758,0.8882642304989459,0.008486672028129916
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9181818181818182,0.8858603066439523,0.03232151153786589
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9792021820661438,0.9713496720745599,0.007852509991583934
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8291522491349481,0.8308177517458887,-0.0016655026109405613
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9266149870801034,0.9203539823008849,0.0062610047792184265
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7762947143619862,0.7983665135273098,-0.022071799165323647
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,6,gamma-delta T cell,0.8142186452045607,0.8297734627831715,-0.01555481757861088
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,7,mucosal invariant T cell,0.8390129259694477,0.8688340807174888,-0.029821154748041145
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8775402014490192,0.8924634014097235,-0.014923199960704236
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9074177356385945,0.9227000544365814,-0.015282318797986916
+graphsage_pca_knn_k24_unweighted_seed7,graphsage,pca_knn_k24_unweighted,7,11,platelet,0.900939985538684,0.8933143669985776,0.00762561854010646
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9175824175824175,0.9036251105216623,0.013957307060755264
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9797377830750894,0.9771986970684039,0.002539086006685509
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8339145597210114,0.8385941347660623,-0.004679575045050899
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9282395456892101,0.9320192064695476,-0.003779660780337535
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7849176845459374,0.7995712754555199,-0.014653590909582515
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,6,gamma-delta T cell,0.8200395517468688,0.8360128617363344,-0.015973309989465556
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,7,mucosal invariant T cell,0.847953216374269,0.8615560640732265,-0.013602847698957476
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,8,naive B cell,1.0,1.0,0.0
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8812355760695899,0.8892122976168819,-0.00797672154729201
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9144444444444444,0.92157394843962,-0.007129503995175646
+graphsage_pca_knn_k24_unweighted_seed73,graphsage,pca_knn_k24_unweighted,73,11,platelet,0.8973988439306358,0.8903043170559094,0.007094526874726448
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,1,"CD16-negative, CD56-bright natural killer cell, human",0.9172794117647058,0.9050576752440106,0.012221736520695248
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,2,"CD16-positive, CD56-dim natural killer cell, human",0.977906186267845,0.9775415738042174,0.0003646124636276227
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,3,"central memory CD4-positive, alpha-beta T cell",0.8377440347071583,0.8352473498233216,0.0024966848838366973
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,4,"effector CD8-positive, alpha-beta T cell",0.9261849261849262,0.9247089262613195,0.0014759999236066967
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,5,"effector memory CD8-positive, alpha-beta T cell",0.7801188546731497,0.7985648385443362,-0.018445983871186566
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,6,gamma-delta T cell,0.8153034300791556,0.8324468085106383,-0.017143378431482725
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,7,mucosal invariant T cell,0.8397212543554007,0.8565072302558399,-0.016785975900439176
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8822277403334515,0.887667216419278,-0.005439476085826511
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9141274238227147,0.917774762550882,-0.0036473387281672487
+graphsage_pca_knn_k50_unweighted_seed101,graphsage,pca_knn_k50_unweighted,101,11,platelet,0.9039301310043668,0.8958630527817404,0.008067078222626423
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,1,"CD16-negative, CD56-bright natural killer cell, human",0.9181232750689973,0.9136690647482014,0.004454210320795848
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,2,"CD16-positive, CD56-dim natural killer cell, human",0.9782534828406388,0.9781569965870307,9.648625360814123e-05
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,3,"central memory CD4-positive, alpha-beta T cell",0.8349683889252234,0.8402793421941879,-0.005310953268964469
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,4,"effector CD8-positive, alpha-beta T cell",0.9248315189217211,0.9284619315278487,-0.00363041260612762
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,5,"effector memory CD8-positive, alpha-beta T cell",0.7838125665601704,0.7904,-0.006587433439829593
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,6,gamma-delta T cell,0.8167539267015707,0.8323699421965318,-0.015616015494961166
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,7,mucosal invariant T cell,0.8470040721349622,0.8579577866514546,-0.010953714516492408
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8812056737588653,0.8911355840404405,-0.009929910281575194
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9146985273687135,0.9251626898047722,-0.010464162436058744
+graphsage_pca_knn_k50_unweighted_seed17,graphsage,pca_knn_k50_unweighted,17,11,platelet,0.9052478134110787,0.8931351733899504,0.01211264002112833
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,0,CD14-positive monocyte,0.9995553579368608,0.9997777283840854,-0.00022237044722461796
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,1,"CD16-negative, CD56-bright natural killer cell, human",0.9196675900277008,0.9084444444444445,0.011223145583256322
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,2,"CD16-positive, CD56-dim natural killer cell, human",0.980452150263471,0.977039067854695,0.0034130824087760248
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,3,"central memory CD4-positive, alpha-beta T cell",0.837006327732926,0.8331846565566459,0.0038216711762801836
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,4,"effector CD8-positive, alpha-beta T cell",0.9231568016614745,0.9183726353977715,0.004784166263703038
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,5,"effector memory CD8-positive, alpha-beta T cell",0.776657824933687,0.7987711213517665,-0.022113296418079575
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,6,gamma-delta T cell,0.8229854689564069,0.8303341902313625,-0.007348721274955561
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,7,mucosal invariant T cell,0.8505214368482039,0.8515842134519177,-0.0010627766037137887
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,8,naive B cell,1.0,1.0,0.0
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8818535550053059,0.887509130752374,-0.005655575747068098
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9152542372881356,0.9209225700164745,-0.005668332728338887
+graphsage_pca_knn_k50_unweighted_seed42,graphsage,pca_knn_k50_unweighted,42,11,platelet,0.9032727272727272,0.8882642304989459,0.015008496773781355
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,0,CD14-positive monocyte,0.9995553579368608,0.9997778271495223,-0.00022246921266155795
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,1,"CD16-negative, CD56-bright natural killer cell, human",0.9194139194139194,0.8858603066439523,0.033553612769967045
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,2,"CD16-positive, CD56-dim natural killer cell, human",0.9784050331576263,0.9713496720745599,0.007055361083066369
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,3,"central memory CD4-positive, alpha-beta T cell",0.8397379912663755,0.8308177517458887,0.008920239520486817
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,4,"effector CD8-positive, alpha-beta T cell",0.9241129241129241,0.9203539823008849,0.0037589418120391738
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,5,"effector memory CD8-positive, alpha-beta T cell",0.7874015748031497,0.7983665135273098,-0.010964938724160156
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,6,gamma-delta T cell,0.8292358803986711,0.8297734627831715,-0.0005375823845004124
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,7,mucosal invariant T cell,0.8578034682080925,0.8688340807174888,-0.011030612509396298
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,8,naive B cell,1.0,0.9992673992673993,0.00073260073260073
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8855368234250222,0.8924634014097235,-0.00692657798470131
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.919431279620853,0.9227000544365814,-0.0032687748157284036
+graphsage_pca_knn_k50_unweighted_seed7,graphsage,pca_knn_k50_unweighted,7,11,platelet,0.8998548621190131,0.8933143669985776,0.00654049512043553
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,0,CD14-positive monocyte,0.9995553579368608,1.0,-0.0004446420631392112
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,1,"CD16-negative, CD56-bright natural killer cell, human",0.9227941176470589,0.9036251105216623,0.019169007125396598
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,2,"CD16-positive, CD56-dim natural killer cell, human",0.9799319727891157,0.9771986970684039,0.002733275720711803
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,3,"central memory CD4-positive, alpha-beta T cell",0.8368237347294939,0.8385941347660623,-0.0017704000365683648
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,4,"effector CD8-positive, alpha-beta T cell",0.9269430051813472,0.9320192064695476,-0.00507620128820041
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,5,"effector memory CD8-positive, alpha-beta T cell",0.7840425531914894,0.7995712754555199,-0.015528722264030459
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,6,gamma-delta T cell,0.8203125,0.8360128617363344,-0.01570036173633438
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,7,mucosal invariant T cell,0.8444444444444444,0.8615560640732265,-0.01711161962878205
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,8,naive B cell,1.0,1.0,0.0
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,9,"naive thymus-derived CD4-positive, alpha-beta T cell",0.8845401174168297,0.8892122976168819,-0.004672180200052223
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,10,"naive thymus-derived CD8-positive, alpha-beta T cell",0.9165284687672748,0.92157394843962,-0.005045479672345254
+graphsage_pca_knn_k50_unweighted_seed73,graphsage,pca_knn_k50_unweighted,73,11,platelet,0.9034132171387074,0.8903043170559094,0.01310890008279797

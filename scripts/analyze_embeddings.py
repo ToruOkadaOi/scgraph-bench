@@ -160,7 +160,14 @@ def run_embedding_analysis(
         )
         if make_plots:
             plot_jobs.append(
-                (name, emb_test, y_test, donor_by_part.get("test"), site_by_part.get("test"))
+                (
+                    name,
+                    rec.manifest.seed,
+                    emb_test,
+                    y_test,
+                    donor_by_part.get("test"),
+                    site_by_part.get("test"),
+                )
             )
 
     for part_name, X_ref, y_ref in [
@@ -204,9 +211,9 @@ def run_embedding_analysis(
     if make_plots and plot_jobs:
         plots_dir = out_dir / "projections"
         plots_dir.mkdir(exist_ok=True)
-        for name, emb, y, donors, sites in plot_jobs:
+        for name, seed, emb, y, donors, sites in plot_jobs:
             coords = _project_2d(emb)
-            safe = name.replace("/", "_")
+            safe = f"{name.replace('/', '_')}_seed{seed}"
             _plot_projection(
                 coords,
                 y,

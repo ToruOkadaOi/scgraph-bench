@@ -1,1 +1,8 @@
 feature,pearson_r,spearman_rho
+mean_train_donor_entropy,0.8523655307499526,1.0
+log_num_edges,0.988288782405967,1.0
+test_to_train_query_homophily,-0.6423596291216918,-0.9486832980505139
+overall_edge_homophily,-0.6770798511092343,-1.0
+train_train_edge_homophily,-0.892826486242477,-1.0
+macro_average_class_purity,-0.7393509100740187,-1.0
+train_intra_site_edge_fraction,-0.6725604859803654,-1.0

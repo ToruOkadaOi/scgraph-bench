@@ -89,3 +89,6 @@ five_seed_summary.txt
 # OS
 .DS_Store
 Thumbs.db
+
+# Manual quarantine: non-canonical CPU-device run dirs (payloads kept on disk, not in git)
+/audits/gpu_runs/manual_quarantine_noncuda/
