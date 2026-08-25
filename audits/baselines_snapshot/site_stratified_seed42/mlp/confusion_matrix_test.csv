@@ -1,0 +1,13 @@
+,Pred_CD14-positive monocyte,"Pred_CD16-negative, CD56-bright natural killer cell, human","Pred_CD16-positive, CD56-dim natural killer cell, human","Pred_central memory CD4-positive, alpha-beta T cell","Pred_effector CD8-positive, alpha-beta T cell","Pred_effector memory CD8-positive, alpha-beta T cell",Pred_gamma-delta T cell,Pred_mucosal invariant T cell,Pred_naive B cell,"Pred_naive thymus-derived CD4-positive, alpha-beta T cell","Pred_naive thymus-derived CD8-positive, alpha-beta T cell",Pred_platelet
+True_CD14-positive monocyte,2249,0,0,0,0,0,1,0,0,0,0,0
+"True_CD16-negative, CD56-bright natural killer cell, human",0,511,14,0,0,1,1,0,0,0,0,0
+"True_CD16-positive, CD56-dim natural killer cell, human",0,71,2851,0,2,0,3,1,0,0,0,0
+"True_central memory CD4-positive, alpha-beta T cell",0,1,10,1868,62,14,34,30,0,205,66,69
+"True_effector CD8-positive, alpha-beta T cell",0,1,23,1,1772,103,43,3,0,2,5,11
+"True_effector memory CD8-positive, alpha-beta T cell",0,0,2,7,50,780,12,60,0,1,36,17
+True_gamma-delta T cell,0,10,5,43,5,6,646,20,0,26,8,5
+True_mucosal invariant T cell,0,1,2,8,1,30,13,766,0,36,4,14
+True_naive B cell,0,0,0,0,0,0,0,0,682,0,0,0
+"True_naive thymus-derived CD4-positive, alpha-beta T cell",0,0,1,190,0,0,28,39,0,2430,44,12
+"True_naive thymus-derived CD8-positive, alpha-beta T cell",0,0,0,8,0,54,1,5,0,32,1677,25
+True_platelet,0,3,0,0,3,0,0,0,0,0,0,632

@@ -1,0 +1,20 @@
+{
+  "run_id": "logistic_regression_site_stratified_seed42",
+  "status": "success",
+  "model_name": "logistic_regression",
+  "model_config_hash": "6f4e4cd0bd0c1882b932ad5401c3fc684544ed860f47eb528be39710db653095",
+  "dataset_name": "stephenson_2021_healthy_pbmc",
+  "dataset_version": "2025-11-08",
+  "split_id": "site_stratified_seed42",
+  "split_hash": "1fab2da901f2cc2838d3715a21e1b62a9fd9a33d1188f9f28b174c576163635e",
+  "feature_manifest_hash": "751e9858f48c4950ebbb5daae2207956d5adf1101e667d013994b50d256283a3",
+  "preprocessing_config_hash": "02db0690cc8f6748ddb925fd67f2e01940b5ffc5724d7caeb476b83c607c1f08",
+  "graph_artifact_hash": null,
+  "label_mapping_hash": "cb3b67fd2e9382471882e395b5ef282694a83ad9e058108bcce1c694610b0d9e",
+  "seed": 42,
+  "selected_params": {
+    "C": 10.0,
+    "class_weight": null
+  },
+  "training_time_seconds": 5.394247000003816
+}

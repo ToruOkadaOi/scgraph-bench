@@ -1,0 +1,30 @@
+{
+  "run_id": "mlp_site_stratified_seed42_seed17",
+  "status": "success",
+  "model_name": "mlp",
+  "model_config_hash": "d4c9b81cb7de189181c0a3c8b0bcfd1953f83b2719aee61384ba5d2aca225c2d",
+  "dataset_name": "stephenson_2021_healthy_pbmc",
+  "dataset_version": "2025-11-08",
+  "split_id": "site_stratified_seed42",
+  "split_hash": "1fab2da901f2cc2838d3715a21e1b62a9fd9a33d1188f9f28b174c576163635e",
+  "feature_manifest_hash": "751e9858f48c4950ebbb5daae2207956d5adf1101e667d013994b50d256283a3",
+  "preprocessing_config_hash": "02db0690cc8f6748ddb925fd67f2e01940b5ffc5724d7caeb476b83c607c1f08",
+  "graph_artifact_hash": null,
+  "label_mapping_hash": "cb3b67fd2e9382471882e395b5ef282694a83ad9e058108bcce1c694610b0d9e",
+  "seed": 17,
+  "device": {
+    "device": "cpu",
+    "processor": "arm",
+    "machine": "arm64",
+    "system": "Darwin"
+  },
+  "code_version": "f57fa11a7d12bb2232373b3dd56bab4aa0baef9a+dirty",
+  "torch_geometric_version": null,
+  "parameter_count": 24588,
+  "best_epoch": 31,
+  "best_val_macro_f1": 0.8910933019272224,
+  "selected_params": null,
+  "training_time_seconds": 14.490036666997185,
+  "failure_metadata": null,
+  "created_at_utc": "2026-08-25T13:31:14.511436+00:00"
+}
