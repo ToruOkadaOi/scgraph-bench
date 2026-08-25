@@ -2,6 +2,8 @@
 
 `scgraph-bench` is a benchmark for evaluating whether cell–cell graphs provide a genuine inductive benefit over strong non-graph baselines for single-cell cell-type annotation(as a test case).
 
+🏳️This is a learning project I am pursuing during my leisure time to question and deepen my understanding of some concepts
+
 ---
 
 ## 1. Core Research Question
@@ -83,6 +85,9 @@ src/scgraph_bench/
 
 ## 5. Analysis & Diagnostics Tooling
 
+<details>
+<summary>Here!</summary>
+
 Post hoc analysis over frozen run artifacts (all retroactively applicable to saved `test_probs.npy` / `metrics_summary.json`):
 
 | Script | Purpose |
@@ -109,6 +114,8 @@ uv run python scripts/receive_gpu_delivery.py gpu_results_*.tar.gz             #
 
 Four verification layers: per-file SHA-256 (transfer corruption), batch aggregate hash (tampering), provenance hash-chain match against local canonical artifacts (stale features/splits/graphs), and independent semantic recomputation of reported metrics from frozen labels. PASS runs are ingested into `artifacts/results/`; FAILs are quarantined under `audits/gpu_runs/<batch>/quarantine/`. Every delivery is recorded in the append-only `audits/gpu_runs/ingestion_log.jsonl`.
 
+</details>
+
 ## 6. Key findings (Stephenson 2021 PBMC)
 
 Using a site-stratified, multi-seed protocol on the Stephenson 2021 healthy PBMC dataset (canonical audited results; matched MLP reference 0.9026 ± 0.0015):
@@ -125,6 +132,6 @@ Homophily anti-correlates with lift: across the five graph conditions, train-tra
 
 GraphSAGE on BBKNN shows the smallest cross-site performance drop (0.0170 vs MLP 0.0218), suggesting improved robustness to site-level variation, though the margin is narrow and requires confirmation on additional datasets.
 
-Embedding-quality analysis adds a mechanistic explanation: representation separability orders exactly like task performance — MLP penultimate embeddings are most class-separable (silhouette ≈ 0.29, kNN accuracy 0.912), GraphSAGE hidden layers approach them (≈ 0.24 / 0.909), GCN trails (≈ 0.28 / 0.894), and raw PCA input sits far below (≈ 0.15 / 0.887). Message passing adds structure over the inputs, but never more than a feature-only network learns from the same features.
+Embedding-quality analysis revealed that representation separability orders exactly like task performance; MLP penultimate embeddings are most class-separable (silhouette ≈ 0.29, kNN accuracy 0.912), GraphSAGE hidden layers approach them (≈ 0.24 / 0.909), GCN trails (≈ 0.28 / 0.894), and raw PCA input sits far below (≈ 0.15 / 0.887). Message passing adds structure over the inputs, but never more than a feature-only network learns from the same features.
 
-Full tables, ablations, and error analysis: docs/results-stephenson-2021.md.
+Full tables, ablations, and error analysis: [docs/results-stephenson-2021.md](docs/results-stephenson-2021.md)
