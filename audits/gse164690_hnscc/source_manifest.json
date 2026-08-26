@@ -1,0 +1,33 @@
+{
+  "dataset_name": "gse164690_hnscc",
+  "title": "Investigating Immune and Non-Immune Cell Interactions in Head and Neck Tumors by Single-Cell RNA Sequencing (K\u00fcrten et al., Nature Communications 2021)",
+  "source_repository": "NCBI GEO GSE164690 / SRP301444",
+  "accession": "GSE164690 / DOI:10.1038/s41467-021-27619-4",
+  "h5ad_filename": "gse164690_raw_unintegrated.h5ad",
+  "h5ad_size_bytes": 1570349592,
+  "download_timestamp_utc": "2026-08-26T12:01:45.892728+00:00",
+  "anndata_schema": {
+    "n_obs_raw": 151680,
+    "n_vars": 33545,
+    "is_raw_integer_counts": true,
+    "obs_columns": [
+      "cell_id",
+      "donor_id",
+      "gsm_id",
+      "compartment",
+      "tissue",
+      "sorting",
+      "hpv_status"
+    ],
+    "donor_key": "donor_id",
+    "label_key": "cell_type",
+    "compartment_key": "compartment",
+    "tissue_key": "tissue",
+    "hpv_key": "hpv_status"
+  },
+  "filtering_rules": {
+    "donor_cell_threshold": "min 200 cells per donor",
+    "annotation_filter": "canonical lineage assignment with score >= 0.1",
+    "label_policy": "14 robust primary classes present across >= 8 donors"
+  }
+}

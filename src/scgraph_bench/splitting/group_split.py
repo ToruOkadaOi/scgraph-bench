@@ -19,6 +19,7 @@ def create_site_stratified_donor_split(
     site_key: str = "site",
     label_key: str = "cell_type",
     split_id: str = "site_stratified_seed42",
+    dataset_name: str | None = None,
     config: SplitConfig | None = None,
     seed: int = 42,
 ) -> SplitDefinition:
@@ -146,9 +147,12 @@ def create_site_stratified_donor_split(
             logger.warning(msg)
 
     split_def = SplitDefinition(
-        dataset_name=adata.obs.get(
-            "dataset_name", pd.Series(["stephenson_2021_healthy_pbmc"])
-        ).iloc[0],
+        dataset_name=dataset_name
+        or (
+            adata.obs["dataset_name"].iloc[0]
+            if "dataset_name" in adata.obs.columns
+            else "stephenson_2021_healthy_pbmc"
+        ),
         split_id=split_id,
         split_type=SplitType.DONOR_HELD_OUT,
         seed=seed,

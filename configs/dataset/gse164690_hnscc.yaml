@@ -1,0 +1,10 @@
+name: gse164690_hnscc
+description: "Kürten et al. (2021) Nature Communications HNSCC Cohort (18 treatment-naive patients, Tumor CD45+, CD45- and matched PBL, HPV+ & HPV-)"
+cell_id_key: cell_id
+label_key: cell_type
+donor_key: donor_id
+batch_key: compartment
+constraints:
+  min_cells_per_donor: 200
+  min_donors_per_class: 8
+  allow_missing_donors: false

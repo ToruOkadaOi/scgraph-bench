@@ -8,13 +8,14 @@ import numpy as np
 from rich.console import Console
 from rich.table import Table
 
+from scgraph_bench.config.dataset import DatasetConfig
 from scgraph_bench.config.graph import (
     BBKNNConfig,
     MutualkNNConfig,
     PCAkNNConfig,
     RewiredControlConfig,
 )
-from scgraph_bench.data.loaders import StephensonHealthyPBMCLoader
+from scgraph_bench.data.registry import get_dataset_loader
 from scgraph_bench.diagnostics.runner import (
     run_graph_diagnostics,
     save_diagnostics_report,
@@ -42,27 +43,34 @@ def build_and_evaluate_graphs_cli(
     console.print(f"[blue]Loading preprocessed features from:[/blue] {prep_dir}")
     prep_bundle = PreprocessedBundle.load(prep_dir)
 
-    # Load donor and site metadata for BBKNN and diagnostics
-    loader = StephensonHealthyPBMCLoader()
-    adata = loader.load()
+    # Load donor and site/batch metadata for BBKNN and diagnostics
+    ds_config_path = paths.configs_dir / "dataset" / f"{dataset_name.replace('stephenson_2021_healthy_pbmc', 'stephenson_healthy_pbmc')}.yaml"
+    if not ds_config_path.is_file():
+        ds_config_path = paths.configs_dir / "dataset" / f"{dataset_name}.yaml"
+    ds_config = DatasetConfig.from_yaml(ds_config_path)
+
+    loader = get_dataset_loader(dataset_name)
+    adata = loader.load(ds_config, primary_only=True)
     obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
 
+    site_col = "site" if "site" in adata.obs.columns else ("hpv_status" if "hpv_status" in adata.obs.columns else ds_config.batch_key)
+
     train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-        "donor_id"
+        ds_config.donor_key
     ].tolist()
     val_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
-        "donor_id"
+        ds_config.donor_key
     ].tolist()
     test_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-        "donor_id"
+        ds_config.donor_key
     ].tolist()
 
     train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
-        "site"
+        site_col
     ].tolist()
-    val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]]["site"].tolist()
+    val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][site_col].tolist()
     test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
-        "site"
+        site_col
     ].tolist()
 
     all_donor_ids = train_donors + val_donors + test_donors

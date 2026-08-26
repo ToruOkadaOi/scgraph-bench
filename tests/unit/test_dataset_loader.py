@@ -126,3 +126,54 @@ def test_stephenson_loader_missing_census_error(tmp_path, monkeypatch):
 
     with pytest.raises(RuntimeError, match="cellxgene_census is required"):
         loader.load()
+
+
+def test_gse164690_loader_dev_subsampling(tmp_path):
+    """Verify GSE164690 loader dev subsampling on mock fixture."""
+    from scgraph_bench.data.loaders import GSE164690HNSCCLoader
+
+    manifest_path = tmp_path / "gse164690_manifest.csv"
+    donors = [f"HN{i:02d}" for i in range(1, 19)]
+    manifest_df = pd.DataFrame(
+        {
+            "donor_id": donors,
+            "hpv_status": ["HPV_positive"] * 6 + ["HPV_negative"] * 12,
+            "inclusion_status": ["included"] * 18,
+        }
+    )
+    manifest_df.to_csv(manifest_path, index=False)
+
+    cells_per_donor = 60
+    n_cells = len(donors) * cells_per_donor
+    cell_ids = [f"cell_{i:05d}" for i in range(n_cells)]
+    cell_donors = [d for d in donors for _ in range(cells_per_donor)]
+    rng = np.random.default_rng(42)
+    cell_labels = rng.choice(GSE164690HNSCCLoader.PRIMARY_V0_LABELS, size=n_cells)
+
+    mock_x = sparse.csr_matrix(rng.poisson(lam=2.0, size=(n_cells, 50)).astype(np.float32))
+    mock_obs = pd.DataFrame(
+        {
+            "donor_id": cell_donors,
+            "cell_type": cell_labels,
+            "compartment": ["tumor"] * n_cells,
+        },
+        index=cell_ids,
+    )
+    mock_var = pd.DataFrame(
+        {"gene_id": [f"ENSG{j:08d}" for j in range(50)]},
+        index=[f"GENE{j:04d}" for j in range(50)],
+    )
+    mock_adata = ad.AnnData(X=mock_x, obs=mock_obs, var=mock_var)
+
+    cache_dir = tmp_path / "cache"
+    cache_dir.mkdir()
+    cache_file = cache_dir / "gse164690_annotated.h5ad"
+    mock_adata.write_h5ad(cache_file)
+
+    loader = GSE164690HNSCCLoader(cache_dir=cache_dir, manifest_path=manifest_path)
+    adata_sub = loader.load(dev_subsample_per_donor=20, seed=42)
+
+    assert adata_sub.n_obs == 18 * 20
+    assert (adata_sub.obs["donor_id"].value_counts() == 20).all()
+    assert adata_sub.obs["cell_type"].isin(GSE164690HNSCCLoader.PRIMARY_V0_LABELS).all()
+

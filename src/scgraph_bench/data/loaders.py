@@ -162,6 +162,131 @@ class StephensonHealthyPBMCLoader(BaseDatasetLoader):
         return adata
 
 
+@register_dataset("gse164690_hnscc")
+class GSE164690HNSCCLoader(BaseDatasetLoader):
+    """Production loader for GSE164690 Head and Neck Squamous Cell Carcinoma (HNSCC) cohort."""
+
+    PRIMARY_V0_LABELS = [
+        "B cell",
+        "CD4-positive, alpha-beta T cell",
+        "CD8-positive, alpha-beta T cell",
+        "classical monocyte",
+        "dendritic cell",
+        "endothelial cell",
+        "fibroblast",
+        "macrophage",
+        "malignant epithelial cell",
+        "mast cell",
+        "natural killer cell",
+        "non-classical monocyte",
+        "plasma cell",
+        "regulatory T cell",
+    ]
+
+    def __init__(
+        self,
+        cache_dir: Path | str | None = None,
+        manifest_path: Path | str | None = None,
+    ) -> None:
+        super().__init__(cache_dir)
+        self.manifest_path = (
+            Path(manifest_path)
+            if manifest_path
+            else Path(__file__).parents[3] / "configs" / "dataset" / "gse164690_donor_manifest.csv"
+        )
+
+    def load(
+        self,
+        config: DatasetConfig | None = None,
+        dev_subsample_per_donor: int | None = None,
+        seed: int = 42,
+        primary_only: bool = True,
+    ) -> ad.AnnData:
+        """Load and standardize GSE164690 HNSCC dataset."""
+        if config is None:
+            config = DatasetConfig(
+                name="gse164690_hnscc",
+                description="Kürten et al. (2021) Nature Communications HNSCC Cohort",
+                cell_id_key="cell_id",
+                label_key="cell_type",
+                donor_key="donor_id",
+                batch_key="compartment",
+            )
+
+        cache_file = self.cache_dir / "gse164690_annotated.h5ad"
+
+        if cache_file.is_file():
+            logger.info("Loading GSE164690 from local cache %s", cache_file)
+            adata = ad.read_h5ad(cache_file)
+        else:
+            logger.info("Local cache not found. Running audit loader...")
+            from scripts.audit_gse164690_hnscc import run_audit
+            project_root = Path(__file__).parents[3]
+            run_audit(self.cache_dir.parent, project_root / "audits" / "gse164690_hnscc")
+            adata = ad.read_h5ad(cache_file)
+
+        # 1. Apply versioned donor manifest to filter to included donors
+        if self.manifest_path.is_file():
+            manifest_df = pd.read_csv(self.manifest_path)
+            included_donors = manifest_df[manifest_df["inclusion_status"] == "included"][
+                "donor_id"
+            ].tolist()
+            mask_included = adata.obs["donor_id"].isin(included_donors)
+            adata = adata[mask_included].copy()
+
+        # 2. Standardize obs and var metadata fields
+        adata.obs["cell_id"] = adata.obs_names.astype(str)
+        if "feature_id" in adata.var.columns:
+            adata.var_names = adata.var["feature_id"].astype(str)
+
+        # 3. Label policy: Mark and filter primary classes
+        adata.obs["is_primary_v0"] = adata.obs["cell_type"].isin(self.PRIMARY_V0_LABELS)
+
+        if primary_only:
+            adata = adata[adata.obs["is_primary_v0"]].copy()
+
+        # 4. Optional deterministic development subsampling per donor
+        if dev_subsample_per_donor is not None and dev_subsample_per_donor > 0:
+            logger.info(
+                "Applying development subsample cap: max %d cells per donor (seed=%d)",
+                dev_subsample_per_donor,
+                seed,
+            )
+            rng = np.random.default_rng(seed)
+            sampled_indices: list[int] = []
+            for donor in adata.obs["donor_id"].unique():
+                donor_cell_idx = np.where(adata.obs["donor_id"] == donor)[0]
+                if len(donor_cell_idx) > dev_subsample_per_donor:
+                    chosen = rng.choice(donor_cell_idx, size=dev_subsample_per_donor, replace=False)
+                    sampled_indices.extend(chosen)
+                else:
+                    sampled_indices.extend(donor_cell_idx)
+            sampled_indices.sort()
+            adata = adata[sampled_indices].copy()
+
+        # 5. Validate schema
+        if dev_subsample_per_donor is not None and dev_subsample_per_donor > 0:
+            config = config.model_copy(
+                update={
+                    "constraints": config.constraints.model_copy(
+                        update={
+                            "min_cells_per_donor": min(
+                                config.constraints.min_cells_per_donor, dev_subsample_per_donor
+                            )
+                        }
+                    )
+                }
+            )
+        validate_anndata_schema(adata, config)
+        logger.info(
+            "GSE164690 HNSCC loaded successfully: shape=%s, donors=%d, labels=%d",
+            adata.shape,
+            adata.obs["donor_id"].nunique(),
+            adata.obs["cell_type"].nunique(),
+        )
+        return adata
+
+
 @register_dataset("synthetic_fixture")
 class SyntheticFixtureLoader(BaseDatasetLoader):
     """Synthetic multi-donor scRNA-seq loader for unit and integration testing."""

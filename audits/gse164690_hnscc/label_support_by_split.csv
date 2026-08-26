@@ -1,0 +1,16 @@
+cell_type,train,val,test,Total
+B cell,2497,2526,3048,8071
+"CD4-positive, alpha-beta T cell",13409,7055,8394,28858
+"CD8-positive, alpha-beta T cell",7980,3666,3507,15153
+classical monocyte,11709,2656,7273,21638
+dendritic cell,191,160,137,488
+endothelial cell,6695,1318,1698,9711
+fibroblast,5156,963,341,6460
+macrophage,1368,81,431,1880
+malignant epithelial cell,12571,4086,2395,19052
+mast cell,202,46,73,321
+natural killer cell,9974,3566,3077,16617
+non-classical monocyte,1601,518,1439,3558
+plasma cell,396,279,1119,1794
+regulatory T cell,1978,692,610,3280
+Total,75727,27612,33542,136881

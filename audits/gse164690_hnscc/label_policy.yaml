@@ -1,0 +1,45 @@
+dataset: gse164690_hnscc
+primary_robust_labels:
+- B cell
+- CD4-positive, alpha-beta T cell
+- CD8-positive, alpha-beta T cell
+- classical monocyte
+- dendritic cell
+- endothelial cell
+- fibroblast
+- macrophage
+- malignant epithelial cell
+- mast cell
+- natural killer cell
+- non-classical monocyte
+- plasma cell
+- regulatory T cell
+deferred_low_support_labels: []
+excluded_labels: []
+total_primary_cells: 136881
+total_donors: 18
+proposed_partitions:
+  train_donors:
+  - HN01
+  - HN02
+  - HN03
+  - HN07
+  - HN08
+  - HN09
+  - HN10
+  - HN11
+  - HN12
+  - HN13
+  train_cells: 75727
+  val_donors:
+  - HN04
+  - HN14
+  - HN15
+  - HN16
+  val_cells: 27612
+  test_donors:
+  - HN05
+  - HN06
+  - HN17
+  - HN18
+  test_cells: 33542

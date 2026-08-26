@@ -80,13 +80,16 @@ def validate_all_artifacts(
 
     # 3. Validate All Graph Bundles
     graph_base_dir = paths.artifacts_dir / "graphs" / dataset_name / split_id
-    expected_graphs = [
-        "pca_knn_k20_unweighted",
-        "pca_knn_k24_unweighted",
-        "mutual_knn_reference_standard_query_k20_unweighted",
-        "bbknn_kperbatch2_donors12",
-        "rewired_control_pca_knn_seed42",
-    ]
+    if graph_base_dir.is_dir():
+        expected_graphs = sorted([d.name for d in graph_base_dir.iterdir() if d.is_dir() and (d / "graph_manifest.json").is_file()])
+    else:
+        expected_graphs = [
+            "pca_knn_k20_unweighted",
+            "pca_knn_k24_unweighted",
+            "mutual_knn_reference_standard_query_k20_unweighted",
+            "bbknn_kperbatch2_donors12",
+            "rewired_control_pca_knn_seed42",
+        ]
 
     for g_name in expected_graphs:
         g_dir = graph_base_dir / g_name
