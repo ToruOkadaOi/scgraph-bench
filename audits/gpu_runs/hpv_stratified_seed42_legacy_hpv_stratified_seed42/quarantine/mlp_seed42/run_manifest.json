@@ -1,0 +1,30 @@
+{
+  "run_id": "mlp_hpv_stratified_seed42_seed42",
+  "status": "success",
+  "model_name": "mlp",
+  "model_config_hash": "260975ea50c94863e9bc4a8232dad79aebac225aa9c361c8552d2b969d480b42",
+  "dataset_name": "gse164690_hnscc",
+  "dataset_version": "2025-11-08",
+  "split_id": "hpv_stratified_seed42",
+  "split_hash": "867d29e5efc369c3532c01ec2d5be8e61b54b2a70438d5ae79bf4538942abce2",
+  "feature_manifest_hash": "f34c6551fceb82c9522334c2e531aea3d7bfbd95d84cb9d6963e98c135657f56",
+  "preprocessing_config_hash": "02db0690cc8f6748ddb925fd67f2e01940b5ffc5724d7caeb476b83c607c1f08",
+  "graph_artifact_hash": null,
+  "label_mapping_hash": "64dd8cecf7e77ff4f3c5e218963f4c6064e5a15ccb5fa5d6b261ba237f6be86e",
+  "seed": 42,
+  "device": {
+    "device": "cpu",
+    "processor": "arm",
+    "machine": "arm64",
+    "system": "Darwin"
+  },
+  "code_version": "274c2851fb2174947a4a3b2dcb620e3c6a29d371+dirty",
+  "torch_geometric_version": null,
+  "parameter_count": 24846,
+  "best_epoch": 59,
+  "best_val_macro_f1": 0.8405713772389893,
+  "selected_params": null,
+  "training_time_seconds": 32.31883179200031,
+  "failure_metadata": null,
+  "created_at_utc": "2026-08-26T12:18:07.646549+00:00"
+}

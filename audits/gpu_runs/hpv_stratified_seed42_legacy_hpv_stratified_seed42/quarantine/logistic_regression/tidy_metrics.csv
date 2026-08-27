@@ -1,0 +1,61 @@
+dataset_name,split_id,model_name,partition,metric_name,metric_value,donor_id,site,class_label
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,macro_f1,0.7826976620664882,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,weighted_f1,0.8231758191394031,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,balanced_accuracy,0.7672647071285003,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,overall_accuracy,0.8250507705172619,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,macro_precision,0.8080548731292542,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,macro_recall,0.7672647071285003,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.8976777203123415,,,B cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.8383504650024474,,,"CD4-positive, alpha-beta T cell"
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.702463549522373,,,"CD8-positive, alpha-beta T cell"
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.8553261700672059,,,classical monocyte
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.7150837988826816,,,dendritic cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.8971578160059835,,,endothelial cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.814288533649102,,,fibroblast
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.7071751777634131,,,macrophage
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.7729339395560311,,,malignant epithelial cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.927536231884058,,,mast cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.87342260428721,,,natural killer cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.7654530059271804,,,non-classical monocyte
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.6328217237308147,,,plasma cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,train,class_f1,0.5580765323399932,,,regulatory T cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,macro_f1,0.8262599776219757,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,weighted_f1,0.8862945161142791,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,balanced_accuracy,0.8303273586089074,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,overall_accuracy,0.8873738209498594,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,macro_precision,0.8281538556158833,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,macro_recall,0.8303273586089074,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.9752620545073375,,,B cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.8815856129685917,,,"CD4-positive, alpha-beta T cell"
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.7951854008930305,,,"CD8-positive, alpha-beta T cell"
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.9176633389344667,,,classical monocyte
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.6739130434782609,,,dendritic cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.9394073418841221,,,endothelial cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.950530035335689,,,fibroblast
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.689419795221843,,,macrophage
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.9389612030835335,,,malignant epithelial cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.9461077844311377,,,mast cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.8255451713395638,,,natural killer cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.8357487922705314,,,non-classical monocyte
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.7264,,,plasma cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,val,class_f1,0.47191011235955055,,,regulatory T cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,macro_f1,0.8268122418632282,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,weighted_f1,0.8558469358278966,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,balanced_accuracy,0.8185384894402611,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,overall_accuracy,0.8551564310544612,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,macro_precision,0.8424992947786226,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,macro_recall,0.8185384894402611,,,
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.9692214846107423,,,B cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.7933581932034053,,,"CD4-positive, alpha-beta T cell"
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.7909164400676123,,,"CD8-positive, alpha-beta T cell"
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.9197114816128651,,,classical monocyte
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.7226107226107226,,,dendritic cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.9348943460879497,,,endothelial cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.9133802816901408,,,fibroblast
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.8016129032258065,,,macrophage
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.9578185865331107,,,malignant epithelial cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.9818181818181818,,,mast cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.8200263939293962,,,natural killer cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.712022367194781,,,non-classical monocyte
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.6971153846153846,,,plasma cell
+gse164690_hnscc,hpv_stratified_seed42,logistic_regression,test,class_f1,0.5608646188850968,,,regulatory T cell

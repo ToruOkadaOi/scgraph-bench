@@ -1,0 +1,15 @@
+,Pred_B cell,"Pred_CD4-positive, alpha-beta T cell","Pred_CD8-positive, alpha-beta T cell",Pred_classical monocyte,Pred_dendritic cell,Pred_endothelial cell,Pred_fibroblast,Pred_macrophage,Pred_malignant epithelial cell,Pred_mast cell,Pred_natural killer cell,Pred_non-classical monocyte,Pred_plasma cell,Pred_regulatory T cell
+True_B cell,811,12,6,0,0,0,0,0,0,0,0,0,2,0
+"True_CD4-positive, alpha-beta T cell",3,5401,400,37,27,2,26,8,10,0,208,9,2,262
+"True_CD8-positive, alpha-beta T cell",2,596,5707,3,3,4,15,1,5,0,716,0,6,14
+True_classical monocyte,6,103,14,3902,0,6,5,65,8,0,9,51,0,0
+True_dendritic cell,0,1,0,0,179,0,0,0,0,0,0,0,2,0
+True_endothelial cell,0,14,22,37,6,1671,6,6,15,0,13,6,3,2
+True_fibroblast,1,20,15,13,3,6,1374,2,58,0,18,1,2,6
+True_macrophage,1,10,4,62,6,2,3,521,16,0,2,8,1,0
+True_malignant epithelial cell,5,60,40,391,16,56,60,18,8535,0,56,2,1,6
+True_mast cell,1,1,0,0,0,1,0,0,0,53,0,0,0,0
+True_natural killer cell,2,221,726,7,5,0,10,3,5,0,5019,1,3,0
+True_non-classical monocyte,0,34,3,116,7,3,1,24,4,0,2,399,0,0
+True_plasma cell,5,16,2,1,56,0,0,0,6,0,1,0,136,1
+True_regulatory T cell,0,403,25,5,1,0,5,0,1,0,20,0,0,512
