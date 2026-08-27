@@ -44,7 +44,11 @@ def build_and_evaluate_graphs_cli(
     prep_bundle = PreprocessedBundle.load(prep_dir)
 
     # Load donor and site/batch metadata for BBKNN and diagnostics
-    ds_config_path = paths.configs_dir / "dataset" / f"{dataset_name.replace('stephenson_2021_healthy_pbmc', 'stephenson_healthy_pbmc')}.yaml"
+    ds_config_path = (
+        paths.configs_dir
+        / "dataset"
+        / f"{dataset_name.replace('stephenson_2021_healthy_pbmc', 'stephenson_healthy_pbmc')}.yaml"
+    )
     if not ds_config_path.is_file():
         ds_config_path = paths.configs_dir / "dataset" / f"{dataset_name}.yaml"
     ds_config = DatasetConfig.from_yaml(ds_config_path)
@@ -53,7 +57,11 @@ def build_and_evaluate_graphs_cli(
     adata = loader.load(ds_config, primary_only=True)
     obs_map = {str(cid): idx for idx, cid in enumerate(adata.obs_names)}
 
-    site_col = "site" if "site" in adata.obs.columns else ("hpv_status" if "hpv_status" in adata.obs.columns else ds_config.batch_key)
+    site_col = (
+        "site"
+        if "site" in adata.obs.columns
+        else ("hpv_status" if "hpv_status" in adata.obs.columns else ds_config.batch_key)
+    )
 
     train_donors = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
         ds_config.donor_key
@@ -68,7 +76,9 @@ def build_and_evaluate_graphs_cli(
     train_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.train_cell_ids]][
         site_col
     ].tolist()
-    val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][site_col].tolist()
+    val_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.val_cell_ids]][
+        site_col
+    ].tolist()
     test_sites = adata.obs.iloc[[obs_map[cid] for cid in prep_bundle.test_cell_ids]][
         site_col
     ].tolist()

@@ -176,4 +176,3 @@ def test_gse164690_loader_dev_subsampling(tmp_path):
     assert adata_sub.n_obs == 18 * 20
     assert (adata_sub.obs["donor_id"].value_counts() == 20).all()
     assert adata_sub.obs["cell_type"].isin(GSE164690HNSCCLoader.PRIMARY_V0_LABELS).all()
-

@@ -22,7 +22,11 @@ def generate_frozen_split(
     paths = ArtifactPaths.default()
     paths.ensure_directories()
 
-    ds_config_file = paths.configs_dir / "dataset" / f"{dataset_name.replace('stephenson_2021_healthy_pbmc', 'stephenson_healthy_pbmc')}.yaml"
+    ds_config_file = (
+        paths.configs_dir
+        / "dataset"
+        / f"{dataset_name.replace('stephenson_2021_healthy_pbmc', 'stephenson_healthy_pbmc')}.yaml"
+    )
     if not ds_config_file.is_file():
         ds_config_file = paths.configs_dir / "dataset" / f"{dataset_name}.yaml"
     ds_config = DatasetConfig.from_yaml(ds_config_file)

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-import os
 import tarfile
 import urllib.request
 from datetime import UTC, datetime
@@ -21,9 +20,7 @@ console = Console()
 
 DATASET_ID = "gse164690_hnscc"
 GEO_ACCESSION = "GSE164690"
-GEO_RAW_URL = (
-    "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE164nnn/GSE164690/suppl/GSE164690_RAW.tar"
-)
+GEO_RAW_URL = "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE164nnn/GSE164690/suppl/GSE164690_RAW.tar"
 SOURCE_TITLE = "Investigating Immune and Non-Immune Cell Interactions in Head and Neck Tumors by Single-Cell RNA Sequencing (Kürten et al., Nature Communications 2021)"
 
 # Patient HPV stratification (from Kürten et al. 2021)
@@ -78,7 +75,9 @@ def download_file_with_progress(url: str, output_path: Path) -> None:
                 progress.update(task, advance=len(chunk))
 
     temp_path.rename(output_path)
-    console.print(f"[green]Download completed:[/green] {output_path} ({output_path.stat().st_size:,} bytes)")
+    console.print(
+        f"[green]Download completed:[/green] {output_path} ({output_path.stat().st_size:,} bytes)"
+    )
 
 
 def read_decompressed_bytes(path: Path) -> bytes:
@@ -87,6 +86,7 @@ def read_decompressed_bytes(path: Path) -> bytes:
         data = f.read()
     while data[:2] == b"\x1f\x8b":
         import gzip
+
         data = gzip.decompress(data)
     return data
 
@@ -114,8 +114,9 @@ def load_raw_gse164690(raw_dir: Path) -> ad.AnnData:
     console.print(f"[blue]Found {len(barcode_files)} samples to assemble into AnnData...[/blue]")
 
     adatas: list[ad.AnnData] = []
-    
+
     import io
+
     import scipy.io
 
     for b_file in barcode_files:
@@ -174,7 +175,9 @@ def load_raw_gse164690(raw_dir: Path) -> ad.AnnData:
     console.print("[blue]Concatenating all sample AnnData objects...[/blue]")
     adata = ad.concat(adatas, join="outer", fill_value=0.0)
     adata.X = sp.csr_matrix(adata.X)
-    console.print(f"[green]Raw concatenated AnnData:[/green] shape={adata.shape}, donors={adata.obs['donor_id'].nunique()}")
+    console.print(
+        f"[green]Raw concatenated AnnData:[/green] shape={adata.shape}, donors={adata.obs['donor_id'].nunique()}"
+    )
 
     console.print(f"[blue]Caching raw AnnData to {cached_h5ad}...[/blue]")
     adata.write_h5ad(cached_h5ad)
@@ -184,12 +187,13 @@ def load_raw_gse164690(raw_dir: Path) -> ad.AnnData:
 def assign_canonical_cell_types(adata: ad.AnnData) -> ad.AnnData:
     """Score and assign canonical Cell Ontology cell-type annotations based on canonical marker profiles."""
     console.print("[blue]Assigning lineage-specific Cell Ontology annotations...[/blue]")
-    
+
     # Calculate cell library metrics
     adata.obs["n_counts"] = np.asarray(adata.X.sum(axis=1)).flatten()
     adata.obs["n_genes"] = np.asarray((adata.X > 0).sum(axis=1)).flatten()
 
     import scanpy as sc
+
     adata_norm = adata.copy()
     sc.pp.normalize_total(adata_norm, target_sum=1e4)
     sc.pp.log1p(adata_norm)
@@ -225,7 +229,6 @@ def assign_canonical_cell_types(adata: ad.AnnData) -> ad.AnnData:
 
     score_df = pd.DataFrame(score_dict, index=adata.obs_names)
 
-    assigned_types: list[str] = []
     comp_series = adata.obs["compartment"]
 
     non_immune_cols = ["malignant epithelial cell", "fibroblast", "endothelial cell"]
@@ -244,7 +247,7 @@ def assign_canonical_cell_types(adata: ad.AnnData) -> ad.AnnData:
     ]
 
     is_cd45n = (comp_series == "CD45n").to_numpy()
-    
+
     # Vectorized / partition scoring
     non_immune_scores = score_df[non_immune_cols].to_numpy()
     non_immune_best_idx = non_immune_scores.argmax(axis=1)
@@ -305,7 +308,9 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     # Stage 2: Cell-Type Annotation & Quality Filter
     adata_annotated = assign_canonical_cell_types(adata_donors)
     label_col = "cell_type"
-    mask_annotated = (adata_annotated.obs[label_col] != "unassigned") & adata_annotated.obs[label_col].notna()
+    mask_annotated = (adata_annotated.obs[label_col] != "unassigned") & adata_annotated.obs[
+        label_col
+    ].notna()
     adata_valid = adata_annotated[mask_annotated].copy()
     n_cells_stage2 = adata_valid.n_obs
     donors_stage2 = sorted(adata_valid.obs["donor_id"].unique().tolist())
@@ -326,15 +331,20 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
 
     # Propose robust primary classes: present in >= 8 donors with >= 100 total cells
     primary_labels = [
-        lbl for lbl in class_donor_presence[class_donor_presence >= 8].index.tolist()
+        lbl
+        for lbl in class_donor_presence[class_donor_presence >= 8].index.tolist()
         if lbl != "Total"
     ]
     deferred_labels = [
-        lbl for lbl in class_donor_presence[(class_donor_presence >= 4) & (class_donor_presence < 8)].index.tolist()
+        lbl
+        for lbl in class_donor_presence[
+            (class_donor_presence >= 4) & (class_donor_presence < 8)
+        ].index.tolist()
         if lbl != "Total"
     ]
     excluded_labels = [
-        lbl for lbl in class_donor_table.index
+        lbl
+        for lbl in class_donor_table.index
         if lbl not in primary_labels and lbl not in deferred_labels and lbl != "Total"
     ]
 
@@ -352,9 +362,13 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     test_donors = ["HN05", "HN06", "HN17", "HN18"]
 
     adata_primary.obs["split_partition"] = "unassigned"
-    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(train_donors), "split_partition"] = "train"
+    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(train_donors), "split_partition"] = (
+        "train"
+    )
     adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(val_donors), "split_partition"] = "val"
-    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(test_donors), "split_partition"] = "test"
+    adata_primary.obs.loc[adata_primary.obs["donor_id"].isin(test_donors), "split_partition"] = (
+        "test"
+    )
 
     split_support_table = pd.crosstab(
         adata_primary.obs[label_col],
@@ -364,11 +378,15 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     )[["train", "val", "test", "Total"]]
 
     # Invariant checks
-    assert split_support_table.loc["Total", "Total"] == n_cells_stage3_primary, "Split total mismatch"
+    assert split_support_table.loc["Total", "Total"] == n_cells_stage3_primary, (
+        "Split total mismatch"
+    )
     assert len(set(train_donors) & set(val_donors)) == 0, "Train and Val donors overlap!"
     assert len(set(train_donors) & set(test_donors)) == 0, "Train and Test donors overlap!"
     assert len(set(val_donors) & set(test_donors)) == 0, "Val and Test donors overlap!"
-    assert len(train_donors) + len(val_donors) + len(test_donors) == 18, "Donor partition count mismatch!"
+    assert len(train_donors) + len(val_donors) + len(test_donors) == 18, (
+        "Donor partition count mismatch!"
+    )
 
     # Export Artifacts
     # 1. Source Manifest
@@ -440,9 +458,17 @@ def run_audit(data_root: Path, output_dir: Path) -> None:
     donor_stage_df = pd.DataFrame(
         {
             "donor_id": donor_counts.index,
-            "hpv_status": ["HPV_positive" if d in HPV_POSITIVE_DONORS else "HPV_negative" for d in donor_counts.index],
-            "cells_raw": [adata.obs[adata.obs["donor_id"] == d].shape[0] for d in donor_counts.index],
-            "cells_primary": [adata_primary.obs[adata_primary.obs["donor_id"] == d].shape[0] for d in donor_counts.index],
+            "hpv_status": [
+                "HPV_positive" if d in HPV_POSITIVE_DONORS else "HPV_negative"
+                for d in donor_counts.index
+            ],
+            "cells_raw": [
+                adata.obs[adata.obs["donor_id"] == d].shape[0] for d in donor_counts.index
+            ],
+            "cells_primary": [
+                adata_primary.obs[adata_primary.obs["donor_id"] == d].shape[0]
+                for d in donor_counts.index
+            ],
             "split_partition": [
                 "train" if d in train_donors else ("val" if d in val_donors else "test")
                 for d in donor_counts.index

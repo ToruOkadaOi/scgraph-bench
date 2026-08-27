@@ -221,6 +221,7 @@ class GSE164690HNSCCLoader(BaseDatasetLoader):
         else:
             logger.info("Local cache not found. Running audit loader...")
             from scripts.audit_gse164690_hnscc import run_audit
+
             project_root = Path(__file__).parents[3]
             run_audit(self.cache_dir.parent, project_root / "audits" / "gse164690_hnscc")
             adata = ad.read_h5ad(cache_file)
