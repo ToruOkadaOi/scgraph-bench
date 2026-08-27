@@ -116,22 +116,20 @@ Four verification layers: per-file SHA-256 (transfer corruption), batch aggregat
 
 </details>
 
-## 6. Key findings (Stephenson 2021 PBMC)
+## 6. Key findings (Cross-Dataset Synthesis)
 
-Using a site-stratified, multi-seed protocol on the Stephenson 2021 healthy PBMC dataset (canonical audited results; matched MLP reference 0.9026 ± 0.0015):
+Using strict donor-held-out protocols across both the **Stephenson 2021 healthy PBMC** dataset (78,959 cells across 23 donors; matched MLP reference 0.9026 ± 0.0015) and the **GSE164690 HNSCC solid tumor** dataset (136,881 cells across 18 patients; matched MLP reference 0.8361 ± 0.0019):
 
-GCN consistently underperforms a matched MLP baseline across PCA‑kNN, mutual kNN, and BBKNN graphs (mean matched lift −0.017 to −0.030; *positive lift in 0 of 25 seed-level comparisons*).
+GCN consistently underperforms the matched MLP baseline across all primary graph constructions in both datasets (mean matched lift −0.017 to −0.030 on PBMC, −0.020 to −0.022 on HNSCC; *positive lift in 0 of 45 non-control seed comparisons*). Symmetrical smoothing ($D^{-1/2} A D^{-1/2}$) blurs boundaries between continuous cell states, resulting in an invariant ~2.0% performance penalty across both liquid and solid tissues.
 
-Varying PCA‑kNN construction (k = 10/20/50, weighted edges) does not reverse this pattern; no ablation variant produced a single positive seed (mean lift −0.022 to −0.017, improving modestly with k).
+GraphSAGE improves over GCN on every graph and seed across both datasets, reaching near-exact parity with MLP but never reliably surpassing it (mean lift −0.001 to −0.005 on PBMC, −0.003 to −0.009 on HNSCC). GraphSAGE’s separate root transformation ($W_1 x$) allows the network to downweight noisy neighbor messages and preserve self-node features.
 
-Destroying graph topology causes catastrophic failure (macro‑F1 ≈ 0.04–0.05, lift ≈ −0.86), confirming that structured neighborhoods — not just edge presence — are essential for message passing.
+Destroying graph topology reveals a stark mechanistic divergence: under randomized degree-matched controls, GCN suffers a catastrophic collapse (macro-F1 drops to ≈ 0.03–0.05, lift ≈ −0.80 to −0.86) due to forced averaging across random cell types, whereas GraphSAGE retains high predictive accuracy (≈ 0.81–0.89 macro-F1) by effectively pruning corrupted neighbor messages.
 
-GraphSAGE improves over GCN on every graph and seed, reaching exact parity with MLP but never surpassing it (mean lift −0.001 to −0.005 across all five constructions; one marginally positive seed of 25).
+Homophily anti-correlates with graph lift: across graph conditions, train-train edge homophily and class purity rank-correlate negatively with lift—highly homophilous neighborhoods mostly re-encode metric proximity already captured by the MLP, while batch-balanced BBKNN and Mutual-kNN retain the most complementary cross-donor signal.
 
-Homophily anti-correlates with lift: across the five graph conditions, train-train edge homophily and class purity rank-correlate at ρ = −1.0 with mean lift while donor-mixing entropy correlates at +1.0 — homophilous neighborhoods mostly re-encode feature proximity already in the fixed features, and batch-balanced BBKNN edges preserve the most complementary signal.
+Embedding-quality analysis reveals that representation separability orders identically to downstream task performance: MLP penultimate representations are most class-separable, GraphSAGE hidden layers closely track them, GCN trails, and raw PCA sits far below. Message passing adds topological structure over raw inputs, but never extracts more predictive signal than an identically regularized feature-only network learns from the same features.
 
-GraphSAGE on BBKNN shows the smallest cross-site performance drop (0.0170 vs MLP 0.0218), suggesting improved robustness to site-level variation, though the margin is narrow and requires confirmation on additional datasets.
-
-Embedding-quality analysis revealed that representation separability orders exactly like task performance; MLP penultimate embeddings are most class-separable (silhouette ≈ 0.29, kNN accuracy 0.912), GraphSAGE hidden layers approach them (≈ 0.24 / 0.909), GCN trails (≈ 0.28 / 0.894), and raw PCA input sits far below (≈ 0.15 / 0.887). Message passing adds structure over the inputs, but never more than a feature-only network learns from the same features.
-
-Full tables, ablations, and error analysis: [docs/results-stephenson-2021.md](docs/results-stephenson-2021.md)
+- Full Dataset 1 (Stephenson PBMC) tables & ablations: [docs/results-stephenson-2021.md](docs/results-stephenson-2021.md)
+- Full Dataset 2 (GSE164690 HNSCC) tables & controls: [docs/results-gse164690-hnscc.md](docs/results-gse164690-hnscc.md)
+- Cross-dataset meta-analysis & comparative synthesis: [docs/results-cross-dataset-synthesis.md](docs/results-cross-dataset-synthesis.md)
